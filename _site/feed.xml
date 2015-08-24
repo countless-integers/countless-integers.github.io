@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Countless-integers blog</title>
+    <description>My random thoughts and weird stories inspired by dailly coding.  This blog runs on the awesome Jekyl (http://jekyllrb.com/).
+</description>
+    <link>http://countless-integers.github.io//</link>
+    <atom:link href="http://countless-integers.github.io//feed.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>Tue, 25 Aug 2015 10:00:18 +0200</pubDate>
+    <lastBuildDate>Tue, 25 Aug 2015 10:00:18 +0200</lastBuildDate>
+    <generator>Jekyll v2.5.3</generator>
+    
+      <item>
+        <title>Weird case of PHP interface constants</title>
+        <description>&lt;p&gt;While trying to mock an object using mockery I came across this:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Fatal error: Undefined class constant &#39;self::LIMIT&#39; in /project.path/vendor/mockery/mockery/library/Mockery/Generator/Parameter.php on line 62
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;So I tried to make the mock with vanilla PHPUnit:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Fatal error: Undefined class constant &#39;self::LIMIT&#39; in /project.path/vendor/phpunit/phpunit-mock-objects/src/Framework/MockObject/Generator.php on line 1064
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;My first guess was that it had a problem with me using constants as default parameter values in method definitions like so:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-php&quot; data-lang=&quot;php&quot;&gt;&lt;span class=&quot;x&quot;&gt;public function method($param = self::VALUE)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;However this sounded wrong – I used that before and never had a problem with it. So I dug deeper. Then I came across an interface that the mocked class implemented. It looked something like this:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-php&quot; data-lang=&quot;php&quot;&gt;&lt;span class=&quot;x&quot;&gt;interface ITotallyForgotIMadeAnInterfaceForThis&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;    {&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;        public function method($param = self::VALUE);&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;    }&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;I had to look twice, but there it was, my undefined constant. How this had worked (because it did) during normal application run? It shouldn’t, but somehow it did? Anyone can elaborate?&lt;/p&gt;
+</description>
+        <pubDate>Mon, 24 Aug 2015 16:17:35 +0200</pubDate>
+        <link>http://countless-integers.github.io//php/interface/constant/2015/08/24/weird-case-with-php-interface-constants.html</link>
+        <guid isPermaLink="true">http://countless-integers.github.io//php/interface/constant/2015/08/24/weird-case-with-php-interface-constants.html</guid>
+        
+        
+        <category>php</category>
+        
+        <category>interface</category>
+        
+        <category>constant</category>
+        
+      </item>
+    
+  </channel>
+</rss>
