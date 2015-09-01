@@ -1,14 +1,102 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Countless-integers blog</title>
-    <description>My random thoughts and weird stories inspired by dailly coding.  This blog runs on the awesome Jekyl (http://jekyllrb.com/).
+    <title>countless-integers blog</title>
+    <description>My random thoughts and weird stories inspired by dailly coding.  This blog runs on the awesome Jekyl.
 </description>
     <link>http://countless-integers.github.io//</link>
     <atom:link href="http://countless-integers.github.io//feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Tue, 25 Aug 2015 10:00:18 +0200</pubDate>
-    <lastBuildDate>Tue, 25 Aug 2015 10:00:18 +0200</lastBuildDate>
+    <pubDate>Tue, 01 Sep 2015 11:50:38 +0200</pubDate>
+    <lastBuildDate>Tue, 01 Sep 2015 11:50:38 +0200</lastBuildDate>
     <generator>Jekyll v2.5.3</generator>
+    
+      <item>
+        <title>Duck typed interfaces in ZF2 Module class</title>
+        <description>&lt;p&gt;ZF2 &lt;code&gt;Module&lt;/code&gt; class methods conform to &lt;a href=&quot;https://en.wikipedia.org/wiki/Duck_typing&quot;&gt;DuckTyping&lt;/a&gt; but it’s nice to know where all those methods came from. That would be &lt;a href=&quot;https://github.com/zendframework/zend-modulemanager/tree/master/src/Feature&quot;&gt;feature interfaces&lt;/a&gt; from ModuleManager component. So if you’re not sure what feature can you advertise in your &lt;code&gt;Module&lt;/code&gt; class it’s a good place to check. I couldn’t find any mention on this in the official docs, although it was hinted in the &lt;a href=&quot;http://framework.zend.com/manual/current/en/tutorials/config.advanced.html#configuration-mapping-table&quot;&gt;“Advanced configuration article”&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Although it’s not necessary to declare the implementation of these interfaces I found that doing so it improves readability and helps newcomers to better understand where did those methods came from. Because duck typing is not too common in PHP I got a lot of blank stares and WTF-ucks from my colleagues who tried to figure out how &lt;code&gt;Module&lt;/code&gt; worked.&lt;/p&gt;
+
+&lt;p&gt;I suppose that this (duck typing in &lt;code&gt;Module&lt;/code&gt; class) was supposed improve modules portability, but I have yet to see a popular module that benefited from this.&lt;/p&gt;
+
+&lt;p&gt;Tiny cheatsheet of interfaces and methods they declare (base on the before-mentioned ZF2 docs page):&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;Iterface class&lt;/th&gt;
+      &lt;th style=&quot;text-align: center&quot;&gt;Method&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;&lt;code&gt;ControllerPluginProviderInterface&lt;/code&gt;&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;&lt;code&gt;getControllerPluginConfig()&lt;/code&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;&lt;code&gt;ControllerProviderInterface&lt;/code&gt;&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;&lt;code&gt;getControllerConfig()&lt;/code&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;&lt;code&gt;FilterProviderInterface&lt;/code&gt;&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;&lt;code&gt;getFilterConfig()&lt;/code&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;&lt;code&gt;FormElementProviderInterface&lt;/code&gt;&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;&lt;code&gt;getFormElementConfig()&lt;/code&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;&lt;code&gt;HydratorProviderInterface&lt;/code&gt;&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;&lt;code&gt;getHydratorConfig()&lt;/code&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;&lt;code&gt;InputFilterManagertFilterProviderInterface&lt;/code&gt;&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;&lt;code&gt;getInputFilterConfig()&lt;/code&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;&lt;code&gt;RouteProviderInterface&lt;/code&gt;&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;&lt;code&gt;getRouteConfig()&lt;/code&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;&lt;code&gt;SerializerProviderInterface&lt;/code&gt;&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;&lt;code&gt;getSerializerConfig()&lt;/code&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;&lt;code&gt;ServiceProviderInterface&lt;/code&gt;&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;&lt;code&gt;getServiceConfig()&lt;/code&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;&lt;code&gt;ValidatorProviderInterface&lt;/code&gt;&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;&lt;code&gt;getValidatorConfig()&lt;/code&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;&lt;code&gt;ViewHelperProviderInterface&lt;/code&gt;&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;&lt;code&gt;getViewHelperConfig()&lt;/code&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;&lt;code&gt;LogProcessorProviderInterface&lt;/code&gt;&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;&lt;code&gt;getLogProcessorConfig()&lt;/code&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;&lt;code&gt;LogWriterProviderInterface&lt;/code&gt;&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;&lt;code&gt;getLogWriterConfig()&lt;/code&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;All interfaces are in &lt;code&gt;Zend\ModuleManager\Feature&lt;/code&gt; namespace.&lt;/p&gt;
+</description>
+        <pubDate>Tue, 01 Sep 2015 00:00:00 +0200</pubDate>
+        <link>http://countless-integers.github.io//zf2/php/interfaces/2015/09/01/duck-typed-interfaces-in-zf2-module-class.html</link>
+        <guid isPermaLink="true">http://countless-integers.github.io//zf2/php/interfaces/2015/09/01/duck-typed-interfaces-in-zf2-module-class.html</guid>
+        
+        
+        <category>zf2</category>
+        
+        <category>php</category>
+        
+        <category>interfaces</category>
+        
+      </item>
     
       <item>
         <title>Weird case of PHP interface constants</title>
@@ -35,14 +123,14 @@
 
 &lt;p&gt;I had to look twice, but there it was, my undefined constant. How this had worked (because it did) during normal application run? It shouldn’t, but somehow it did? Anyone can elaborate?&lt;/p&gt;
 </description>
-        <pubDate>Mon, 24 Aug 2015 16:17:35 +0200</pubDate>
-        <link>http://countless-integers.github.io//php/interface/constant/2015/08/24/weird-case-with-php-interface-constants.html</link>
-        <guid isPermaLink="true">http://countless-integers.github.io//php/interface/constant/2015/08/24/weird-case-with-php-interface-constants.html</guid>
+        <pubDate>Mon, 24 Aug 2015 00:00:00 +0200</pubDate>
+        <link>http://countless-integers.github.io//php/interfaces/constant/2015/08/24/weird-case-with-php-interface-constants.html</link>
+        <guid isPermaLink="true">http://countless-integers.github.io//php/interfaces/constant/2015/08/24/weird-case-with-php-interface-constants.html</guid>
         
         
         <category>php</category>
         
-        <category>interface</category>
+        <category>interfaces</category>
         
         <category>constant</category>
         
