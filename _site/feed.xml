@@ -6,9 +6,142 @@
 </description>
     <link>http://countless-integers.github.io//</link>
     <atom:link href="http://countless-integers.github.io//feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Tue, 01 Sep 2015 11:50:38 +0200</pubDate>
-    <lastBuildDate>Tue, 01 Sep 2015 11:50:38 +0200</lastBuildDate>
+    <pubDate>Sun, 06 Sep 2015 20:17:28 +0200</pubDate>
+    <lastBuildDate>Sun, 06 Sep 2015 20:17:28 +0200</lastBuildDate>
     <generator>Jekyll v2.5.3</generator>
+    
+      <item>
+        <title>var_dump alternatives</title>
+        <description>&lt;h2 id=&quot;tldr&quot;&gt;TL;DR&lt;/h2&gt;
+&lt;p&gt;If you want something better to dump variables than &lt;code&gt;var_dump&lt;/code&gt;, get Kint.&lt;/p&gt;
+
+&lt;h2 id=&quot;introduction&quot;&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;When I can’t be bothered to turn on Xdebug just to debug some mysterious variable, then I take a dump (caution: more bad poop puns ahead). It comes out in different shapes and sizes. Sometimes it’s hard to make out anything out of it and instead of saving time I’m loosing it. XDebug is comprehensive and gives an insight into code that dumps won’t ever provide, but PHP can do a lot better than &lt;code&gt;var_dump&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;So one fine day I went for a hunt on the internets for a worthy replacement. By worthy I mean:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;easy to install and invoke&lt;/li&gt;
+  &lt;li&gt;doesn’t brake other things&lt;/li&gt;
+  &lt;li&gt;is context-aware, e.g. it won’t try to output array as a string&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;No big expectations there, right? So let me go over what I found.&lt;/p&gt;
+
+&lt;h2 id=&quot;symfony-vardumper&quot;&gt;Symfony VarDumper&lt;/h2&gt;
+&lt;p&gt;Invocation is a simple &lt;code&gt;dump&lt;/code&gt; global function that takes one argument.&lt;/p&gt;
+
+&lt;p&gt;Pros:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;simple invocation&lt;/li&gt;
+  &lt;li&gt;minimal installation&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/symfony/var-dumper/blob/master/VarDumper.php#L32&quot;&gt;distinguishes between &lt;code&gt;cli&lt;/code&gt; and &lt;code&gt;www&lt;/code&gt; environment&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;(a bit far-fetched) part of the Symfony ecosystem, so I’d expect it to receive timely updates and upgrades, perhaps even some SF integration&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Cons:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code&gt;dump&lt;/code&gt; is still longer that e.g. &lt;code&gt;d&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;no option to stop script execution&lt;/li&gt;
+  &lt;li&gt;no way to pass multiple vars in one invocation, so you have to call &lt;code&gt;dump&lt;/code&gt; with every variable you want to see&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Read more about it:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;http://symfony.com/doc/current/components/var_dumper/introduction.html&quot;&gt;Symfony docs&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/symfony/var-dumper&quot;&gt;VarDumper on github&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;zend-framework-debug&quot;&gt;Zend Framework Debug&lt;/h2&gt;
+&lt;p&gt;It’s a component of ZF. Invocation is: &lt;code&gt;\Zend\Debug\Debug::dump($var);&lt;/code&gt;… As far as “easy to invoke” is concerned, the
+description might as well end there. But:&lt;/p&gt;
+
+&lt;p&gt;Pros:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;(if your project is based on ZF2) shipped with ZF2&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Cons:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;the invocation is just too damn long&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Read more about it:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;http://framework.zend.com/manual/current/en/modules/zend.debug.html&quot;&gt;ZF docs pages&lt;/a&gt;. If the page is up that is&lt;sup id=&quot;fnref:1&quot;&gt;&lt;a href=&quot;#fn:1&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;kint&quot;&gt;Kint&lt;/h2&gt;
+&lt;p&gt;The basic invocation of Kint is &lt;code&gt;d($var)&lt;/code&gt;. It does not get any simpler than that. It also allows for no-formatting output through &lt;code&gt;s($var)&lt;/code&gt;. But it doesn’t end there. &lt;code&gt;ddd($var)&lt;/code&gt; (used to be &lt;code&gt;dd&lt;/code&gt;, but then it got deprecated for compatibility) will die after dumping (same thing with &lt;code&gt;sd($var)&lt;/code&gt;) and it also does magic tricks with, what they call, real time modifiers. E.g. &lt;code&gt;+d($dump)&lt;/code&gt; would bypass dump depth limits, &lt;code&gt;@s($var)&lt;/code&gt; would return the output to a variable for capture, &lt;code&gt;!d($var)&lt;/code&gt; would expand all output in HTML mode. It also comes with optional keyboard navigation, foldable output (like VarDumper), type/visibility detection and many more.&lt;/p&gt;
+
+&lt;p&gt;Among the features I’ve not seen anywhere else is signing every dump with the exact place it was made (fqcn and line number) and that a lot better for me than labeling the dumps.&lt;/p&gt;
+
+&lt;p&gt;What I like in particular is that it also outputs useful info about objects you dump, like public method/variable names. So no more &lt;code&gt;var_dump(get_class_methods(get_class($object)))&lt;/code&gt; and similar gimmicks.&lt;/p&gt;
+
+&lt;p&gt;I could not find anything as good as Kint. It’s a winner.&lt;/p&gt;
+
+&lt;p&gt;Pros:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;many useful modes&lt;/li&gt;
+  &lt;li&gt;shortest possible invocation&lt;/li&gt;
+  &lt;li&gt;modifiers&lt;/li&gt;
+  &lt;li&gt;comprehensive output&lt;/li&gt;
+  &lt;li&gt;discerns &lt;code&gt;cli&lt;/code&gt; and &lt;code&gt;www&lt;/code&gt; environments&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Cons:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;it doesn’t make toasts&lt;/li&gt;
+  &lt;li&gt;recently it has been getting really complex, so occasional, unexpected error might occur (e.g. &lt;a href=&quot;https://github.com/raveren/kint/issues/160&quot;&gt;this&lt;/a&gt;)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Read more about it:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/raveren/kint/&quot;&gt;github page&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://raveren.github.io/kint/&quot;&gt;blog page&lt;/a&gt; but it seems slightly out of date.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;notable-omissions&quot;&gt;Notable omissions&lt;/h2&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/raulfraile/Ladybug&quot;&gt;LadyBug&lt;/a&gt; – I kinda stopped liking it after seeing &lt;code&gt;composer require&lt;/code&gt; output
+that looked like it wouldn’t end. Why so many dependencies LadyBug?&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h2&gt;
+&lt;p&gt;Apart from ZF2 dump, which doesn’t really fit my search criteria, all of the above tools yield some improvements over vanilla &lt;code&gt;var_dump&lt;/code&gt;. However not all ‘dumpers’ were made ‘equal’ – some just can take a dump better than the others (see what I did there?). Kint is my favorite and I use it every time I don’t feel like starting a Xdebug session. Hats off to the creator and the contributors – you made my life easier.&lt;/p&gt;
+
+&lt;p&gt;All of the above-mentioned tools are available through composer, so getting them to work is straightforward (seems
+obvious, but I still remember the days we didn’t have composer).&lt;/p&gt;
+
+&lt;p&gt;If you know anything better than Kint, let me know.&lt;/p&gt;
+
+&lt;div class=&quot;footnotes&quot;&gt;
+  &lt;ol&gt;
+    &lt;li id=&quot;fn:1&quot;&gt;
+      &lt;p&gt;if you’re detecting a little passive-agressive note, then your instincts are working correctly. I’ll post something about my experience with ZF2 later on. &lt;a href=&quot;#fnref:1&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;
+</description>
+        <pubDate>Sun, 06 Sep 2015 00:00:00 +0200</pubDate>
+        <link>http://countless-integers.github.io//php/debugging/2015/09/06/var_dump-alternatives.html</link>
+        <guid isPermaLink="true">http://countless-integers.github.io//php/debugging/2015/09/06/var_dump-alternatives.html</guid>
+        
+        
+        <category>php</category>
+        
+        <category>debugging</category>
+        
+      </item>
     
       <item>
         <title>Duck typed interfaces in ZF2 Module class</title>

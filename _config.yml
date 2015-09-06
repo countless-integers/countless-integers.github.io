@@ -8,6 +8,7 @@ baseurl: "" # the subpath of your site, e.g. /blog/
 url: "http://countless-integers.github.io/" # the base hostname & protocol for your site
 #twitter_username: 
 github_username:  countless-integers
+google_analytics: "UA-67251979-1"
 
 # Build settings
 markdown: kramdown

@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>var_dump alternatives</title>
+  <meta name="description" content="TL;DRIf you want something better to dump variables than var_dump, get Kint.">
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="canonical" href="http://countless-integers.github.io//php/debugging/2015/09/06/var_dump-alternatives.html">
+  <link rel="alternate" type="application/rss+xml" title="countless-integers blog" href="http://countless-integers.github.io//feed.xml" />
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+
+  <div class="wrapper">
+
+    <a class="site-title" href="/">countless-integers blog</a>
+
+    <nav class="site-nav">
+      <a href="#" class="menu-icon">
+        <svg viewBox="0 0 18 15">
+          <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+          <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+          <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+        </svg>
+      </a>
+
+      <div class="trigger">
+        
+          
+          <a class="page-link" href="/about/">About</a>
+          
+        
+          
+        
+          
+        
+          
+        
+      </div>
+    </nav>
+
+  </div>
+
+</header>
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">var_dump alternatives</h1>
+    <p class="post-meta">Sep 6, 2015</p>
+  </header>
+
+  <article class="post-content">
+    <h2 id="tldr">TL;DR</h2>
+<p>If you want something better to dump variables than <code>var_dump</code>, get Kint.</p>
+
+<h2 id="introduction">Introduction</h2>
+<p>When I can’t be bothered to turn on Xdebug just to debug some mysterious variable, then I take a dump (caution: more bad poop puns ahead). It comes out in different shapes and sizes. Sometimes it’s hard to make out anything out of it and instead of saving time I’m loosing it. XDebug is comprehensive and gives an insight into code that dumps won’t ever provide, but PHP can do a lot better than <code>var_dump</code>.</p>
+
+<p>So one fine day I went for a hunt on the internets for a worthy replacement. By worthy I mean:</p>
+
+<ul>
+  <li>easy to install and invoke</li>
+  <li>doesn’t brake other things</li>
+  <li>is context-aware, e.g. it won’t try to output array as a string</li>
+</ul>
+
+<p>No big expectations there, right? So let me go over what I found.</p>
+
+<h2 id="symfony-vardumper">Symfony VarDumper</h2>
+<p>Invocation is a simple <code>dump</code> global function that takes one argument.</p>
+
+<p>Pros:</p>
+
+<ul>
+  <li>simple invocation</li>
+  <li>minimal installation</li>
+  <li><a href="https://github.com/symfony/var-dumper/blob/master/VarDumper.php#L32">distinguishes between <code>cli</code> and <code>www</code> environment</a></li>
+  <li>(a bit far-fetched) part of the Symfony ecosystem, so I’d expect it to receive timely updates and upgrades, perhaps even some SF integration</li>
+</ul>
+
+<p>Cons:</p>
+
+<ul>
+  <li><code>dump</code> is still longer that e.g. <code>d</code></li>
+  <li>no option to stop script execution</li>
+  <li>no way to pass multiple vars in one invocation, so you have to call <code>dump</code> with every variable you want to see</li>
+</ul>
+
+<p>Read more about it:</p>
+
+<ul>
+  <li><a href="http://symfony.com/doc/current/components/var_dumper/introduction.html">Symfony docs</a></li>
+  <li><a href="https://github.com/symfony/var-dumper">VarDumper on github</a></li>
+</ul>
+
+<h2 id="zend-framework-debug">Zend Framework Debug</h2>
+<p>It’s a component of ZF. Invocation is: <code>\Zend\Debug\Debug::dump($var);</code>… As far as “easy to invoke” is concerned, the
+description might as well end there. But:</p>
+
+<p>Pros:</p>
+
+<ul>
+  <li>(if your project is based on ZF2) shipped with ZF2</li>
+</ul>
+
+<p>Cons:</p>
+
+<ul>
+  <li>the invocation is just too damn long</li>
+</ul>
+
+<p>Read more about it:</p>
+
+<ul>
+  <li><a href="http://framework.zend.com/manual/current/en/modules/zend.debug.html">ZF docs pages</a>. If the page is up that is<sup id="fnref:1"><a href="#fn:1" class="footnote">1</a></sup>.</li>
+</ul>
+
+<h2 id="kint">Kint</h2>
+<p>The basic invocation of Kint is <code>d($var)</code>. It does not get any simpler than that. It also allows for no-formatting output through <code>s($var)</code>. But it doesn’t end there. <code>ddd($var)</code> (used to be <code>dd</code>, but then it got deprecated for compatibility) will die after dumping (same thing with <code>sd($var)</code>) and it also does magic tricks with, what they call, real time modifiers. E.g. <code>+d($dump)</code> would bypass dump depth limits, <code>@s($var)</code> would return the output to a variable for capture, <code>!d($var)</code> would expand all output in HTML mode. It also comes with optional keyboard navigation, foldable output (like VarDumper), type/visibility detection and many more.</p>
+
+<p>Among the features I’ve not seen anywhere else is signing every dump with the exact place it was made (fqcn and line number) and that a lot better for me than labeling the dumps.</p>
+
+<p>What I like in particular is that it also outputs useful info about objects you dump, like public method/variable names. So no more <code>var_dump(get_class_methods(get_class($object)))</code> and similar gimmicks.</p>
+
+<p>I could not find anything as good as Kint. It’s a winner.</p>
+
+<p>Pros:</p>
+
+<ul>
+  <li>many useful modes</li>
+  <li>shortest possible invocation</li>
+  <li>modifiers</li>
+  <li>comprehensive output</li>
+  <li>discerns <code>cli</code> and <code>www</code> environments</li>
+</ul>
+
+<p>Cons:</p>
+
+<ul>
+  <li>it doesn’t make toasts</li>
+  <li>recently it has been getting really complex, so occasional, unexpected error might occur (e.g. <a href="https://github.com/raveren/kint/issues/160">this</a>)</li>
+</ul>
+
+<p>Read more about it:</p>
+
+<ul>
+  <li><a href="https://github.com/raveren/kint/">github page</a></li>
+  <li><a href="http://raveren.github.io/kint/">blog page</a> but it seems slightly out of date.</li>
+</ul>
+
+<h2 id="notable-omissions">Notable omissions</h2>
+<ul>
+  <li><a href="https://github.com/raulfraile/Ladybug">LadyBug</a> – I kinda stopped liking it after seeing <code>composer require</code> output
+that looked like it wouldn’t end. Why so many dependencies LadyBug?</li>
+</ul>
+
+<h2 id="conclusion">Conclusion</h2>
+<p>Apart from ZF2 dump, which doesn’t really fit my search criteria, all of the above tools yield some improvements over vanilla <code>var_dump</code>. However not all ‘dumpers’ were made ‘equal’ – some just can take a dump better than the others (see what I did there?). Kint is my favorite and I use it every time I don’t feel like starting a Xdebug session. Hats off to the creator and the contributors – you made my life easier.</p>
+
+<p>All of the above-mentioned tools are available through composer, so getting them to work is straightforward (seems
+obvious, but I still remember the days we didn’t have composer).</p>
+
+<p>If you know anything better than Kint, let me know.</p>
+
+<div class="footnotes">
+  <ol>
+    <li id="fn:1">
+      <p>if you’re detecting a little passive-agressive note, then your instincts are working correctly. I’ll post something about my experience with ZF2 later on. <a href="#fnref:1" class="reversefootnote">&#8617;</a></p>
+    </li>
+  </ol>
+</div>
+
+  </article>
+
+</div>
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col  footer-col-1">
+        <ul class="contact-list">
+          <h2 class="footer-heading">countless-integers blog</h2>
+          <li><a href="mailto:"></a></li>
+          <li><a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/80x15.png" /></a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col  footer-col-2">
+        <ul class="social-media-list">
+          
+          <li>
+            <a href="https://github.com/countless-integers">
+              <span class="icon  icon--github">
+                <svg viewBox="0 0 16 16">
+                  <path fill="#828282" d="M7.999,0.431c-4.285,0-7.76,3.474-7.76,7.761 c0,3.428,2.223,6.337,5.307,7.363c0.388,0.071,0.53-0.168,0.53-0.374c0-0.184-0.007-0.672-0.01-1.32 c-2.159,0.469-2.614-1.04-2.614-1.04c-0.353-0.896-0.862-1.135-0.862-1.135c-0.705-0.481,0.053-0.472,0.053-0.472 c0.779,0.055,1.189,0.8,1.189,0.8c0.692,1.186,1.816,0.843,2.258,0.645c0.071-0.502,0.271-0.843,0.493-1.037 C4.86,11.425,3.049,10.76,3.049,7.786c0-0.847,0.302-1.54,0.799-2.082C3.768,5.507,3.501,4.718,3.924,3.65 c0,0,0.652-0.209,2.134,0.796C6.677,4.273,7.34,4.187,8,4.184c0.659,0.003,1.323,0.089,1.943,0.261 c1.482-1.004,2.132-0.796,2.132-0.796c0.423,1.068,0.157,1.857,0.077,2.054c0.497,0.542,0.798,1.235,0.798,2.082 c0,2.981-1.814,3.637-3.543,3.829c0.279,0.24,0.527,0.713,0.527,1.437c0,1.037-0.01,1.874-0.01,2.129 c0,0.208,0.14,0.449,0.534,0.373c3.081-1.028,5.302-3.935,5.302-7.362C15.76,3.906,12.285,0.431,7.999,0.431z"/>
+                </svg>
+              </span>
+
+              <span class="username">countless-integers</span>
+            </a>
+          </li>
+          
+
+          
+        </ul>
+      </div>
+
+      <div class="footer-col  footer-col-3">
+        <p class="text">My random thoughts and weird stories inspired by dailly coding.  This blog runs on the awesome Jekyl.
+</p>
+      </div>
+    </div>
+
+  </div>
+
+  
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', "UA-67251979-1", 'auto');
+    ga('send', 'pageview');
+  </script>
+  
+</footer>
+
+
+  </body>
+
+</html>

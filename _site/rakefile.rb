@@ -2,6 +2,9 @@ desc 'create a new post'
 task :newPost do
   require 'date'
   title = ENV['TITLE']
+  if !title
+      abort("No title given. Pass a title for the post as 'TITLE' env param")
+  end
   slug = "#{Date.today}-#{title.downcase.gsub(/[^\w]+/, '-')}"
   date = "#{Date.today}"
 
