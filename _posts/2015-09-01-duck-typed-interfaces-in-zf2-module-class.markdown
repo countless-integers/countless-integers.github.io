@@ -3,7 +3,7 @@ layout: post
 title: Duck typed interfaces in ZF2 Module class
 date:   2015-09-01
 published: true
-categories: ZF2 php interfaces
+categories: php zf2 interfaces
 ---
 ZF2 `Module` class methods conform to [DuckTyping](https://en.wikipedia.org/wiki/Duck_typing) but it's nice to know where all those methods came from. That would be [feature interfaces](https://github.com/zendframework/zend-modulemanager/tree/master/src/Feature) from ModuleManager component. So if you're not sure what feature can you advertise in your `Module` class it's a good place to check. I couldn't find any mention on this in the official docs, although it was hinted in the ["Advanced configuration article"](http://framework.zend.com/manual/current/en/tutorials/config.advanced.html#configuration-mapping-table). 
 

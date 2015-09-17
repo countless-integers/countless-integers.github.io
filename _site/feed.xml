@@ -6,9 +6,139 @@
 </description>
     <link>http://countless-integers.github.io//</link>
     <atom:link href="http://countless-integers.github.io//feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sun, 06 Sep 2015 20:17:28 +0200</pubDate>
-    <lastBuildDate>Sun, 06 Sep 2015 20:17:28 +0200</lastBuildDate>
+    <pubDate>Thu, 17 Sep 2015 11:10:46 +0200</pubDate>
+    <lastBuildDate>Thu, 17 Sep 2015 11:10:46 +0200</lastBuildDate>
     <generator>Jekyll v2.5.3</generator>
+    
+      <item>
+        <title>PUT requests to ZF2 RESTful controller</title>
+        <description>&lt;p&gt;I’ve recently came across a problem writing a CRUD panel that made my reconsider what I knew about REST and/or request
+handling by PHP. Use case was 
+for updating an entity that consisted of some flat data and an image. I chose to send form data with PUT method pretty 
+much the same way I’d do with creating a new entity with POST form. Turns out that sending that data from an angular app 
+isn’t a problem, dealing with it server side is. I’ve compared payloads send with POST and PUT and on their way out they 
+look pretty much alike:&lt;/p&gt;
+
+&lt;p&gt;This one with PUT:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;------WebKitFormBoundaryqxNZUgM5f0nFT1Z1
+Content-Disposition: form-data; name=&quot;creation&quot;
+
+{&quot;id&quot;:1,&quot;title&quot;:&quot;ccc&quot;,&quot;dateFrom&quot;:&quot;2015-08-19&quot;,&quot;dateTo&quot;:&quot;2015-08-22&quot;,&quot;position&quot;:1,&quot;status&quot;:0}
+------WebKitFormBoundaryqxNZUgM5f0nFT1Z1
+Content-Disposition: form-data; name=&quot;file&quot;; filename=&quot;file.jpg&quot;
+Content-Type: image/jpeg
+
+
+------WebKitFormBoundaryqxNZUgM5f0nFT1Z1--
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;And this one with POST:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;------WebKitFormBoundaryaDVU9RBkEiCCgfUT
+Content-Disposition: form-data; name=&quot;creation&quot;
+
+{&quot;title&quot;:&quot;sdfsafsa&quot;,&quot;dateFrom&quot;:&quot;2015-09-14&quot;,&quot;dateTo&quot;:&quot;2015-09-30&quot;,&quot;position&quot;:1,&quot;status&quot;:0}
+------WebKitFormBoundaryaDVU9RBkEiCCgfUT
+Content-Disposition: form-data; name=&quot;file&quot;; filename=&quot;file.jpg&quot;
+Content-Type: image/jpeg
+
+
+------WebKitFormBoundaryaDVU9RBkEiCCgfUT--
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;One key difference is the presence of a &lt;code&gt;id&lt;/code&gt; in the PUT request, because it’s modifying an existing request it makes 
+sense that it’s there. Apart from that it looks the same, but it’s handled differently&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;For one thing there’s no &lt;code&gt;$_PUT&lt;/code&gt; like there’s &lt;code&gt;$_POST&lt;/code&gt;, so to even read it you have to resort to things like
+&lt;code&gt;parse_str(file_get_contents(&quot;php://input&quot;), $put)&lt;/code&gt;. Maybe &lt;a href=&quot;http://www.php-fig.org/psr/psr-7/&quot;&gt;PSR-7&lt;/a&gt; will solve that.&lt;/li&gt;
+  &lt;li&gt;&lt;code&gt;$_FILES&lt;/code&gt; is not populated if you send a &lt;code&gt;multipart/form-data&lt;/code&gt;, but there’s a reason for that&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Anyway ZF2 has a neat controller to handle requests like that in a restful fashion called 
+&lt;a href=&quot;http://framework.zend.com/manual/current/en/modules/zend.mvc.controllers.html#the-abstractrestfulcontroller&quot;&gt;&lt;code&gt;AbstractRestfulController&lt;/code&gt;&lt;/a&gt;. It maps incoming requests based on their HTTP method and 
+parameters:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;POST maps to create(). That method expects a $data argument, usually the $_POST superglobal array. The data should be 
+used to create a new entity, and the response should typically be an HTTP 201 response with the Location header 
+indicating the URI of the newly created entity and the response body providing the representation.&lt;/p&gt;
+
+  &lt;p&gt;PUT maps to update(), and requires that an “id” parameter exists in the route matches; that value is passed as an 
+argument to the method. It should attempt to update the given entity, and, if successful, return either a 200 or 202 
+response status, as well as the representation of the entity.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;It works quite well up to the point when you’d try to send a multipart form with a file. The it’ll only take you to the 
+&lt;code&gt;update&lt;/code&gt; method as expected, but you can’t really get the data. I mean you could parse the input stream and carve that 
+data, but forget about the file.&lt;/p&gt;
+
+&lt;p&gt;I’ve spend some time researching why that’s happening. I’ve checked what PHP docs have to offer on the topic&lt;sup id=&quot;fnref:3&quot;&gt;&lt;a href=&quot;#fn:3&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt; and how
+W3 describes PUT&lt;sup id=&quot;fnref:4&quot;&gt;&lt;a href=&quot;#fn:4&quot; class=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt;. Both were hinting, but not conclusive. I’d especially counted on PHP docs to decsribe the exact
+way how to handle PUT, but it’s just not there – either it’s too obvious to be mentioned or not popular enough. It
+turned out that I’ve overinterpreted what a RESTful PUT request could/should do. I’ve thought that I’ll literally be
+able to update (upsert really) an entity (photos and all) 
+with it. Not the case. Apparently the way put is supposed to work is to replace a content denoted by the request uri with 
+the payload it carries. So if it’s an image it’ll change it to some other file, if it’s an entity with 9 properties and 
+the payload contains an entity with 3 properties it’ll override the original with the smaller one (hence replace rather 
+than update). So I guess (because I can’t find stone-solid reference for this) it won’t work the way I imagined 
+it with multipart forms – because that in itself suggests that it’s at least 2 entities we’re updating. They way my 
+colleague put it is that you’d need to requests to get that data to 2 separate uri’s.&lt;/p&gt;
+
+&lt;p&gt;I could argue with that, because if you’d encode that very same image to a string and make it a property of that entity, 
+it’d be one, inseparable thing. So the representation of the image (binary file, base-encoded string) would be 
+difference between a single entity and two independent entities. Nitpicking, maybe.&lt;/p&gt;
+
+&lt;p&gt;Anyway onto the practical stuff. I’ve found several workaround for handling PUT requests in ZF2. One was about manually 
+setting the request data&lt;sup id=&quot;fnref:1&quot;&gt;&lt;a href=&quot;#fn:1&quot; class=&quot;footnote&quot;&gt;3&lt;/a&gt;&lt;/sup&gt;. It doesn’t help with my multipart form though. Another one was to put a hidden &lt;code&gt;_method&lt;/code&gt;, 
+set it to &lt;code&gt;put&lt;/code&gt; and send the form as POST request&lt;sup id=&quot;fnref:2&quot;&gt;&lt;a href=&quot;#fn:2&quot; class=&quot;footnote&quot;&gt;4&lt;/a&gt;&lt;/sup&gt;. It’s valid, but why bother? It still needs to send it to 
+a uri that has a id in it. That in itself should be enough to tell creation from update apart. So I just send it 
+as post and then do this:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;public function create($data)
+{
+    $id = $this-&amp;gt;params(&#39;id&#39;, null);
+    if ($id) {
+       return $this-&amp;gt;update($id, $data);
+    }
+    // ...
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Simple and effective. Shame it doesn’t work out of the box, but it’s not a too terribly inconvenient either.&lt;/p&gt;
+
+&lt;div class=&quot;footnotes&quot;&gt;
+  &lt;ol&gt;
+    &lt;li id=&quot;fn:3&quot;&gt;
+      &lt;p&gt;&lt;a href=&quot;http://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html&quot;&gt;W3 method definitions&lt;/a&gt; &lt;a href=&quot;#fnref:3&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:4&quot;&gt;
+      &lt;p&gt;&lt;a href=&quot;http://php.net/manual/pl/features.file-upload.put-method.php&quot;&gt;PHP put method support&lt;/a&gt; &lt;a href=&quot;#fnref:4&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:1&quot;&gt;
+      &lt;p&gt;&lt;a href=&quot;http://stackoverflow.com/a/26676252/1105871&quot;&gt;Stack post&lt;/a&gt; &lt;a href=&quot;#fnref:1&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:2&quot;&gt;
+      &lt;p&gt;&lt;a href=&quot;http://blog.piotr.rybaltowski.pl/rest-w-zf2-metody-put-i-delete-w-formularzach/&quot;&gt;blog post about handling put/delete in ZF2 (in polish)&lt;/a&gt; &lt;a href=&quot;#fnref:2&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;
+</description>
+        <pubDate>Thu, 17 Sep 2015 00:00:00 +0200</pubDate>
+        <link>http://countless-integers.github.io//php/zf2/rest/put/2015/09/17/put-requests-to-zf2-restful-controller.html</link>
+        <guid isPermaLink="true">http://countless-integers.github.io//php/zf2/rest/put/2015/09/17/put-requests-to-zf2-restful-controller.html</guid>
+        
+        
+        <category>php</category>
+        
+        <category>zf2</category>
+        
+        <category>rest</category>
+        
+        <category>put</category>
+        
+      </item>
     
       <item>
         <title>var_dump alternatives</title>
@@ -219,13 +349,13 @@ obvious, but I still remember the days we didn’t have composer).&lt;/p&gt;
 &lt;p&gt;All interfaces are in &lt;code&gt;Zend\ModuleManager\Feature&lt;/code&gt; namespace.&lt;/p&gt;
 </description>
         <pubDate>Tue, 01 Sep 2015 00:00:00 +0200</pubDate>
-        <link>http://countless-integers.github.io//zf2/php/interfaces/2015/09/01/duck-typed-interfaces-in-zf2-module-class.html</link>
-        <guid isPermaLink="true">http://countless-integers.github.io//zf2/php/interfaces/2015/09/01/duck-typed-interfaces-in-zf2-module-class.html</guid>
+        <link>http://countless-integers.github.io//php/zf2/interfaces/2015/09/01/duck-typed-interfaces-in-zf2-module-class.html</link>
+        <guid isPermaLink="true">http://countless-integers.github.io//php/zf2/interfaces/2015/09/01/duck-typed-interfaces-in-zf2-module-class.html</guid>
         
-        
-        <category>zf2</category>
         
         <category>php</category>
+        
+        <category>zf2</category>
         
         <category>interfaces</category>
         
