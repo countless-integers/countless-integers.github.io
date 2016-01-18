@@ -1,0 +1,29 @@
+.collapsable {
+  max-height: 1000px;
+  overflow: hidden;
+  transition: max-height .8s;
+}
+
+.collapsableTrigger {
+  cursor: pointer;
+  &:after {
+    content: "[+]";
+    display: inline-block;
+    font-size: .5em;
+    color: darkgray;
+    vertical-align: middle;
+    margin-left: 5px;
+  }
+  + .collapsable {
+    max-height: 0;
+  }
+}
+
+figure.image {
+  figcaption {
+    background-color: rgb(65, 65, 65);
+    color: #fff;
+    padding: 5px;
+    border-top: 1px #fff dotted;
+  }
+}

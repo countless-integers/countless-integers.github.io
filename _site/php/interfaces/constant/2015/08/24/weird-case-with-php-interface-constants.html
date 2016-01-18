@@ -64,24 +64,26 @@
   <article class="post-content">
     <p>While trying to mock an object using mockery I came across this:</p>
 
-<pre><code>Fatal error: Undefined class constant 'self::LIMIT' in /project.path/vendor/mockery/mockery/library/Mockery/Generator/Parameter.php on line 62
+<div class="highlighter-rouge"><pre class="highlight"><code>Fatal error: Undefined class constant 'self::LIMIT' in /project.path/vendor/mockery/mockery/library/Mockery/Generator/Parameter.php on line 62
 </code></pre>
+</div>
 
 <p>So I tried to make the mock with vanilla PHPUnit:</p>
 
-<pre><code>Fatal error: Undefined class constant 'self::LIMIT' in /project.path/vendor/phpunit/phpunit-mock-objects/src/Framework/MockObject/Generator.php on line 1064
+<div class="highlighter-rouge"><pre class="highlight"><code>Fatal error: Undefined class constant 'self::LIMIT' in /project.path/vendor/phpunit/phpunit-mock-objects/src/Framework/MockObject/Generator.php on line 1064
 </code></pre>
+</div>
 
 <p>My first guess was that it had a problem with me using constants as default parameter values in method definitions like so:</p>
 
-<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="x">public function method($param = self::VALUE)</span></code></pre></div>
+<figure class="highlight"><pre><code class="language-php" data-lang="php">  public function method($param = self::VALUE)</code></pre></figure>
 
 <p>However this sounded wrong – I used that before and never had a problem with it. So I dug deeper. Then I came across an interface that the mocked class implemented. It looked something like this:</p>
 
-<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="x">interface ITotallyForgotIMadeAnInterfaceForThis</span>
-<span class="x">    {</span>
-<span class="x">        public function method($param = self::VALUE);</span>
-<span class="x">    }</span></code></pre></div>
+<figure class="highlight"><pre><code class="language-php" data-lang="php">    interface ITotallyForgotIMadeAnInterfaceForThis
+    {
+        public function method($param = self::VALUE);
+    }</code></pre></figure>
 
 <p>I had to look twice, but there it was, my undefined constant. How this had worked (because it did) during normal application run? It shouldn’t, but somehow it did? Anyone can elaborate?</p>
 

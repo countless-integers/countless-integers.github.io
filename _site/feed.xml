@@ -6,9 +6,129 @@
 </description>
     <link>http://countless-integers.github.io//</link>
     <atom:link href="http://countless-integers.github.io//feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Thu, 17 Sep 2015 11:10:46 +0200</pubDate>
-    <lastBuildDate>Thu, 17 Sep 2015 11:10:46 +0200</lastBuildDate>
-    <generator>Jekyll v2.5.3</generator>
+    <pubDate>Mon, 18 Jan 2016 21:56:20 +0100</pubDate>
+    <lastBuildDate>Mon, 18 Jan 2016 21:56:20 +0100</lastBuildDate>
+    <generator>Jekyll v3.0.1</generator>
+    
+      <item>
+        <title>Make cmus play nice with clementine</title>
+        <description>&lt;h2 id=&quot;tldr&quot;&gt;TL;DR&lt;/h2&gt;
+&lt;p&gt;I’ve written a tiny script to allow me to bind media keys to the currently used audio player.&lt;/p&gt;
+
+&lt;h2 id=&quot;backstory&quot;&gt;Backstory&lt;/h2&gt;
+&lt;div class=&quot;collapsable&quot;&gt;
+&lt;p&gt;
+Some people collect stamps, others cook exquisite cuisnes and other like to get drunk and cause trouble in public
+transporatation. I like to fiddle with my Arch Linux machine at home. It&#39;s good to have a hobby, right?
+&lt;/p&gt;
+&lt;p&gt;
+My setup likes to quit on me after package updates. Being a rolling release, Arch does that every now and then. Latetly
+my KDE apps stopped rendering correctly. It made interacting with most of them impossible. Clementine in particular
+caused me much grief, since you can&#39;t do much with it without its gui controlls. A major annoyance, one in a long line,
+but I&#39;m not really complaining because apps dying make you learn something new. Finding a cli media player being
+a case in point here.
+&lt;/p&gt;
+&lt;p&gt;
+I have looked at cli players before, but usually dropped them because I couldn&#39;t make them work with global media
+control keys -- an important feature for me. This time round I decided to make it work whatever it takes. 
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;the-player&quot;&gt;The player&lt;/h3&gt;
+&lt;p&gt;I chose &lt;a href=&quot;https://github.com/cmus/cmus&quot;&gt;cmus&lt;/a&gt; as my clementine alternative. I used it before and I liked the interface.
+Some of the keybinding resemble those of vim (well homerow &lt;kbd&gt;hjkl&lt;/kbd&gt; at least). It’s pretty quick to setup and
+use. Library scanning is also quite speedy. Advantages all around. There’s plenty of good posts and documentation for
+cmus, so I won’t delve into it’s use and virtues here. I’ll post some links below though&lt;sup id=&quot;fnref:1&quot;&gt;&lt;a href=&quot;#fn:1&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;the-bind&quot;&gt;The bind&lt;/h2&gt;
+&lt;p&gt;So cmus worked great, but it doesn’t respond to media keys. It does have an utility to allow for external control of
+it’s functions aptly named &lt;code class=&quot;highlighter-rouge&quot;&gt;cmus-remote&lt;/code&gt;. With it you can toggle play/pause, switch to next track and so on. I don’t
+care much for volume control, because I prefer to leave that to the system. So all I have to do is to hook up
+&lt;code class=&quot;highlighter-rouge&quot;&gt;cmus-remote&lt;/code&gt; to global keybinding.&lt;/p&gt;
+
+&lt;p&gt;There are many ways to achieve that, but I used the simple, gui way. KDE has a setting panel for configuring keybindings
+and it looks like this:&lt;/p&gt;
+
+&lt;figure class=&quot;image&quot;&gt;
+  &lt;img src=&quot;/img/cmus.art.2.png&quot; alt=&quot;setting keybinding on the media-play key&quot; /&gt;
+  &lt;figcaption&gt;setting keybinding on the media-play key&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;figure class=&quot;image&quot;&gt;
+  &lt;img src=&quot;/img/cmus.art.3.png&quot; alt=&quot;setting custom binding to cmus-remote&quot; /&gt;
+  &lt;figcaption&gt;setting custom binding to cmus-remote&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;There is a little hickup after setting those keybindings – now other players (e.g., clementine) aren’t able to use those media key
+bidings.&lt;/p&gt;
+
+&lt;p&gt;Bash scripting to the rescue:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;#!/bin/bash&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;if &lt;/span&gt;pgrep &lt;span class=&quot;s2&quot;&gt;&quot;clementine$&quot;&lt;/span&gt;; &lt;span class=&quot;k&quot;&gt;then 
+    if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt; -f /Applications/clementine.app/Contents/MacOS/clementine &lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;; &lt;span class=&quot;k&quot;&gt;then&lt;/span&gt;
+        /Applications/clementine.app/Contents/MacOS/clementine -t
+    &lt;span class=&quot;k&quot;&gt;fi
+    &lt;/span&gt;clementine -t 2&amp;gt;/dev/null
+&lt;span class=&quot;k&quot;&gt;elif &lt;/span&gt;pgrep &lt;span class=&quot;s2&quot;&gt;&quot;cmus$&quot;&lt;/span&gt;; &lt;span class=&quot;k&quot;&gt;then
+    &lt;/span&gt;cmus-remote -u 2&amp;gt;/dev/null
+&lt;span class=&quot;k&quot;&gt;fi&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Now I made that executable and put it in &lt;code class=&quot;highlighter-rouge&quot;&gt;~/bin/mediaToggle.sh&lt;/code&gt; (which btw. is already in my &lt;code class=&quot;highlighter-rouge&quot;&gt;$PATH&lt;/code&gt; lookup).&lt;/p&gt;
+
+&lt;figure class=&quot;image&quot;&gt;
+  &lt;img src=&quot;/img/cmus.art.1.png&quot; alt=&quot;setting custom binding to newly written script&quot; /&gt;
+  &lt;figcaption&gt;setting custom binding to newly written script&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;Now, when clementine would be running &lt;kbd&gt;play&lt;/kbd&gt; would interact with it. But when it would’t run it’ll try to
+toggle play on cmus instance (it’d have to be running, though). Great.&lt;/p&gt;
+
+&lt;h2 id=&quot;last-words&quot;&gt;Last words&lt;/h2&gt;
+&lt;div class=&quot;collapsable&quot;&gt;
+&lt;p&gt;
+So here I am: I wanted to play some music to relax after work, but ended up switching media player, writing some
+hack-script to make it work the way I wanted it to and in the end writing all that up in this blog post. All because of
+some unexpected glitch in qt app (?) rendering.
+&lt;/p&gt;
+&lt;p&gt;
+I won&#39;t be replacing clementine with cmus (because portability, companion app with remote and media import and general
+awesomnes), but it&#39;s nice to have a reliable alternative like that. 
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+(function () {
+    var collapsables = document.querySelectorAll(&#39;.collapsable&#39;);
+    if (!collapsables.length || !document.body.addEventListener || !document.body.classList) return;
+    Array.prototype.forEach.call(collapsables, function (el) {
+        var trigger = el.previousElementSibling;
+        trigger.classList.add(&#39;collapsableTrigger&#39;);
+        trigger.addEventListener(&#39;click&#39;, function (event) {
+            trigger.classList.toggle(&#39;collapsableTrigger&#39;);
+        }, false);
+    });
+})();
+&lt;/script&gt;
+
+&lt;div class=&quot;footnotes&quot;&gt;
+  &lt;ol&gt;
+    &lt;li id=&quot;fn:1&quot;&gt;
+      &lt;p&gt;some reference material for cmus: &lt;a href=&quot;#fnref:1&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;
+</description>
+        <pubDate>Sun, 20 Sep 2015 00:00:00 +0200</pubDate>
+        <link>http://countless-integers.github.io//linux/2015/09/20/make-cmus-play-nice-with-clementine.html</link>
+        <guid isPermaLink="true">http://countless-integers.github.io//linux/2015/09/20/make-cmus-play-nice-with-clementine.html</guid>
+        
+        
+        <category>linux</category>
+        
+      </item>
     
       <item>
         <title>PUT requests to ZF2 RESTful controller</title>
@@ -21,7 +141,7 @@ look pretty much alike:&lt;/p&gt;
 
 &lt;p&gt;This one with PUT:&lt;/p&gt;
 
-&lt;pre&gt;&lt;code&gt;------WebKitFormBoundaryqxNZUgM5f0nFT1Z1
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;------WebKitFormBoundaryqxNZUgM5f0nFT1Z1
 Content-Disposition: form-data; name=&quot;creation&quot;
 
 {&quot;id&quot;:1,&quot;title&quot;:&quot;ccc&quot;,&quot;dateFrom&quot;:&quot;2015-08-19&quot;,&quot;dateTo&quot;:&quot;2015-08-22&quot;,&quot;position&quot;:1,&quot;status&quot;:0}
@@ -32,10 +152,11 @@ Content-Type: image/jpeg
 
 ------WebKitFormBoundaryqxNZUgM5f0nFT1Z1--
 &lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
 
 &lt;p&gt;And this one with POST:&lt;/p&gt;
 
-&lt;pre&gt;&lt;code&gt;------WebKitFormBoundaryaDVU9RBkEiCCgfUT
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;------WebKitFormBoundaryaDVU9RBkEiCCgfUT
 Content-Disposition: form-data; name=&quot;creation&quot;
 
 {&quot;title&quot;:&quot;sdfsafsa&quot;,&quot;dateFrom&quot;:&quot;2015-09-14&quot;,&quot;dateTo&quot;:&quot;2015-09-30&quot;,&quot;position&quot;:1,&quot;status&quot;:0}
@@ -46,18 +167,19 @@ Content-Type: image/jpeg
 
 ------WebKitFormBoundaryaDVU9RBkEiCCgfUT--
 &lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
 
-&lt;p&gt;One key difference is the presence of a &lt;code&gt;id&lt;/code&gt; in the PUT request, because it’s modifying an existing request it makes 
+&lt;p&gt;One key difference is the presence of a &lt;code class=&quot;highlighter-rouge&quot;&gt;id&lt;/code&gt; in the PUT request, because it’s modifying an existing request it makes 
 sense that it’s there. Apart from that it looks the same, but it’s handled differently&lt;/p&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;For one thing there’s no &lt;code&gt;$_PUT&lt;/code&gt; like there’s &lt;code&gt;$_POST&lt;/code&gt;, so to even read it you have to resort to things like
-&lt;code&gt;parse_str(file_get_contents(&quot;php://input&quot;), $put)&lt;/code&gt;. Maybe &lt;a href=&quot;http://www.php-fig.org/psr/psr-7/&quot;&gt;PSR-7&lt;/a&gt; will solve that.&lt;/li&gt;
-  &lt;li&gt;&lt;code&gt;$_FILES&lt;/code&gt; is not populated if you send a &lt;code&gt;multipart/form-data&lt;/code&gt;, but there’s a reason for that&lt;/li&gt;
+  &lt;li&gt;For one thing there’s no &lt;code class=&quot;highlighter-rouge&quot;&gt;$_PUT&lt;/code&gt; like there’s &lt;code class=&quot;highlighter-rouge&quot;&gt;$_POST&lt;/code&gt;, so to even read it you have to resort to things like
+&lt;code class=&quot;highlighter-rouge&quot;&gt;parse_str(file_get_contents(&quot;php://input&quot;), $put)&lt;/code&gt;. Maybe &lt;a href=&quot;http://www.php-fig.org/psr/psr-7/&quot;&gt;PSR-7&lt;/a&gt; will solve that.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;$_FILES&lt;/code&gt; is not populated if you send a &lt;code class=&quot;highlighter-rouge&quot;&gt;multipart/form-data&lt;/code&gt;, but there’s a reason for that&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;p&gt;Anyway ZF2 has a neat controller to handle requests like that in a restful fashion called 
-&lt;a href=&quot;http://framework.zend.com/manual/current/en/modules/zend.mvc.controllers.html#the-abstractrestfulcontroller&quot;&gt;&lt;code&gt;AbstractRestfulController&lt;/code&gt;&lt;/a&gt;. It maps incoming requests based on their HTTP method and 
+&lt;a href=&quot;http://framework.zend.com/manual/current/en/modules/zend.mvc.controllers.html#the-abstractrestfulcontroller&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;AbstractRestfulController&lt;/code&gt;&lt;/a&gt;. It maps incoming requests based on their HTTP method and 
 parameters:&lt;/p&gt;
 
 &lt;blockquote&gt;
@@ -71,7 +193,7 @@ response status, as well as the representation of the entity.&lt;/p&gt;
 &lt;/blockquote&gt;
 
 &lt;p&gt;It works quite well up to the point when you’d try to send a multipart form with a file. The it’ll only take you to the 
-&lt;code&gt;update&lt;/code&gt; method as expected, but you can’t really get the data. I mean you could parse the input stream and carve that 
+&lt;code class=&quot;highlighter-rouge&quot;&gt;update&lt;/code&gt; method as expected, but you can’t really get the data. I mean you could parse the input stream and carve that 
 data, but forget about the file.&lt;/p&gt;
 
 &lt;p&gt;I’ve spend some time researching why that’s happening. I’ve checked what PHP docs have to offer on the topic&lt;sup id=&quot;fnref:3&quot;&gt;&lt;a href=&quot;#fn:3&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt; and how
@@ -91,12 +213,12 @@ it’d be one, inseparable thing. So the representation of the image (binary fil
 difference between a single entity and two independent entities. Nitpicking, maybe.&lt;/p&gt;
 
 &lt;p&gt;Anyway onto the practical stuff. I’ve found several workaround for handling PUT requests in ZF2. One was about manually 
-setting the request data&lt;sup id=&quot;fnref:1&quot;&gt;&lt;a href=&quot;#fn:1&quot; class=&quot;footnote&quot;&gt;3&lt;/a&gt;&lt;/sup&gt;. It doesn’t help with my multipart form though. Another one was to put a hidden &lt;code&gt;_method&lt;/code&gt;, 
-set it to &lt;code&gt;put&lt;/code&gt; and send the form as POST request&lt;sup id=&quot;fnref:2&quot;&gt;&lt;a href=&quot;#fn:2&quot; class=&quot;footnote&quot;&gt;4&lt;/a&gt;&lt;/sup&gt;. It’s valid, but why bother? It still needs to send it to 
+setting the request data&lt;sup id=&quot;fnref:1&quot;&gt;&lt;a href=&quot;#fn:1&quot; class=&quot;footnote&quot;&gt;3&lt;/a&gt;&lt;/sup&gt;. It doesn’t help with my multipart form though. Another one was to put a hidden &lt;code class=&quot;highlighter-rouge&quot;&gt;_method&lt;/code&gt;, 
+set it to &lt;code class=&quot;highlighter-rouge&quot;&gt;put&lt;/code&gt; and send the form as POST request&lt;sup id=&quot;fnref:2&quot;&gt;&lt;a href=&quot;#fn:2&quot; class=&quot;footnote&quot;&gt;4&lt;/a&gt;&lt;/sup&gt;. It’s valid, but why bother? It still needs to send it to 
 a uri that has a id in it. That in itself should be enough to tell creation from update apart. So I just send it 
 as post and then do this:&lt;/p&gt;
 
-&lt;pre&gt;&lt;code&gt;public function create($data)
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;public function create($data)
 {
     $id = $this-&amp;gt;params(&#39;id&#39;, null);
     if ($id) {
@@ -105,6 +227,7 @@ as post and then do this:&lt;/p&gt;
     // ...
 }
 &lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
 
 &lt;p&gt;Simple and effective. Shame it doesn’t work out of the box, but it’s not a too terribly inconvenient either.&lt;/p&gt;
 
@@ -143,10 +266,10 @@ as post and then do this:&lt;/p&gt;
       <item>
         <title>var_dump alternatives</title>
         <description>&lt;h2 id=&quot;tldr&quot;&gt;TL;DR&lt;/h2&gt;
-&lt;p&gt;If you want something better to dump variables than &lt;code&gt;var_dump&lt;/code&gt;, get Kint.&lt;/p&gt;
+&lt;p&gt;If you want something better to dump variables than &lt;code class=&quot;highlighter-rouge&quot;&gt;var_dump&lt;/code&gt;, get Kint.&lt;/p&gt;
 
 &lt;h2 id=&quot;introduction&quot;&gt;Introduction&lt;/h2&gt;
-&lt;p&gt;When I can’t be bothered to turn on Xdebug just to debug some mysterious variable, then I take a dump (caution: more bad poop puns ahead). It comes out in different shapes and sizes. Sometimes it’s hard to make out anything out of it and instead of saving time I’m loosing it. XDebug is comprehensive and gives an insight into code that dumps won’t ever provide, but PHP can do a lot better than &lt;code&gt;var_dump&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;When I can’t be bothered to turn on Xdebug just to debug some mysterious variable, then I take a dump (caution: more bad poop puns ahead). It comes out in different shapes and sizes. Sometimes it’s hard to make out anything out of it and instead of saving time I’m loosing it. XDebug is comprehensive and gives an insight into code that dumps won’t ever provide, but PHP can do a lot better than &lt;code class=&quot;highlighter-rouge&quot;&gt;var_dump&lt;/code&gt;.&lt;/p&gt;
 
 &lt;p&gt;So one fine day I went for a hunt on the internets for a worthy replacement. By worthy I mean:&lt;/p&gt;
 
@@ -159,23 +282,23 @@ as post and then do this:&lt;/p&gt;
 &lt;p&gt;No big expectations there, right? So let me go over what I found.&lt;/p&gt;
 
 &lt;h2 id=&quot;symfony-vardumper&quot;&gt;Symfony VarDumper&lt;/h2&gt;
-&lt;p&gt;Invocation is a simple &lt;code&gt;dump&lt;/code&gt; global function that takes one argument.&lt;/p&gt;
+&lt;p&gt;Invocation is a simple &lt;code class=&quot;highlighter-rouge&quot;&gt;dump&lt;/code&gt; global function that takes one argument.&lt;/p&gt;
 
 &lt;p&gt;Pros:&lt;/p&gt;
 
 &lt;ul&gt;
   &lt;li&gt;simple invocation&lt;/li&gt;
   &lt;li&gt;minimal installation&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://github.com/symfony/var-dumper/blob/master/VarDumper.php#L32&quot;&gt;distinguishes between &lt;code&gt;cli&lt;/code&gt; and &lt;code&gt;www&lt;/code&gt; environment&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/symfony/var-dumper/blob/master/VarDumper.php#L32&quot;&gt;distinguishes between &lt;code class=&quot;highlighter-rouge&quot;&gt;cli&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;www&lt;/code&gt; environment&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;(a bit far-fetched) part of the Symfony ecosystem, so I’d expect it to receive timely updates and upgrades, perhaps even some SF integration&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;p&gt;Cons:&lt;/p&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;&lt;code&gt;dump&lt;/code&gt; is still longer that e.g. &lt;code&gt;d&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;dump&lt;/code&gt; is still longer that e.g. &lt;code class=&quot;highlighter-rouge&quot;&gt;d&lt;/code&gt;&lt;/li&gt;
   &lt;li&gt;no option to stop script execution&lt;/li&gt;
-  &lt;li&gt;no way to pass multiple vars in one invocation, so you have to call &lt;code&gt;dump&lt;/code&gt; with every variable you want to see&lt;/li&gt;
+  &lt;li&gt;no way to pass multiple vars in one invocation, so you have to call &lt;code class=&quot;highlighter-rouge&quot;&gt;dump&lt;/code&gt; with every variable you want to see&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;p&gt;Read more about it:&lt;/p&gt;
@@ -186,7 +309,7 @@ as post and then do this:&lt;/p&gt;
 &lt;/ul&gt;
 
 &lt;h2 id=&quot;zend-framework-debug&quot;&gt;Zend Framework Debug&lt;/h2&gt;
-&lt;p&gt;It’s a component of ZF. Invocation is: &lt;code&gt;\Zend\Debug\Debug::dump($var);&lt;/code&gt;… As far as “easy to invoke” is concerned, the
+&lt;p&gt;It’s a component of ZF. Invocation is: &lt;code class=&quot;highlighter-rouge&quot;&gt;\Zend\Debug\Debug::dump($var);&lt;/code&gt;… As far as “easy to invoke” is concerned, the
 description might as well end there. But:&lt;/p&gt;
 
 &lt;p&gt;Pros:&lt;/p&gt;
@@ -208,11 +331,11 @@ description might as well end there. But:&lt;/p&gt;
 &lt;/ul&gt;
 
 &lt;h2 id=&quot;kint&quot;&gt;Kint&lt;/h2&gt;
-&lt;p&gt;The basic invocation of Kint is &lt;code&gt;d($var)&lt;/code&gt;. It does not get any simpler than that. It also allows for no-formatting output through &lt;code&gt;s($var)&lt;/code&gt;. But it doesn’t end there. &lt;code&gt;ddd($var)&lt;/code&gt; (used to be &lt;code&gt;dd&lt;/code&gt;, but then it got deprecated for compatibility) will die after dumping (same thing with &lt;code&gt;sd($var)&lt;/code&gt;) and it also does magic tricks with, what they call, real time modifiers. E.g. &lt;code&gt;+d($dump)&lt;/code&gt; would bypass dump depth limits, &lt;code&gt;@s($var)&lt;/code&gt; would return the output to a variable for capture, &lt;code&gt;!d($var)&lt;/code&gt; would expand all output in HTML mode. It also comes with optional keyboard navigation, foldable output (like VarDumper), type/visibility detection and many more.&lt;/p&gt;
+&lt;p&gt;The basic invocation of Kint is &lt;code class=&quot;highlighter-rouge&quot;&gt;d($var)&lt;/code&gt;. It does not get any simpler than that. It also allows for no-formatting output through &lt;code class=&quot;highlighter-rouge&quot;&gt;s($var)&lt;/code&gt;. But it doesn’t end there. &lt;code class=&quot;highlighter-rouge&quot;&gt;ddd($var)&lt;/code&gt; (used to be &lt;code class=&quot;highlighter-rouge&quot;&gt;dd&lt;/code&gt;, but then it got deprecated for compatibility) will die after dumping (same thing with &lt;code class=&quot;highlighter-rouge&quot;&gt;sd($var)&lt;/code&gt;) and it also does magic tricks with, what they call, real time modifiers. E.g. &lt;code class=&quot;highlighter-rouge&quot;&gt;+d($dump)&lt;/code&gt; would bypass dump depth limits, &lt;code class=&quot;highlighter-rouge&quot;&gt;@s($var)&lt;/code&gt; would return the output to a variable for capture, &lt;code class=&quot;highlighter-rouge&quot;&gt;!d($var)&lt;/code&gt; would expand all output in HTML mode. It also comes with optional keyboard navigation, foldable output (like VarDumper), type/visibility detection and many more.&lt;/p&gt;
 
 &lt;p&gt;Among the features I’ve not seen anywhere else is signing every dump with the exact place it was made (fqcn and line number) and that a lot better for me than labeling the dumps.&lt;/p&gt;
 
-&lt;p&gt;What I like in particular is that it also outputs useful info about objects you dump, like public method/variable names. So no more &lt;code&gt;var_dump(get_class_methods(get_class($object)))&lt;/code&gt; and similar gimmicks.&lt;/p&gt;
+&lt;p&gt;What I like in particular is that it also outputs useful info about objects you dump, like public method/variable names. So no more &lt;code class=&quot;highlighter-rouge&quot;&gt;var_dump(get_class_methods(get_class($object)))&lt;/code&gt; and similar gimmicks.&lt;/p&gt;
 
 &lt;p&gt;I could not find anything as good as Kint. It’s a winner.&lt;/p&gt;
 
@@ -223,7 +346,7 @@ description might as well end there. But:&lt;/p&gt;
   &lt;li&gt;shortest possible invocation&lt;/li&gt;
   &lt;li&gt;modifiers&lt;/li&gt;
   &lt;li&gt;comprehensive output&lt;/li&gt;
-  &lt;li&gt;discerns &lt;code&gt;cli&lt;/code&gt; and &lt;code&gt;www&lt;/code&gt; environments&lt;/li&gt;
+  &lt;li&gt;discerns &lt;code class=&quot;highlighter-rouge&quot;&gt;cli&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;www&lt;/code&gt; environments&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;p&gt;Cons:&lt;/p&gt;
@@ -242,12 +365,12 @@ description might as well end there. But:&lt;/p&gt;
 
 &lt;h2 id=&quot;notable-omissions&quot;&gt;Notable omissions&lt;/h2&gt;
 &lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;https://github.com/raulfraile/Ladybug&quot;&gt;LadyBug&lt;/a&gt; – I kinda stopped liking it after seeing &lt;code&gt;composer require&lt;/code&gt; output
+  &lt;li&gt;&lt;a href=&quot;https://github.com/raulfraile/Ladybug&quot;&gt;LadyBug&lt;/a&gt; – I kinda stopped liking it after seeing &lt;code class=&quot;highlighter-rouge&quot;&gt;composer require&lt;/code&gt; output
 that looked like it wouldn’t end. Why so many dependencies LadyBug?&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;h2 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h2&gt;
-&lt;p&gt;Apart from ZF2 dump, which doesn’t really fit my search criteria, all of the above tools yield some improvements over vanilla &lt;code&gt;var_dump&lt;/code&gt;. However not all ‘dumpers’ were made ‘equal’ – some just can take a dump better than the others (see what I did there?). Kint is my favorite and I use it every time I don’t feel like starting a Xdebug session. Hats off to the creator and the contributors – you made my life easier.&lt;/p&gt;
+&lt;p&gt;Apart from ZF2 dump, which doesn’t really fit my search criteria, all of the above tools yield some improvements over vanilla &lt;code class=&quot;highlighter-rouge&quot;&gt;var_dump&lt;/code&gt;. However not all ‘dumpers’ were made ‘equal’ – some just can take a dump better than the others (see what I did there?). Kint is my favorite and I use it every time I don’t feel like starting a Xdebug session. Hats off to the creator and the contributors – you made my life easier.&lt;/p&gt;
 
 &lt;p&gt;All of the above-mentioned tools are available through composer, so getting them to work is straightforward (seems
 obvious, but I still remember the days we didn’t have composer).&lt;/p&gt;
@@ -275,11 +398,11 @@ obvious, but I still remember the days we didn’t have composer).&lt;/p&gt;
     
       <item>
         <title>Duck typed interfaces in ZF2 Module class</title>
-        <description>&lt;p&gt;ZF2 &lt;code&gt;Module&lt;/code&gt; class methods conform to &lt;a href=&quot;https://en.wikipedia.org/wiki/Duck_typing&quot;&gt;DuckTyping&lt;/a&gt; but it’s nice to know where all those methods came from. That would be &lt;a href=&quot;https://github.com/zendframework/zend-modulemanager/tree/master/src/Feature&quot;&gt;feature interfaces&lt;/a&gt; from ModuleManager component. So if you’re not sure what feature can you advertise in your &lt;code&gt;Module&lt;/code&gt; class it’s a good place to check. I couldn’t find any mention on this in the official docs, although it was hinted in the &lt;a href=&quot;http://framework.zend.com/manual/current/en/tutorials/config.advanced.html#configuration-mapping-table&quot;&gt;“Advanced configuration article”&lt;/a&gt;.&lt;/p&gt;
+        <description>&lt;p&gt;ZF2 &lt;code class=&quot;highlighter-rouge&quot;&gt;Module&lt;/code&gt; class methods conform to &lt;a href=&quot;https://en.wikipedia.org/wiki/Duck_typing&quot;&gt;DuckTyping&lt;/a&gt; but it’s nice to know where all those methods came from. That would be &lt;a href=&quot;https://github.com/zendframework/zend-modulemanager/tree/master/src/Feature&quot;&gt;feature interfaces&lt;/a&gt; from ModuleManager component. So if you’re not sure what feature can you advertise in your &lt;code class=&quot;highlighter-rouge&quot;&gt;Module&lt;/code&gt; class it’s a good place to check. I couldn’t find any mention on this in the official docs, although it was hinted in the &lt;a href=&quot;http://framework.zend.com/manual/current/en/tutorials/config.advanced.html#configuration-mapping-table&quot;&gt;“Advanced configuration article”&lt;/a&gt;.&lt;/p&gt;
 
-&lt;p&gt;Although it’s not necessary to declare the implementation of these interfaces I found that doing so it improves readability and helps newcomers to better understand where did those methods came from. Because duck typing is not too common in PHP I got a lot of blank stares and WTF-ucks from my colleagues who tried to figure out how &lt;code&gt;Module&lt;/code&gt; worked.&lt;/p&gt;
+&lt;p&gt;Although it’s not necessary to declare the implementation of these interfaces I found that doing so it improves readability and helps newcomers to better understand where did those methods came from. Because duck typing is not too common in PHP I got a lot of blank stares and WTF-ucks from my colleagues who tried to figure out how &lt;code class=&quot;highlighter-rouge&quot;&gt;Module&lt;/code&gt; worked.&lt;/p&gt;
 
-&lt;p&gt;I suppose that this (duck typing in &lt;code&gt;Module&lt;/code&gt; class) was supposed improve modules portability, but I have yet to see a popular module that benefited from this.&lt;/p&gt;
+&lt;p&gt;I suppose that this (duck typing in &lt;code class=&quot;highlighter-rouge&quot;&gt;Module&lt;/code&gt; class) was supposed improve modules portability, but I have yet to see a popular module that benefited from this.&lt;/p&gt;
 
 &lt;p&gt;Tiny cheatsheet of interfaces and methods they declare (base on the before-mentioned ZF2 docs page):&lt;/p&gt;
 
@@ -292,61 +415,61 @@ obvious, but I still remember the days we didn’t have composer).&lt;/p&gt;
   &lt;/thead&gt;
   &lt;tbody&gt;
     &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;&lt;code&gt;ControllerPluginProviderInterface&lt;/code&gt;&lt;/td&gt;
-      &lt;td style=&quot;text-align: center&quot;&gt;&lt;code&gt;getControllerPluginConfig()&lt;/code&gt;&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;ControllerPluginProviderInterface&lt;/code&gt;&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;getControllerPluginConfig()&lt;/code&gt;&lt;/td&gt;
     &lt;/tr&gt;
     &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;&lt;code&gt;ControllerProviderInterface&lt;/code&gt;&lt;/td&gt;
-      &lt;td style=&quot;text-align: center&quot;&gt;&lt;code&gt;getControllerConfig()&lt;/code&gt;&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;ControllerProviderInterface&lt;/code&gt;&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;getControllerConfig()&lt;/code&gt;&lt;/td&gt;
     &lt;/tr&gt;
     &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;&lt;code&gt;FilterProviderInterface&lt;/code&gt;&lt;/td&gt;
-      &lt;td style=&quot;text-align: center&quot;&gt;&lt;code&gt;getFilterConfig()&lt;/code&gt;&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;FilterProviderInterface&lt;/code&gt;&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;getFilterConfig()&lt;/code&gt;&lt;/td&gt;
     &lt;/tr&gt;
     &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;&lt;code&gt;FormElementProviderInterface&lt;/code&gt;&lt;/td&gt;
-      &lt;td style=&quot;text-align: center&quot;&gt;&lt;code&gt;getFormElementConfig()&lt;/code&gt;&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;FormElementProviderInterface&lt;/code&gt;&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;getFormElementConfig()&lt;/code&gt;&lt;/td&gt;
     &lt;/tr&gt;
     &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;&lt;code&gt;HydratorProviderInterface&lt;/code&gt;&lt;/td&gt;
-      &lt;td style=&quot;text-align: center&quot;&gt;&lt;code&gt;getHydratorConfig()&lt;/code&gt;&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;HydratorProviderInterface&lt;/code&gt;&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;getHydratorConfig()&lt;/code&gt;&lt;/td&gt;
     &lt;/tr&gt;
     &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;&lt;code&gt;InputFilterManagertFilterProviderInterface&lt;/code&gt;&lt;/td&gt;
-      &lt;td style=&quot;text-align: center&quot;&gt;&lt;code&gt;getInputFilterConfig()&lt;/code&gt;&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;InputFilterManagertFilterProviderInterface&lt;/code&gt;&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;getInputFilterConfig()&lt;/code&gt;&lt;/td&gt;
     &lt;/tr&gt;
     &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;&lt;code&gt;RouteProviderInterface&lt;/code&gt;&lt;/td&gt;
-      &lt;td style=&quot;text-align: center&quot;&gt;&lt;code&gt;getRouteConfig()&lt;/code&gt;&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;RouteProviderInterface&lt;/code&gt;&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;getRouteConfig()&lt;/code&gt;&lt;/td&gt;
     &lt;/tr&gt;
     &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;&lt;code&gt;SerializerProviderInterface&lt;/code&gt;&lt;/td&gt;
-      &lt;td style=&quot;text-align: center&quot;&gt;&lt;code&gt;getSerializerConfig()&lt;/code&gt;&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;SerializerProviderInterface&lt;/code&gt;&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;getSerializerConfig()&lt;/code&gt;&lt;/td&gt;
     &lt;/tr&gt;
     &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;&lt;code&gt;ServiceProviderInterface&lt;/code&gt;&lt;/td&gt;
-      &lt;td style=&quot;text-align: center&quot;&gt;&lt;code&gt;getServiceConfig()&lt;/code&gt;&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;ServiceProviderInterface&lt;/code&gt;&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;getServiceConfig()&lt;/code&gt;&lt;/td&gt;
     &lt;/tr&gt;
     &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;&lt;code&gt;ValidatorProviderInterface&lt;/code&gt;&lt;/td&gt;
-      &lt;td style=&quot;text-align: center&quot;&gt;&lt;code&gt;getValidatorConfig()&lt;/code&gt;&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;ValidatorProviderInterface&lt;/code&gt;&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;getValidatorConfig()&lt;/code&gt;&lt;/td&gt;
     &lt;/tr&gt;
     &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;&lt;code&gt;ViewHelperProviderInterface&lt;/code&gt;&lt;/td&gt;
-      &lt;td style=&quot;text-align: center&quot;&gt;&lt;code&gt;getViewHelperConfig()&lt;/code&gt;&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;ViewHelperProviderInterface&lt;/code&gt;&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;getViewHelperConfig()&lt;/code&gt;&lt;/td&gt;
     &lt;/tr&gt;
     &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;&lt;code&gt;LogProcessorProviderInterface&lt;/code&gt;&lt;/td&gt;
-      &lt;td style=&quot;text-align: center&quot;&gt;&lt;code&gt;getLogProcessorConfig()&lt;/code&gt;&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;LogProcessorProviderInterface&lt;/code&gt;&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;getLogProcessorConfig()&lt;/code&gt;&lt;/td&gt;
     &lt;/tr&gt;
     &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;&lt;code&gt;LogWriterProviderInterface&lt;/code&gt;&lt;/td&gt;
-      &lt;td style=&quot;text-align: center&quot;&gt;&lt;code&gt;getLogWriterConfig()&lt;/code&gt;&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;LogWriterProviderInterface&lt;/code&gt;&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;getLogWriterConfig()&lt;/code&gt;&lt;/td&gt;
     &lt;/tr&gt;
   &lt;/tbody&gt;
 &lt;/table&gt;
 
-&lt;p&gt;All interfaces are in &lt;code&gt;Zend\ModuleManager\Feature&lt;/code&gt; namespace.&lt;/p&gt;
+&lt;p&gt;All interfaces are in &lt;code class=&quot;highlighter-rouge&quot;&gt;Zend\ModuleManager\Feature&lt;/code&gt; namespace.&lt;/p&gt;
 </description>
         <pubDate>Tue, 01 Sep 2015 00:00:00 +0200</pubDate>
         <link>http://countless-integers.github.io//php/zf2/interfaces/2015/09/01/duck-typed-interfaces-in-zf2-module-class.html</link>
@@ -365,24 +488,26 @@ obvious, but I still remember the days we didn’t have composer).&lt;/p&gt;
         <title>Weird case of PHP interface constants</title>
         <description>&lt;p&gt;While trying to mock an object using mockery I came across this:&lt;/p&gt;
 
-&lt;pre&gt;&lt;code&gt;Fatal error: Undefined class constant &#39;self::LIMIT&#39; in /project.path/vendor/mockery/mockery/library/Mockery/Generator/Parameter.php on line 62
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Fatal error: Undefined class constant &#39;self::LIMIT&#39; in /project.path/vendor/mockery/mockery/library/Mockery/Generator/Parameter.php on line 62
 &lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
 
 &lt;p&gt;So I tried to make the mock with vanilla PHPUnit:&lt;/p&gt;
 
-&lt;pre&gt;&lt;code&gt;Fatal error: Undefined class constant &#39;self::LIMIT&#39; in /project.path/vendor/phpunit/phpunit-mock-objects/src/Framework/MockObject/Generator.php on line 1064
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Fatal error: Undefined class constant &#39;self::LIMIT&#39; in /project.path/vendor/phpunit/phpunit-mock-objects/src/Framework/MockObject/Generator.php on line 1064
 &lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
 
 &lt;p&gt;My first guess was that it had a problem with me using constants as default parameter values in method definitions like so:&lt;/p&gt;
 
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-php&quot; data-lang=&quot;php&quot;&gt;&lt;span class=&quot;x&quot;&gt;public function method($param = self::VALUE)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-php&quot; data-lang=&quot;php&quot;&gt;  public function method($param = self::VALUE)&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
 &lt;p&gt;However this sounded wrong – I used that before and never had a problem with it. So I dug deeper. Then I came across an interface that the mocked class implemented. It looked something like this:&lt;/p&gt;
 
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-php&quot; data-lang=&quot;php&quot;&gt;&lt;span class=&quot;x&quot;&gt;interface ITotallyForgotIMadeAnInterfaceForThis&lt;/span&gt;
-&lt;span class=&quot;x&quot;&gt;    {&lt;/span&gt;
-&lt;span class=&quot;x&quot;&gt;        public function method($param = self::VALUE);&lt;/span&gt;
-&lt;span class=&quot;x&quot;&gt;    }&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-php&quot; data-lang=&quot;php&quot;&gt;    interface ITotallyForgotIMadeAnInterfaceForThis
+    {
+        public function method($param = self::VALUE);
+    }&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
 &lt;p&gt;I had to look twice, but there it was, my undefined constant. How this had worked (because it did) during normal application run? It shouldn’t, but somehow it did? Anyone can elaborate?&lt;/p&gt;
 </description>

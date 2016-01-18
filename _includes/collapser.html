@@ -1,0 +1,13 @@
+<script>
+(function () {
+    var collapsables = document.querySelectorAll('.collapsable');
+    if (!collapsables.length || !document.body.addEventListener || !document.body.classList) return;
+    Array.prototype.forEach.call(collapsables, function (el) {
+        var trigger = el.previousElementSibling;
+        trigger.classList.add('collapsableTrigger');
+        trigger.addEventListener('click', function (event) {
+            trigger.classList.toggle('collapsableTrigger');
+        }, false);
+    });
+})();
+</script>
