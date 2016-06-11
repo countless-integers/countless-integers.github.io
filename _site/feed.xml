@@ -6,9 +6,72 @@
 </description>
     <link>http://countless-integers.github.io//</link>
     <atom:link href="http://countless-integers.github.io//feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Mon, 18 Jan 2016 22:09:12 +0100</pubDate>
-    <lastBuildDate>Mon, 18 Jan 2016 22:09:12 +0100</lastBuildDate>
+    <pubDate>Sat, 11 Jun 2016 10:42:05 +0200</pubDate>
+    <lastBuildDate>Sat, 11 Jun 2016 10:42:05 +0200</lastBuildDate>
     <generator>Jekyll v3.0.1</generator>
+    
+      <item>
+        <title>chsh to zsh</title>
+        <description>&lt;p&gt;The time has come. I am currently in the process of revisiting every tool I use and looking for better alternatives. After living in denial for years I have come to a decision to switch from trusty Bash to ZSH.&lt;/p&gt;
+
+&lt;h2 id=&quot;aint-nobody-got-time-for-that&quot;&gt;Ain’t nobody got time for that…&lt;/h2&gt;
+&lt;p&gt;To make it easier for myself I went with what is called a ZSH framework. Namely &lt;code class=&quot;highlighter-rouge&quot;&gt;oh-my-zsh&lt;/code&gt;. It comes with a lot of stuff out of the box, like aliases, plugins, themes, sensible defaults. E.g. it enables highlighted arrow navigation in autocompletion lists. It was even polite enough to backup my existing &lt;code class=&quot;highlighter-rouge&quot;&gt;.zshrc&lt;/code&gt; to &lt;code class=&quot;highlighter-rouge&quot;&gt;.zshrc.pre-oh-my-zsh&lt;/code&gt; – nice touch.&lt;/p&gt;
+
+&lt;h2 id=&quot;stuff-i-love&quot;&gt;Stuff I love&lt;/h2&gt;
+
+&lt;h3 id=&quot;fuzzy-path-expansion&quot;&gt;Fuzzy path expansion&lt;/h3&gt;
+&lt;p&gt;Let us say you have a path like &lt;code class=&quot;highlighter-rouge&quot;&gt;./src/Your/Super/Java/Like/Namepaced/Class.php&lt;/code&gt;. Using fuzzy path expansion you should able to get there with something like &lt;code class=&quot;highlighter-rouge&quot;&gt;cd s/y/j/clas&lt;/code&gt; (or any combination of unique path fragments). It is a lot less typing and after a while you get more and more efficient with typing. Which, as a die hard Vim fan, is good.&lt;/p&gt;
+
+&lt;h3 id=&quot;autocomplete-fixes-wrong-caps&quot;&gt;Autocomplete “fixes” wrong caps&lt;/h3&gt;
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;ls path/dir&amp;lt;tab&amp;gt;&lt;/code&gt; can expand it to the actual name like so &lt;code class=&quot;highlighter-rouge&quot;&gt;ls path/Dir&lt;/code&gt;. It also works with fuzzy path expansion mentioned earlier. Neat.&lt;/p&gt;
+
+&lt;h3 id=&quot;autocomplete-almost-everywhere-and-if-not-then-there-is-probably-a-plugin-that-will-provide-that&quot;&gt;Autocomplete almost everywhere (and if not, then there is probably a plugin that will provide that)&lt;/h3&gt;
+&lt;p&gt;You can try autocomplete in a lot more places with zsh. E.g. &lt;code class=&quot;highlighter-rouge&quot;&gt;pgrep&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;kill&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;ssh&lt;/code&gt;. It also helps with options completions, by displaying their description in the automcomplete choice list. No longer do I have to scratch the onliner I was writting just to &lt;code class=&quot;highlighter-rouge&quot;&gt;--help&lt;/code&gt; my memory to come up with that &lt;code class=&quot;highlighter-rouge&quot;&gt;-oBsCuRe&lt;/code&gt; option for nmap.&lt;/p&gt;
+
+&lt;h3 id=&quot;monits&quot;&gt;Monits&lt;/h3&gt;
+&lt;p&gt;Standard commands like &lt;code class=&quot;highlighter-rouge&quot;&gt;mv&lt;/code&gt; or &lt;code class=&quot;highlighter-rouge&quot;&gt;rm&lt;/code&gt; will actually ask you for confirmation by default. It is a smart default. Does not work all in all the cases, but I have not really bothered to notice the actual patern of it.&lt;/p&gt;
+
+&lt;h2 id=&quot;plugins&quot;&gt;Plugins&lt;/h2&gt;
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Oh-my-zsh&lt;/code&gt; by default, in full install, comes with a lot of them. Usually they are nothing more than shell scripts that get sourced when you open the shell (so do not load them all, duh). The ones I have found most useful are:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;jira&lt;/strong&gt; – create / open issues from the command line, something that I found pretty useful. Where I work, we bury jira issue names in commits/branch names so this makes it easy for me to quickly look up the corresponding issue in jira. Lookup installation instructions, because it will need either an env variable or a local file with jira URL (it does not need any credentials, because it only opens up a correct link in the default browser).&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;docker&lt;/strong&gt; – autocompletion for docker commands. E.g. it can autocomplete container names.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;composer&lt;/strong&gt; – autocompletion for composer commands.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;web-search&lt;/strong&gt; – so I can start searches from command line. I do not even know why.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;common-aliases&lt;/strong&gt; – because typing hurts…&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;z&lt;/strong&gt; – it is a bit unusual, because of the installation process. Apparently you need to source the script yourself (or put it on the path). What it does is to allow you quickly &lt;code class=&quot;highlighter-rouge&quot;&gt;cd&lt;/code&gt; into most often visited directories (it keep tracks of that). &lt;code class=&quot;highlighter-rouge&quot;&gt;z &amp;lt;tab&amp;gt;&lt;/code&gt; will display a list of those – simple enough and can save a lot of time. Of course works with the usual zsh autocompletion magic, e.g. highlighted cursor navigation.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;syntax highlighting&lt;/strong&gt; – real-time syntax highlight for shell commands. It will highlight wrongly typed commands in red, e.g. if you type &lt;code class=&quot;highlighter-rouge&quot;&gt;lss&lt;/code&gt; instead of &lt;code class=&quot;highlighter-rouge&quot;&gt;ls&lt;/code&gt; it would mark it in red, same as an editor would. Check the installation instructions carefully.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;themes&quot;&gt;Themes&lt;/h3&gt;
+&lt;p&gt;There is a lot of them to choose from and I have found a lot of decent ones (separate lines for commands and “status”, clock, VCS integration). I’ve chosen &lt;code class=&quot;highlighter-rouge&quot;&gt;avit&lt;/code&gt; for now and added a clock on the right side of the prompt, because I like to see when a command was executed.&lt;/p&gt;
+
+&lt;h2 id=&quot;conclussion&quot;&gt;Conclussion&lt;/h2&gt;
+&lt;p&gt;I am still exploring the functionality of zsh, but I can already tell that I do not want to go back to plain Bash. Fuzzy path autocompletion and autocompletion preview are killer features for me and I am already so used to them that running Bash afterwards felt frustrating. You can call it lazy, I will call it more productive, because it takes my mind of getting the silly stuff right all the time.&lt;/p&gt;
+
+&lt;h2 id=&quot;useful-references-to-get-started&quot;&gt;Useful references to get started&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;http://code.joejag.com/2014/why-zsh.html] (and this)[https://coderwall.com/p/1y_j0q/zsh-oh-my-zsh-my-top-tips-for-daily-use&quot;&gt;General tips&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://reasoniamhere.com/2014/01/11/outrageously-useful-tips-to-master-your-z-shell/&quot;&gt;A bit deeper dive into glob(-ish) syntax and modifiers&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://wiki.archlinux.org/index.php/Zsh&quot;&gt;The indispensable ArchLinux wiki&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://zsh.sourceforge.net/Doc/Release/Prompt-Expansion.html&quot;&gt;Which helped me to find prompt expansion codes for adding a clock to my prompt (&lt;code class=&quot;highlighter-rouge&quot;&gt;%*&lt;/code&gt;)&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://zshwiki.org/&quot;&gt;Looks antiquated, but still, mostly, relevant&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/robbyrussell/oh-my-zsh&quot;&gt;Oh-my-zsh github page&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+</description>
+        <pubDate>Sat, 11 Jun 2016 00:00:00 +0200</pubDate>
+        <link>http://countless-integers.github.io//shell/zsh/2016/06/11/chsh-to-zsh.html</link>
+        <guid isPermaLink="true">http://countless-integers.github.io//shell/zsh/2016/06/11/chsh-to-zsh.html</guid>
+        
+        
+        <category>shell</category>
+        
+        <category>zsh</category>
+        
+      </item>
     
       <item>
         <title>Debugging outgoing requests with ncat</title>

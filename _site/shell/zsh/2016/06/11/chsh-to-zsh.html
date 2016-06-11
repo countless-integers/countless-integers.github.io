@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>chsh to zsh</title>
+  <meta name="description" content="The time has come. I am currently in the process of revisiting every tool I use and looking for better alternatives. After living in denial for years I have ...">
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="canonical" href="http://countless-integers.github.io//shell/zsh/2016/06/11/chsh-to-zsh.html">
+  <link rel="alternate" type="application/rss+xml" title="countless-integers blog" href="http://countless-integers.github.io//feed.xml" />
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+
+  <div class="wrapper">
+
+    <a class="site-title" href="/">countless-integers blog</a>
+
+    <nav class="site-nav">
+      <a href="#" class="menu-icon">
+        <svg viewBox="0 0 18 15">
+          <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+          <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+          <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+        </svg>
+      </a>
+
+      <div class="trigger">
+        
+          
+          <a class="page-link" href="/about/">About</a>
+          
+        
+          
+        
+          
+        
+          
+        
+      </div>
+    </nav>
+
+  </div>
+
+</header>
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">chsh to zsh</h1>
+    <p class="post-meta">Jun 11, 2016</p>
+  </header>
+
+  <article class="post-content">
+    <p>The time has come. I am currently in the process of revisiting every tool I use and looking for better alternatives. After living in denial for years I have come to a decision to switch from trusty Bash to ZSH.</p>
+
+<h2 id="aint-nobody-got-time-for-that">Ain’t nobody got time for that…</h2>
+<p>To make it easier for myself I went with what is called a ZSH framework. Namely <code class="highlighter-rouge">oh-my-zsh</code>. It comes with a lot of stuff out of the box, like aliases, plugins, themes, sensible defaults. E.g. it enables highlighted arrow navigation in autocompletion lists. It was even polite enough to backup my existing <code class="highlighter-rouge">.zshrc</code> to <code class="highlighter-rouge">.zshrc.pre-oh-my-zsh</code> – nice touch.</p>
+
+<h2 id="stuff-i-love">Stuff I love</h2>
+
+<h3 id="fuzzy-path-expansion">Fuzzy path expansion</h3>
+<p>Let us say you have a path like <code class="highlighter-rouge">./src/Your/Super/Java/Like/Namepaced/Class.php</code>. Using fuzzy path expansion you should able to get there with something like <code class="highlighter-rouge">cd s/y/j/clas</code> (or any combination of unique path fragments). It is a lot less typing and after a while you get more and more efficient with typing. Which, as a die hard Vim fan, is good.</p>
+
+<h3 id="autocomplete-fixes-wrong-caps">Autocomplete “fixes” wrong caps</h3>
+<p><code class="highlighter-rouge">ls path/dir&lt;tab&gt;</code> can expand it to the actual name like so <code class="highlighter-rouge">ls path/Dir</code>. It also works with fuzzy path expansion mentioned earlier. Neat.</p>
+
+<h3 id="autocomplete-almost-everywhere-and-if-not-then-there-is-probably-a-plugin-that-will-provide-that">Autocomplete almost everywhere (and if not, then there is probably a plugin that will provide that)</h3>
+<p>You can try autocomplete in a lot more places with zsh. E.g. <code class="highlighter-rouge">pgrep</code>, <code class="highlighter-rouge">kill</code>, <code class="highlighter-rouge">ssh</code>. It also helps with options completions, by displaying their description in the automcomplete choice list. No longer do I have to scratch the onliner I was writting just to <code class="highlighter-rouge">--help</code> my memory to come up with that <code class="highlighter-rouge">-oBsCuRe</code> option for nmap.</p>
+
+<h3 id="monits">Monits</h3>
+<p>Standard commands like <code class="highlighter-rouge">mv</code> or <code class="highlighter-rouge">rm</code> will actually ask you for confirmation by default. It is a smart default. Does not work all in all the cases, but I have not really bothered to notice the actual patern of it.</p>
+
+<h2 id="plugins">Plugins</h2>
+<p><code class="highlighter-rouge">Oh-my-zsh</code> by default, in full install, comes with a lot of them. Usually they are nothing more than shell scripts that get sourced when you open the shell (so do not load them all, duh). The ones I have found most useful are:</p>
+
+<ul>
+  <li><strong>jira</strong> – create / open issues from the command line, something that I found pretty useful. Where I work, we bury jira issue names in commits/branch names so this makes it easy for me to quickly look up the corresponding issue in jira. Lookup installation instructions, because it will need either an env variable or a local file with jira URL (it does not need any credentials, because it only opens up a correct link in the default browser).</li>
+  <li><strong>docker</strong> – autocompletion for docker commands. E.g. it can autocomplete container names.</li>
+  <li><strong>composer</strong> – autocompletion for composer commands.</li>
+  <li><strong>web-search</strong> – so I can start searches from command line. I do not even know why.</li>
+  <li><strong>common-aliases</strong> – because typing hurts…</li>
+  <li><strong>z</strong> – it is a bit unusual, because of the installation process. Apparently you need to source the script yourself (or put it on the path). What it does is to allow you quickly <code class="highlighter-rouge">cd</code> into most often visited directories (it keep tracks of that). <code class="highlighter-rouge">z &lt;tab&gt;</code> will display a list of those – simple enough and can save a lot of time. Of course works with the usual zsh autocompletion magic, e.g. highlighted cursor navigation.</li>
+  <li><strong>syntax highlighting</strong> – real-time syntax highlight for shell commands. It will highlight wrongly typed commands in red, e.g. if you type <code class="highlighter-rouge">lss</code> instead of <code class="highlighter-rouge">ls</code> it would mark it in red, same as an editor would. Check the installation instructions carefully.</li>
+</ul>
+
+<h3 id="themes">Themes</h3>
+<p>There is a lot of them to choose from and I have found a lot of decent ones (separate lines for commands and “status”, clock, VCS integration). I’ve chosen <code class="highlighter-rouge">avit</code> for now and added a clock on the right side of the prompt, because I like to see when a command was executed.</p>
+
+<h2 id="conclussion">Conclussion</h2>
+<p>I am still exploring the functionality of zsh, but I can already tell that I do not want to go back to plain Bash. Fuzzy path autocompletion and autocompletion preview are killer features for me and I am already so used to them that running Bash afterwards felt frustrating. You can call it lazy, I will call it more productive, because it takes my mind of getting the silly stuff right all the time.</p>
+
+<h2 id="useful-references-to-get-started">Useful references to get started</h2>
+
+<ul>
+  <li><a href="http://code.joejag.com/2014/why-zsh.html] (and this)[https://coderwall.com/p/1y_j0q/zsh-oh-my-zsh-my-top-tips-for-daily-use">General tips</a></li>
+  <li><a href="http://reasoniamhere.com/2014/01/11/outrageously-useful-tips-to-master-your-z-shell/">A bit deeper dive into glob(-ish) syntax and modifiers</a></li>
+  <li><a href="https://wiki.archlinux.org/index.php/Zsh">The indispensable ArchLinux wiki</a></li>
+  <li><a href="http://zsh.sourceforge.net/Doc/Release/Prompt-Expansion.html">Which helped me to find prompt expansion codes for adding a clock to my prompt (<code class="highlighter-rouge">%*</code>)</a></li>
+  <li><a href="http://zshwiki.org/">Looks antiquated, but still, mostly, relevant</a></li>
+  <li><a href="https://github.com/robbyrussell/oh-my-zsh">Oh-my-zsh github page</a></li>
+</ul>
+
+
+  </article>
+
+</div>
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col  footer-col-1">
+        <ul class="contact-list">
+          <h2 class="footer-heading">countless-integers blog</h2>
+          <li><a href="mailto:"></a></li>
+          <li><a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/80x15.png" /></a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col  footer-col-2">
+        <ul class="social-media-list">
+          
+          <li>
+            <a href="https://github.com/countless-integers">
+              <span class="icon  icon--github">
+                <svg viewBox="0 0 16 16">
+                  <path fill="#828282" d="M7.999,0.431c-4.285,0-7.76,3.474-7.76,7.761 c0,3.428,2.223,6.337,5.307,7.363c0.388,0.071,0.53-0.168,0.53-0.374c0-0.184-0.007-0.672-0.01-1.32 c-2.159,0.469-2.614-1.04-2.614-1.04c-0.353-0.896-0.862-1.135-0.862-1.135c-0.705-0.481,0.053-0.472,0.053-0.472 c0.779,0.055,1.189,0.8,1.189,0.8c0.692,1.186,1.816,0.843,2.258,0.645c0.071-0.502,0.271-0.843,0.493-1.037 C4.86,11.425,3.049,10.76,3.049,7.786c0-0.847,0.302-1.54,0.799-2.082C3.768,5.507,3.501,4.718,3.924,3.65 c0,0,0.652-0.209,2.134,0.796C6.677,4.273,7.34,4.187,8,4.184c0.659,0.003,1.323,0.089,1.943,0.261 c1.482-1.004,2.132-0.796,2.132-0.796c0.423,1.068,0.157,1.857,0.077,2.054c0.497,0.542,0.798,1.235,0.798,2.082 c0,2.981-1.814,3.637-3.543,3.829c0.279,0.24,0.527,0.713,0.527,1.437c0,1.037-0.01,1.874-0.01,2.129 c0,0.208,0.14,0.449,0.534,0.373c3.081-1.028,5.302-3.935,5.302-7.362C15.76,3.906,12.285,0.431,7.999,0.431z"/>
+                </svg>
+              </span>
+
+              <span class="username">countless-integers</span>
+            </a>
+          </li>
+          
+
+          
+        </ul>
+      </div>
+
+      <div class="footer-col  footer-col-3">
+        <p class="text">My random thoughts and weird stories inspired by dailly coding.  This blog runs on the awesome Jekyl.
+</p>
+      </div>
+    </div>
+
+  </div>
+
+  
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', "UA-67251979-1", 'auto');
+    ga('send', 'pageview');
+  </script>
+  
+</footer>
+
+
+  </body>
+
+</html>
