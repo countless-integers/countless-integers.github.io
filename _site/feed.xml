@@ -6,8 +6,8 @@
 </description>
     <link>http://countless-integers.github.io//</link>
     <atom:link href="http://countless-integers.github.io//feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Mon, 13 Jun 2016 20:16:17 +0200</pubDate>
-    <lastBuildDate>Mon, 13 Jun 2016 20:16:17 +0200</lastBuildDate>
+    <pubDate>Mon, 13 Jun 2016 20:41:30 +0200</pubDate>
+    <lastBuildDate>Mon, 13 Jun 2016 20:41:30 +0200</lastBuildDate>
     <generator>Jekyll v3.0.1</generator>
     
       <item>
@@ -147,6 +147,103 @@ There is even some theoretic work done on that &lt;a href=&quot;https://encrypte
         <category>analysis</category>
         
         <category>git</category>
+        
+      </item>
+    
+      <item>
+        <title>PHP Roundtable about DDD</title>
+        <description>&lt;p&gt;Loose notes and bookmarks to fragments of PHP Roundtable panel on DDD with Mathias Verraes, Ross Tuck and Chris Fidao. Whole thing is about 2 hours long, so I decided to make some bookmarks in case I wanted to go back to it or reference it somebody. Unfortunatly I could not find the &lt;a href=&quot;https://github.com/PHPRoundtable/show-notes/tree/master/episodes&quot;&gt;shownotes or transcript for this episode&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Whole thing can be found under &lt;a href=&quot;https://www.phproundtable.com/episode/domain-driven-design-in-php&quot;&gt;this URL&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;essence-of-ddd-answered-by-m-verraes&quot;&gt;Essence of DDD, answered by M. Verraes&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&quot;https://youtu.be/CS_22l-LEtM?t=4m00s&quot;&gt;4m00s&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;how to explain domain to a MVC user:
+&lt;a href=&quot;https://youtu.be/CS_22l-LEtM?t=7m26s&quot;&gt;7m26s&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;distinction between strategic (understanding the domain) and tactical DDD (implementation, e.g. events) [R. Tuck, M. Verraes]:
+&lt;a href=&quot;https://youtu.be/CS_22l-LEtM?t=10m8s&quot;&gt;10m8s&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;The code that makes money should be the cleanest and the best possible quality.&lt;/p&gt;
+
+&lt;p&gt;DDD is not a design pattern. It is a way of thinking about business and transferring that knowledge to code that models the business in a way understandable by a domain expert.&lt;/p&gt;
+
+&lt;p&gt;Strengths and weaknesses of DDD [M. Verraes]:
+&lt;a href=&quot;https://youtu.be/CS_22l-LEtM?t=16m10s&quot;&gt;16m10s&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;aggregate&quot;&gt;Aggregate&lt;/h2&gt;
+&lt;p&gt;Is an entity that has been designated to be streamline communication through for a group of VO or entities.&lt;/p&gt;
+
+&lt;p&gt;Can be used to define a boundary for transactions.&lt;/p&gt;
+
+&lt;p&gt;Aggregate is not strictly part of a domain, because business does not “know” about them. [M. Verraes].&lt;/p&gt;
+
+&lt;p&gt;It is a tactical pattern. [R. Tuck].&lt;/p&gt;
+
+&lt;h2 id=&quot;domain-events&quot;&gt;Domain events&lt;/h2&gt;
+&lt;p&gt;Something that happens that the business would be interested in:
+&lt;a href=&quot;https://youtu.be/CS_22l-LEtM?t=46m59s&quot;&gt;46m59s&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;factories&quot;&gt;Factories&lt;/h2&gt;
+&lt;p&gt;“Objects for pooping out new objects”:
+&lt;a href=&quot;https://youtu.be/CS_22l-LEtM?t=59m5s&quot;&gt;59m5s&lt;/a&gt;
+It is just about the standard OOP factories.&lt;/p&gt;
+
+&lt;h2 id=&quot;repositories&quot;&gt;Repositories&lt;/h2&gt;
+&lt;p&gt;Objects for getting objects from persistence layer:
+&lt;a href=&quot;https://youtu.be/CS_22l-LEtM?t=1h2m0s&quot;&gt;1h2m0s&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;hexagonal-architecture&quot;&gt;Hexagonal architecture&lt;/h2&gt;
+&lt;p&gt;Introduction, not too informative and a bit chaotic:
+&lt;a href=&quot;https://youtu.be/CS_22l-LEtM?t=1h3m30s&quot;&gt;1h3m30s&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Difference between DDD and hexagonal architecture:
+&lt;a href=&quot;https://youtu.be/CS_22l-LEtM?t=1h7m50s&quot;&gt;1h7m50s&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;a slightly more cohesive explanation:
+&lt;a href=&quot;https://youtu.be/CS_22l-LEtM?t=1h8m29s&quot;&gt;1h8m29s&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Examples of hexagonal architecture and DDD going hand in hand:
+&lt;a href=&quot;https://youtu.be/CS_22l-LEtM?t=1h9m17s&quot;&gt;1h9m17s&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;M. Verraes on the meaning of hexagons :) :
+&lt;a href=&quot;https://youtu.be/CS_22l-LEtM?t=1h12m45s&quot;&gt;1h12m45s&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;post-panel-discussion&quot;&gt;Post panel discussion&lt;/h2&gt;
+&lt;p&gt;2 words about Broadway Framework:
+&lt;a href=&quot;https://youtu.be/CS_22l-LEtM?t=1h16m38s&quot;&gt;1h16m38s&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Web frameworks versus general design principles:
+&lt;a href=&quot;https://youtu.be/CS_22l-LEtM?t=1h20m34s&quot;&gt;1h20m34s&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;[M. Verraes] Common, simple problem for people transitioning from MVC- to DDD-thinking: structuring directory structure in a way that separates classes by function and not by domain.&lt;/p&gt;
+
+&lt;p&gt;[R. Tuck] on splitting application into layers:
+&lt;a href=&quot;https://youtu.be/CS_22l-LEtM?t=1h36m40s&quot;&gt;1h36m40s&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;DDD and REST APIs
+&lt;a href=&quot;https://youtu.be/CS_22l-LEtM?t=1h38m51s&quot;&gt;1h38m51s&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Switching from CRUD thinking to DDD thinking:
+&lt;a href=&quot;https://youtu.be/CS_22l-LEtM?t=1h44m00s&quot;&gt;1h44m00s&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Frequent issues with DDD:
+&lt;a href=&quot;https://youtu.be/CS_22l-LEtM?t=1h48m47s&quot;&gt;1h48m47s&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;How to make first step towards building apps in a DDD way:
+&lt;a href=&quot;https://youtu.be/CS_22l-LEtM?t=1h45m29s&quot;&gt;1h45m29s&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;I have omitted a lot the fragments, some on purpose, some by mistake. I really wish they they would edit those things to some more managable and focused format. Still there is a lot interesting stuff in there, so enjoy.&lt;/p&gt;
+</description>
+        <pubDate>Mon, 13 Jun 2016 00:00:00 +0200</pubDate>
+        <link>http://countless-integers.github.io//ddd/php/2016/06/13/php-roundtable-about-ddd.html</link>
+        <guid isPermaLink="true">http://countless-integers.github.io//ddd/php/2016/06/13/php-roundtable-about-ddd.html</guid>
+        
+        
+        <category>DDD</category>
+        
+        <category>php</category>
         
       </item>
     
