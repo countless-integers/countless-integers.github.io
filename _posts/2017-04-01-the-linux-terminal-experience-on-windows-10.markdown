@@ -17,7 +17,7 @@ Having those two in place we can run the bash console from cmder like so:
 
     bash
 
-Dumb-simple, fortunately.
+(see "Problems?" section before you do though) 
 
 # What can it do?
 A great many things, I have been told. From a developer perspective: it should give us access to tools we take for granted (like `git`, `curl`, `vim`), run web-servers and generally pretend we are running a Linux server.
@@ -41,6 +41,12 @@ Other than that FS access seems to work as well, which is baffling to me. Sharin
 # Problems?
 I have noticed one. While trying to execute a simple `mv` command on a git repository everything froze. So I was unable to open any new bash shells (interesting) or kill that process. Well [killing a process on Windows][9] has always been something of a hit-and-miss experience for me anyway. In a world of imperfect developers producing imperfect code this might be a major issue. 
 
+Another one was connected to cmder more than with "linux mode". There is a [known issue][10] with the usage of arrow keys, while in bash. Running:
+
+    %windir%\system32\bash.exe -cur_console:p1
+   
+should solve it.
+
 # Why bother?
 For me it was just about curiosity. Doing any development (in non-Microsoft technologies) has always been a major pain on Windows (despite what MS claims in almost every MS-sponsored talks I have ever heard). Having an option is much-appreciated. 
 
@@ -63,3 +69,4 @@ So, for better or worse, jumping from pc gaming to development does look easier 
 [7]: https://channel9.msdn.com/events/Windows/Windows-Developer-Day-Creators-Update/Developer-tools-and-updates
 [8]: https://nodejs.org/en/download/package-manager/
 [9]: http://stackoverflow.com/questions/49988/really-killing-a-process-in-windows
+[10]: https://github.com/Microsoft/BashOnWindows/issues/1154
