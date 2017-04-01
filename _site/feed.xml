@@ -4,11 +4,68 @@
     <title>countless-integers blog</title>
     <description>My random thoughts and weird stories inspired by dailly coding.  This blog runs on the awesome Jekyl.
 </description>
-    <link>http://countless-integers.github.io//</link>
-    <atom:link href="http://countless-integers.github.io//feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Mon, 13 Jun 2016 20:41:30 +0200</pubDate>
-    <lastBuildDate>Mon, 13 Jun 2016 20:41:30 +0200</lastBuildDate>
-    <generator>Jekyll v3.0.1</generator>
+    <link>http://countless-integers.github.io/</link>
+    <atom:link href="http://countless-integers.github.io/feed.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>Sat, 01 Apr 2017 22:07:35 +0200</pubDate>
+    <lastBuildDate>Sat, 01 Apr 2017 22:07:35 +0200</lastBuildDate>
+    <generator>Jekyll v3.4.3</generator>
+    
+      <item>
+        <title>The Linux terminal experience on Windows 10</title>
+        <description>&lt;p&gt;After the news about Microsoft including some sort of Ubuntu-base Linux console in Windows 10 anniversary update broke out I was a bit skeptical. No about the idea itself, that makes perfect sense and should have been done a long time ago, but about the implementation. After all both systems are vastly different, e.g. in terms of file systems and access to them (even minor stuff, like the path separator, is different). However with some virtualization and throwing enough money at the problem it did seem possible to pull-off.&lt;/p&gt;
+
+&lt;h1 id=&quot;how-to-enable-it&quot;&gt;How to enable it?&lt;/h1&gt;
+&lt;p&gt;Of course it is not enabled by default, there is plenty of tutorials on the subject. I went with &lt;a href=&quot;http://www.omgubuntu.co.uk/2016/08/enable-bash-windows-10-anniversary-update&quot;&gt;OMG Ubuntu one&lt;/a&gt;. It went quite smoothly.&lt;/p&gt;
+
+&lt;p&gt;First thing I have noticed though is how ugly this looks. Looking at terminal fonts all day makes some people develop a certain fetish for console looks. Seems like I am among those weirdos as well. In comes &lt;a href=&quot;http://cmder.net/&quot;&gt;cmder&lt;/a&gt;, an open-source terminal emulator. This one looks acceptable, gorgeous compared to the one offered on Windows by default. It also has some nifty features, which I will not mention here. Ah, and it also takes a while to install…&lt;/p&gt;
+
+&lt;p&gt;Having those two in place we can run the bash console from cmder like so:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;bash
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Dumb-simple, fortunately.&lt;/p&gt;
+
+&lt;h1 id=&quot;what-can-it-do&quot;&gt;What can it do?&lt;/h1&gt;
+&lt;p&gt;A great many things, I have been told. From a developer perspective: it should give us access to tools we take for granted (like &lt;code class=&quot;highlighter-rouge&quot;&gt;git&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;curl&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;vim&lt;/code&gt;), run web-servers and generally pretend we are running a Linux server.&lt;/p&gt;
+
+&lt;p&gt;To put it to test, I have tried to set-up a dev environment for this blog. Simple, yet it appears to require ruby2+ these days, which is not the one included in our Ubuntu version (it ships with 1.9+).&lt;/p&gt;
+
+&lt;p&gt;Not to mess around to much, I have found &lt;a href=&quot;https://github.com/Microsoft/BashOnWindows/issues/216&quot;&gt;an Ubuntu PPA&lt;/a&gt; hosting all the packages I had needed. Installation went like this:&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sudo apt-add-repository ppa:brightbox/ruby-ng
+sudo apt-get update
+
+sudo apt-get install ruby2.3 ruby2.3-dev
+sudo gem2.3 install jekyll
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;I took some googling, but it worked. &lt;a href=&quot;https://github.com/Microsoft/BashOnWindows&quot;&gt;Directory watching seems to be failing&lt;/a&gt;, which is a major bummer for anyone using web-dev tools, but it is a start. The built-in web-server was also operational.&lt;/p&gt;
+
+&lt;p&gt;Another thing that worked, at least in basic example was a simple http node server. Node version also needed &lt;a href=&quot;https://www.brightbox.com/docs/ruby/ubuntu/&quot;&gt;a little upgrade&lt;/a&gt;, but it does seem to work.&lt;/p&gt;
+
+&lt;p&gt;Other than that FS access seems to work as well, which is baffling to me. Sharing FS between host machines and virtualization ones is still a bit mysterious to me, so maybe it is the concept of it in general, rather than this specific case of it (and yes, I am aware that technically this Ubuntu on Windows contraption is neither virtualization or emulation, but on it sure feels like it).&lt;/p&gt;
+
+&lt;h1 id=&quot;problems&quot;&gt;Problems?&lt;/h1&gt;
+&lt;p&gt;I have noticed one. While trying to execute a simple &lt;code class=&quot;highlighter-rouge&quot;&gt;mv&lt;/code&gt; command on a git repository everything froze. So I was unable to open any new bash shells (interesting) or kill that process. Well &lt;a href=&quot;http://stackoverflow.com/questions/49988/really-killing-a-process-in-windows&quot;&gt;killing a process on Windows&lt;/a&gt; has always been something of a hit-and-miss experience for me anyway. In a world of imperfect developers producing imperfect code this might be a major issue.&lt;/p&gt;
+
+&lt;h1 id=&quot;why-bother&quot;&gt;Why bother?&lt;/h1&gt;
+&lt;p&gt;For me it was just about curiosity. Doing any development (in non-Microsoft technologies) has always been a major pain on Windows (despite what MS claims in almost every MS-sponsored talks I have ever heard). Having an option is much-appreciated.&lt;/p&gt;
+
+&lt;h1 id=&quot;what-is-next&quot;&gt;What is next?&lt;/h1&gt;
+&lt;p&gt;The upcoming Creators Update is supposed to improve the &lt;a href=&quot;https://thenewstack.io/windows-10-creators-update-means-windows-subsystem-linux/&quot;&gt;experience on many levels&lt;/a&gt;. More important than the specifics is the fact that this means that Microsoft does seem to keep at investing in this feature of their system. Some extra &lt;a href=&quot;https://channel9.msdn.com/events/Windows/Windows-Developer-Day-Creators-Update/Developer-tools-and-updates&quot;&gt;explanations about the upcoming update&lt;/a&gt; as presented by MS themselves, the interesting part starts around minute 18.&lt;/p&gt;
+
+&lt;p&gt;It is also possible to report issues in &lt;a href=&quot;https://nodejs.org/en/download/package-manager/&quot;&gt;a civilized manner&lt;/a&gt; and looking at what is coming in the next release, somebody at MS does read those.&lt;/p&gt;
+
+&lt;p&gt;So, for better or worse, jumping from pc gaming to development does look easier than it used to be.&lt;/p&gt;
+
+</description>
+        <pubDate>Sat, 01 Apr 2017 00:00:00 +0200</pubDate>
+        <link>http://countless-integers.github.io/2017/04/01/the-linux-terminal-experience-on-windows-10.html</link>
+        <guid isPermaLink="true">http://countless-integers.github.io/2017/04/01/the-linux-terminal-experience-on-windows-10.html</guid>
+        
+        
+      </item>
     
       <item>
         <title>Takeaways from &quot;Your code as a crime scene&quot; by Adam Tornhill</title>
@@ -136,8 +193,8 @@ There is even some theoretic work done on that &lt;a href=&quot;https://encrypte
 &lt;p&gt;All in all, I was positively surprised by what I have read.&lt;/p&gt;
 </description>
         <pubDate>Mon, 13 Jun 2016 00:00:00 +0200</pubDate>
-        <link>http://countless-integers.github.io//vcs/static-code/analysis/git/2016/06/13/takeaways-from-your-code-as-a-crime-scene-by-adam-tornhill.html</link>
-        <guid isPermaLink="true">http://countless-integers.github.io//vcs/static-code/analysis/git/2016/06/13/takeaways-from-your-code-as-a-crime-scene-by-adam-tornhill.html</guid>
+        <link>http://countless-integers.github.io/vcs/static-code/analysis/git/2016/06/13/takeaways-from-your-code-as-a-crime-scene-by-adam-tornhill.html</link>
+        <guid isPermaLink="true">http://countless-integers.github.io/vcs/static-code/analysis/git/2016/06/13/takeaways-from-your-code-as-a-crime-scene-by-adam-tornhill.html</guid>
         
         
         <category>vcs</category>
@@ -237,8 +294,8 @@ It is just about the standard OOP factories.&lt;/p&gt;
 &lt;p&gt;I have omitted a lot the fragments, some on purpose, some by mistake. I really wish they they would edit those things to some more managable and focused format. Still there is a lot interesting stuff in there, so enjoy.&lt;/p&gt;
 </description>
         <pubDate>Mon, 13 Jun 2016 00:00:00 +0200</pubDate>
-        <link>http://countless-integers.github.io//ddd/php/2016/06/13/php-roundtable-about-ddd.html</link>
-        <guid isPermaLink="true">http://countless-integers.github.io//ddd/php/2016/06/13/php-roundtable-about-ddd.html</guid>
+        <link>http://countless-integers.github.io/ddd/php/2016/06/13/php-roundtable-about-ddd.html</link>
+        <guid isPermaLink="true">http://countless-integers.github.io/ddd/php/2016/06/13/php-roundtable-about-ddd.html</guid>
         
         
         <category>DDD</category>
@@ -300,8 +357,8 @@ It is just about the standard OOP factories.&lt;/p&gt;
 
 </description>
         <pubDate>Sat, 11 Jun 2016 00:00:00 +0200</pubDate>
-        <link>http://countless-integers.github.io//shell/zsh/2016/06/11/chsh-to-zsh.html</link>
-        <guid isPermaLink="true">http://countless-integers.github.io//shell/zsh/2016/06/11/chsh-to-zsh.html</guid>
+        <link>http://countless-integers.github.io/shell/zsh/2016/06/11/chsh-to-zsh.html</link>
+        <guid isPermaLink="true">http://countless-integers.github.io/shell/zsh/2016/06/11/chsh-to-zsh.html</guid>
         
         
         <category>shell</category>
@@ -349,7 +406,7 @@ gateway for the guest system. So I need the gateway address:&lt;/p&gt;
 Vagrant boxes, but I am not sure. Now I know I need to ping &lt;code class=&quot;highlighter-rouge&quot;&gt;10.0.2.2:7777&lt;/code&gt; from my guest system to reach my &lt;code class=&quot;highlighter-rouge&quot;&gt;ncat&lt;/code&gt; listener on the host
 system:&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;curl -X POST 10.0.2.2:7777 --data &#39;{&quot;hello&quot;: &quot;world&quot;}&#39;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;curl -X POST 10.0.2.2:7777 --data '{&quot;hello&quot;: &quot;world&quot;}'
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
@@ -372,8 +429,8 @@ Content-Type: application/x-www-form-urlencoded
 &lt;p&gt;All that was left was to put that &lt;code class=&quot;highlighter-rouge&quot;&gt;ncat&lt;/code&gt; listener address in place of the target url in the app and done!&lt;/p&gt;
 </description>
         <pubDate>Mon, 18 Jan 2016 00:00:00 +0100</pubDate>
-        <link>http://countless-integers.github.io//debugging/ncat/2016/01/18/debugging-outgoing-requests-with-ncat.html</link>
-        <guid isPermaLink="true">http://countless-integers.github.io//debugging/ncat/2016/01/18/debugging-outgoing-requests-with-ncat.html</guid>
+        <link>http://countless-integers.github.io/debugging/ncat/2016/01/18/debugging-outgoing-requests-with-ncat.html</link>
+        <guid isPermaLink="true">http://countless-integers.github.io/debugging/ncat/2016/01/18/debugging-outgoing-requests-with-ncat.html</guid>
         
         
         <category>debugging</category>
@@ -391,17 +448,17 @@ Content-Type: application/x-www-form-urlencoded
 &lt;div class=&quot;collapsable&quot;&gt;
 &lt;p&gt;
 Some people collect stamps, others cook exquisite cuisnes and other like to get drunk and cause trouble in public
-transporatation. I like to fiddle with my Arch Linux machine at home. It&#39;s good to have a hobby, right?
+transporatation. I like to fiddle with my Arch Linux machine at home. It's good to have a hobby, right?
 &lt;/p&gt;
 &lt;p&gt;
 My setup likes to quit on me after package updates. Being a rolling release, Arch does that every now and then. Latetly
 my KDE apps stopped rendering correctly. It made interacting with most of them impossible. Clementine in particular
-caused me much grief, since you can&#39;t do much with it without its gui controlls. A major annoyance, one in a long line,
-but I&#39;m not really complaining because apps dying make you learn something new. Finding a cli media player being
+caused me much grief, since you can't do much with it without its gui controlls. A major annoyance, one in a long line,
+but I'm not really complaining because apps dying make you learn something new. Finding a cli media player being
 a case in point here.
 &lt;/p&gt;
 &lt;p&gt;
-I have looked at cli players before, but usually dropped them because I couldn&#39;t make them work with global media
+I have looked at cli players before, but usually dropped them because I couldn't make them work with global media
 control keys -- an important feature for me. This time round I decided to make it work whatever it takes. 
 &lt;/p&gt;
 &lt;/div&gt;
@@ -436,7 +493,7 @@ bidings.&lt;/p&gt;
 
 &lt;p&gt;Bash scripting to the rescue:&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;#!/bin/bash&lt;/span&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;#!/bin/bash&lt;/span&gt;
 &lt;span class=&quot;k&quot;&gt;if &lt;/span&gt;pgrep &lt;span class=&quot;s2&quot;&gt;&quot;clementine$&quot;&lt;/span&gt;; &lt;span class=&quot;k&quot;&gt;then 
     if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt; -f /Applications/clementine.app/Contents/MacOS/clementine &lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;; &lt;span class=&quot;k&quot;&gt;then&lt;/span&gt;
         /Applications/clementine.app/Contents/MacOS/clementine -t
@@ -466,20 +523,20 @@ hack-script to make it work the way I wanted it to and in the end writing all th
 some unexpected glitch in qt app (?) rendering.
 &lt;/p&gt;
 &lt;p&gt;
-I won&#39;t be replacing clementine with cmus (because portability, companion app with remote and media import and general
-awesomnes), but it&#39;s nice to have a reliable alternative like that. 
+I won't be replacing clementine with cmus (because portability, companion app with remote and media import and general
+awesomnes), but it's nice to have a reliable alternative like that. 
 &lt;/p&gt;
 &lt;/div&gt;
 
 &lt;script&gt;
 (function () {
-    var collapsables = document.querySelectorAll(&#39;.collapsable&#39;);
+    var collapsables = document.querySelectorAll('.collapsable');
     if (!collapsables.length || !document.body.addEventListener || !document.body.classList) return;
     Array.prototype.forEach.call(collapsables, function (el) {
         var trigger = el.previousElementSibling;
-        trigger.classList.add(&#39;collapsableTrigger&#39;);
-        trigger.addEventListener(&#39;click&#39;, function (event) {
-            trigger.classList.toggle(&#39;collapsableTrigger&#39;);
+        trigger.classList.add('collapsableTrigger');
+        trigger.addEventListener('click', function (event) {
+            trigger.classList.toggle('collapsableTrigger');
         }, false);
     });
 })();
@@ -488,14 +545,14 @@ awesomnes), but it&#39;s nice to have a reliable alternative like that.
 &lt;div class=&quot;footnotes&quot;&gt;
   &lt;ol&gt;
     &lt;li id=&quot;fn:1&quot;&gt;
-      &lt;p&gt;some reference material for cmus: &lt;a href=&quot;#fnref:1&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+      &lt;p&gt;some reference material for cmus:&amp;nbsp;&lt;a href=&quot;#fnref:1&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
     &lt;/li&gt;
   &lt;/ol&gt;
 &lt;/div&gt;
 </description>
         <pubDate>Sun, 20 Sep 2015 00:00:00 +0200</pubDate>
-        <link>http://countless-integers.github.io//linux/2015/09/20/make-cmus-play-nice-with-clementine.html</link>
-        <guid isPermaLink="true">http://countless-integers.github.io//linux/2015/09/20/make-cmus-play-nice-with-clementine.html</guid>
+        <link>http://countless-integers.github.io/linux/2015/09/20/make-cmus-play-nice-with-clementine.html</link>
+        <guid isPermaLink="true">http://countless-integers.github.io/linux/2015/09/20/make-cmus-play-nice-with-clementine.html</guid>
         
         
         <category>linux</category>
@@ -592,7 +649,7 @@ as post and then do this:&lt;/p&gt;
 
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;public function create($data)
 {
-    $id = $this-&amp;gt;params(&#39;id&#39;, null);
+    $id = $this-&amp;gt;params('id', null);
     if ($id) {
        return $this-&amp;gt;update($id, $data);
     }
@@ -606,23 +663,23 @@ as post and then do this:&lt;/p&gt;
 &lt;div class=&quot;footnotes&quot;&gt;
   &lt;ol&gt;
     &lt;li id=&quot;fn:3&quot;&gt;
-      &lt;p&gt;&lt;a href=&quot;http://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html&quot;&gt;W3 method definitions&lt;/a&gt; &lt;a href=&quot;#fnref:3&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+      &lt;p&gt;&lt;a href=&quot;http://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html&quot;&gt;W3 method definitions&lt;/a&gt;&amp;nbsp;&lt;a href=&quot;#fnref:3&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
     &lt;/li&gt;
     &lt;li id=&quot;fn:4&quot;&gt;
-      &lt;p&gt;&lt;a href=&quot;http://php.net/manual/pl/features.file-upload.put-method.php&quot;&gt;PHP put method support&lt;/a&gt; &lt;a href=&quot;#fnref:4&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+      &lt;p&gt;&lt;a href=&quot;http://php.net/manual/pl/features.file-upload.put-method.php&quot;&gt;PHP put method support&lt;/a&gt;&amp;nbsp;&lt;a href=&quot;#fnref:4&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
     &lt;/li&gt;
     &lt;li id=&quot;fn:1&quot;&gt;
-      &lt;p&gt;&lt;a href=&quot;http://stackoverflow.com/a/26676252/1105871&quot;&gt;Stack post&lt;/a&gt; &lt;a href=&quot;#fnref:1&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+      &lt;p&gt;&lt;a href=&quot;http://stackoverflow.com/a/26676252/1105871&quot;&gt;Stack post&lt;/a&gt;&amp;nbsp;&lt;a href=&quot;#fnref:1&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
     &lt;/li&gt;
     &lt;li id=&quot;fn:2&quot;&gt;
-      &lt;p&gt;&lt;a href=&quot;http://blog.piotr.rybaltowski.pl/rest-w-zf2-metody-put-i-delete-w-formularzach/&quot;&gt;blog post about handling put/delete in ZF2 (in polish)&lt;/a&gt; &lt;a href=&quot;#fnref:2&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+      &lt;p&gt;&lt;a href=&quot;http://blog.piotr.rybaltowski.pl/rest-w-zf2-metody-put-i-delete-w-formularzach/&quot;&gt;blog post about handling put/delete in ZF2 (in polish)&lt;/a&gt;&amp;nbsp;&lt;a href=&quot;#fnref:2&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
     &lt;/li&gt;
   &lt;/ol&gt;
 &lt;/div&gt;
 </description>
         <pubDate>Thu, 17 Sep 2015 00:00:00 +0200</pubDate>
-        <link>http://countless-integers.github.io//php/zf2/rest/put/2015/09/17/put-requests-to-zf2-restful-controller.html</link>
-        <guid isPermaLink="true">http://countless-integers.github.io//php/zf2/rest/put/2015/09/17/put-requests-to-zf2-restful-controller.html</guid>
+        <link>http://countless-integers.github.io/php/zf2/rest/put/2015/09/17/put-requests-to-zf2-restful-controller.html</link>
+        <guid isPermaLink="true">http://countless-integers.github.io/php/zf2/rest/put/2015/09/17/put-requests-to-zf2-restful-controller.html</guid>
         
         
         <category>php</category>
@@ -752,14 +809,14 @@ obvious, but I still remember the days we didn’t have composer).&lt;/p&gt;
 &lt;div class=&quot;footnotes&quot;&gt;
   &lt;ol&gt;
     &lt;li id=&quot;fn:1&quot;&gt;
-      &lt;p&gt;if you’re detecting a little passive-agressive note, then your instincts are working correctly. I’ll post something about my experience with ZF2 later on. &lt;a href=&quot;#fnref:1&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+      &lt;p&gt;if you’re detecting a little passive-agressive note, then your instincts are working correctly. I’ll post something about my experience with ZF2 later on.&amp;nbsp;&lt;a href=&quot;#fnref:1&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
     &lt;/li&gt;
   &lt;/ol&gt;
 &lt;/div&gt;
 </description>
         <pubDate>Sun, 06 Sep 2015 00:00:00 +0200</pubDate>
-        <link>http://countless-integers.github.io//php/debugging/2015/09/06/var_dump-alternatives.html</link>
-        <guid isPermaLink="true">http://countless-integers.github.io//php/debugging/2015/09/06/var_dump-alternatives.html</guid>
+        <link>http://countless-integers.github.io/php/debugging/2015/09/06/var_dump-alternatives.html</link>
+        <guid isPermaLink="true">http://countless-integers.github.io/php/debugging/2015/09/06/var_dump-alternatives.html</guid>
         
         
         <category>php</category>
@@ -844,8 +901,8 @@ obvious, but I still remember the days we didn’t have composer).&lt;/p&gt;
 &lt;p&gt;All interfaces are in &lt;code class=&quot;highlighter-rouge&quot;&gt;Zend\ModuleManager\Feature&lt;/code&gt; namespace.&lt;/p&gt;
 </description>
         <pubDate>Tue, 01 Sep 2015 00:00:00 +0200</pubDate>
-        <link>http://countless-integers.github.io//php/zf2/interfaces/2015/09/01/duck-typed-interfaces-in-zf2-module-class.html</link>
-        <guid isPermaLink="true">http://countless-integers.github.io//php/zf2/interfaces/2015/09/01/duck-typed-interfaces-in-zf2-module-class.html</guid>
+        <link>http://countless-integers.github.io/php/zf2/interfaces/2015/09/01/duck-typed-interfaces-in-zf2-module-class.html</link>
+        <guid isPermaLink="true">http://countless-integers.github.io/php/zf2/interfaces/2015/09/01/duck-typed-interfaces-in-zf2-module-class.html</guid>
         
         
         <category>php</category>
@@ -860,13 +917,13 @@ obvious, but I still remember the days we didn’t have composer).&lt;/p&gt;
         <title>Weird case of PHP interface constants</title>
         <description>&lt;p&gt;While trying to mock an object using mockery I came across this:&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Fatal error: Undefined class constant &#39;self::LIMIT&#39; in /project.path/vendor/mockery/mockery/library/Mockery/Generator/Parameter.php on line 62
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Fatal error: Undefined class constant 'self::LIMIT' in /project.path/vendor/mockery/mockery/library/Mockery/Generator/Parameter.php on line 62
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
 &lt;p&gt;So I tried to make the mock with vanilla PHPUnit:&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Fatal error: Undefined class constant &#39;self::LIMIT&#39; in /project.path/vendor/phpunit/phpunit-mock-objects/src/Framework/MockObject/Generator.php on line 1064
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Fatal error: Undefined class constant 'self::LIMIT' in /project.path/vendor/phpunit/phpunit-mock-objects/src/Framework/MockObject/Generator.php on line 1064
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
@@ -884,8 +941,8 @@ obvious, but I still remember the days we didn’t have composer).&lt;/p&gt;
 &lt;p&gt;I had to look twice, but there it was, my undefined constant. How this had worked (because it did) during normal application run? It shouldn’t, but somehow it did? Anyone can elaborate?&lt;/p&gt;
 </description>
         <pubDate>Mon, 24 Aug 2015 00:00:00 +0200</pubDate>
-        <link>http://countless-integers.github.io//php/interfaces/constant/2015/08/24/weird-case-with-php-interface-constants.html</link>
-        <guid isPermaLink="true">http://countless-integers.github.io//php/interfaces/constant/2015/08/24/weird-case-with-php-interface-constants.html</guid>
+        <link>http://countless-integers.github.io/php/interfaces/constant/2015/08/24/weird-case-with-php-interface-constants.html</link>
+        <guid isPermaLink="true">http://countless-integers.github.io/php/interfaces/constant/2015/08/24/weird-case-with-php-interface-constants.html</guid>
         
         
         <category>php</category>
