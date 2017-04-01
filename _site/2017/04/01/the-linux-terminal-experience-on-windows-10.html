@@ -10,8 +10,8 @@
   <meta name="description" content="After the news about Microsoft including some sort of Ubuntu-base Linux console in Windows 10 anniversary update broke out I was a bit skeptical. No about th...">
 
   <link rel="stylesheet" href="/css/main.css">
-  <link rel="canonical" href="http://countless-integers.github.io/2017/04/01/the-linux-terminal-experience-on-windows-10.html">
-  <link rel="alternate" type="application/rss+xml" title="countless-integers blog" href="http://countless-integers.github.io/feed.xml" />
+  <link rel="canonical" href="http://countless-integers.github.io//2017/04/01/the-linux-terminal-experience-on-windows-10.html">
+  <link rel="alternate" type="application/rss+xml" title="countless-integers blog" href="http://countless-integers.github.io//feed.xml" />
 </head>
 
 
@@ -75,7 +75,7 @@
 </code></pre>
 </div>
 
-<p>Dumb-simple, fortunately.</p>
+<p>(see “Problems?” section before you do though)</p>
 
 <h1 id="what-can-it-do">What can it do?</h1>
 <p>A great many things, I have been told. From a developer perspective: it should give us access to tools we take for granted (like <code class="highlighter-rouge">git</code>, <code class="highlighter-rouge">curl</code>, <code class="highlighter-rouge">vim</code>), run web-servers and generally pretend we are running a Linux server.</p>
@@ -98,6 +98,14 @@ sudo gem2.3 install jekyll
 
 <h1 id="problems">Problems?</h1>
 <p>I have noticed one. While trying to execute a simple <code class="highlighter-rouge">mv</code> command on a git repository everything froze. So I was unable to open any new bash shells (interesting) or kill that process. Well <a href="http://stackoverflow.com/questions/49988/really-killing-a-process-in-windows">killing a process on Windows</a> has always been something of a hit-and-miss experience for me anyway. In a world of imperfect developers producing imperfect code this might be a major issue.</p>
+
+<p>Another one was connected to cmder more than with “linux mode”. There is a <a href="https://github.com/Microsoft/BashOnWindows/issues/1154">known issue</a> with the usage of arrow keys, while in bash. Running:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>%windir%\system32\bash.exe -cur_console:p1
+</code></pre>
+</div>
+
+<p>should solve it.</p>
 
 <h1 id="why-bother">Why bother?</h1>
 <p>For me it was just about curiosity. Doing any development (in non-Microsoft technologies) has always been a major pain on Windows (despite what MS claims in almost every MS-sponsored talks I have ever heard). Having an option is much-appreciated.</p>
