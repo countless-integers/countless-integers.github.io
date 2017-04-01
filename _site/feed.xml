@@ -4,8 +4,8 @@
     <title>countless-integers blog</title>
     <description>My random thoughts and weird stories inspired by dailly coding.  This blog runs on the awesome Jekyl.
 </description>
-    <link>http://localhost:4000/</link>
-    <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
+    <link>http://countless-integers.github.io/</link>
+    <atom:link href="http://countless-integers.github.io/feed.xml" rel="self" type="application/rss+xml"/>
     <pubDate>Sat, 01 Apr 2017 22:07:35 +0200</pubDate>
     <lastBuildDate>Sat, 01 Apr 2017 22:07:35 +0200</lastBuildDate>
     <generator>Jekyll v3.4.3</generator>
@@ -61,8 +61,8 @@ sudo gem2.3 install jekyll
 
 </description>
         <pubDate>Sat, 01 Apr 2017 00:00:00 +0200</pubDate>
-        <link>http://localhost:4000/2017/04/01/the-linux-terminal-experience-on-windows-10.html</link>
-        <guid isPermaLink="true">http://localhost:4000/2017/04/01/the-linux-terminal-experience-on-windows-10.html</guid>
+        <link>http://countless-integers.github.io/2017/04/01/the-linux-terminal-experience-on-windows-10.html</link>
+        <guid isPermaLink="true">http://countless-integers.github.io/2017/04/01/the-linux-terminal-experience-on-windows-10.html</guid>
         
         
       </item>
@@ -193,8 +193,8 @@ There is even some theoretic work done on that &lt;a href=&quot;https://encrypte
 &lt;p&gt;All in all, I was positively surprised by what I have read.&lt;/p&gt;
 </description>
         <pubDate>Mon, 13 Jun 2016 00:00:00 +0200</pubDate>
-        <link>http://localhost:4000/vcs/static-code/analysis/git/2016/06/13/takeaways-from-your-code-as-a-crime-scene-by-adam-tornhill.html</link>
-        <guid isPermaLink="true">http://localhost:4000/vcs/static-code/analysis/git/2016/06/13/takeaways-from-your-code-as-a-crime-scene-by-adam-tornhill.html</guid>
+        <link>http://countless-integers.github.io/vcs/static-code/analysis/git/2016/06/13/takeaways-from-your-code-as-a-crime-scene-by-adam-tornhill.html</link>
+        <guid isPermaLink="true">http://countless-integers.github.io/vcs/static-code/analysis/git/2016/06/13/takeaways-from-your-code-as-a-crime-scene-by-adam-tornhill.html</guid>
         
         
         <category>vcs</category>
@@ -294,8 +294,8 @@ It is just about the standard OOP factories.&lt;/p&gt;
 &lt;p&gt;I have omitted a lot the fragments, some on purpose, some by mistake. I really wish they they would edit those things to some more managable and focused format. Still there is a lot interesting stuff in there, so enjoy.&lt;/p&gt;
 </description>
         <pubDate>Mon, 13 Jun 2016 00:00:00 +0200</pubDate>
-        <link>http://localhost:4000/ddd/php/2016/06/13/php-roundtable-about-ddd.html</link>
-        <guid isPermaLink="true">http://localhost:4000/ddd/php/2016/06/13/php-roundtable-about-ddd.html</guid>
+        <link>http://countless-integers.github.io/ddd/php/2016/06/13/php-roundtable-about-ddd.html</link>
+        <guid isPermaLink="true">http://countless-integers.github.io/ddd/php/2016/06/13/php-roundtable-about-ddd.html</guid>
         
         
         <category>DDD</category>
@@ -357,8 +357,8 @@ It is just about the standard OOP factories.&lt;/p&gt;
 
 </description>
         <pubDate>Sat, 11 Jun 2016 00:00:00 +0200</pubDate>
-        <link>http://localhost:4000/shell/zsh/2016/06/11/chsh-to-zsh.html</link>
-        <guid isPermaLink="true">http://localhost:4000/shell/zsh/2016/06/11/chsh-to-zsh.html</guid>
+        <link>http://countless-integers.github.io/shell/zsh/2016/06/11/chsh-to-zsh.html</link>
+        <guid isPermaLink="true">http://countless-integers.github.io/shell/zsh/2016/06/11/chsh-to-zsh.html</guid>
         
         
         <category>shell</category>
@@ -429,8 +429,8 @@ Content-Type: application/x-www-form-urlencoded
 &lt;p&gt;All that was left was to put that &lt;code class=&quot;highlighter-rouge&quot;&gt;ncat&lt;/code&gt; listener address in place of the target url in the app and done!&lt;/p&gt;
 </description>
         <pubDate>Mon, 18 Jan 2016 00:00:00 +0100</pubDate>
-        <link>http://localhost:4000/debugging/ncat/2016/01/18/debugging-outgoing-requests-with-ncat.html</link>
-        <guid isPermaLink="true">http://localhost:4000/debugging/ncat/2016/01/18/debugging-outgoing-requests-with-ncat.html</guid>
+        <link>http://countless-integers.github.io/debugging/ncat/2016/01/18/debugging-outgoing-requests-with-ncat.html</link>
+        <guid isPermaLink="true">http://countless-integers.github.io/debugging/ncat/2016/01/18/debugging-outgoing-requests-with-ncat.html</guid>
         
         
         <category>debugging</category>
@@ -551,8 +551,8 @@ awesomnes), but it's nice to have a reliable alternative like that.
 &lt;/div&gt;
 </description>
         <pubDate>Sun, 20 Sep 2015 00:00:00 +0200</pubDate>
-        <link>http://localhost:4000/linux/2015/09/20/make-cmus-play-nice-with-clementine.html</link>
-        <guid isPermaLink="true">http://localhost:4000/linux/2015/09/20/make-cmus-play-nice-with-clementine.html</guid>
+        <link>http://countless-integers.github.io/linux/2015/09/20/make-cmus-play-nice-with-clementine.html</link>
+        <guid isPermaLink="true">http://countless-integers.github.io/linux/2015/09/20/make-cmus-play-nice-with-clementine.html</guid>
         
         
         <category>linux</category>
@@ -678,8 +678,8 @@ as post and then do this:&lt;/p&gt;
 &lt;/div&gt;
 </description>
         <pubDate>Thu, 17 Sep 2015 00:00:00 +0200</pubDate>
-        <link>http://localhost:4000/php/zf2/rest/put/2015/09/17/put-requests-to-zf2-restful-controller.html</link>
-        <guid isPermaLink="true">http://localhost:4000/php/zf2/rest/put/2015/09/17/put-requests-to-zf2-restful-controller.html</guid>
+        <link>http://countless-integers.github.io/php/zf2/rest/put/2015/09/17/put-requests-to-zf2-restful-controller.html</link>
+        <guid isPermaLink="true">http://countless-integers.github.io/php/zf2/rest/put/2015/09/17/put-requests-to-zf2-restful-controller.html</guid>
         
         
         <category>php</category>
@@ -815,8 +815,8 @@ obvious, but I still remember the days we didn’t have composer).&lt;/p&gt;
 &lt;/div&gt;
 </description>
         <pubDate>Sun, 06 Sep 2015 00:00:00 +0200</pubDate>
-        <link>http://localhost:4000/php/debugging/2015/09/06/var_dump-alternatives.html</link>
-        <guid isPermaLink="true">http://localhost:4000/php/debugging/2015/09/06/var_dump-alternatives.html</guid>
+        <link>http://countless-integers.github.io/php/debugging/2015/09/06/var_dump-alternatives.html</link>
+        <guid isPermaLink="true">http://countless-integers.github.io/php/debugging/2015/09/06/var_dump-alternatives.html</guid>
         
         
         <category>php</category>
@@ -901,8 +901,8 @@ obvious, but I still remember the days we didn’t have composer).&lt;/p&gt;
 &lt;p&gt;All interfaces are in &lt;code class=&quot;highlighter-rouge&quot;&gt;Zend\ModuleManager\Feature&lt;/code&gt; namespace.&lt;/p&gt;
 </description>
         <pubDate>Tue, 01 Sep 2015 00:00:00 +0200</pubDate>
-        <link>http://localhost:4000/php/zf2/interfaces/2015/09/01/duck-typed-interfaces-in-zf2-module-class.html</link>
-        <guid isPermaLink="true">http://localhost:4000/php/zf2/interfaces/2015/09/01/duck-typed-interfaces-in-zf2-module-class.html</guid>
+        <link>http://countless-integers.github.io/php/zf2/interfaces/2015/09/01/duck-typed-interfaces-in-zf2-module-class.html</link>
+        <guid isPermaLink="true">http://countless-integers.github.io/php/zf2/interfaces/2015/09/01/duck-typed-interfaces-in-zf2-module-class.html</guid>
         
         
         <category>php</category>
@@ -941,8 +941,8 @@ obvious, but I still remember the days we didn’t have composer).&lt;/p&gt;
 &lt;p&gt;I had to look twice, but there it was, my undefined constant. How this had worked (because it did) during normal application run? It shouldn’t, but somehow it did? Anyone can elaborate?&lt;/p&gt;
 </description>
         <pubDate>Mon, 24 Aug 2015 00:00:00 +0200</pubDate>
-        <link>http://localhost:4000/php/interfaces/constant/2015/08/24/weird-case-with-php-interface-constants.html</link>
-        <guid isPermaLink="true">http://localhost:4000/php/interfaces/constant/2015/08/24/weird-case-with-php-interface-constants.html</guid>
+        <link>http://countless-integers.github.io/php/interfaces/constant/2015/08/24/weird-case-with-php-interface-constants.html</link>
+        <guid isPermaLink="true">http://countless-integers.github.io/php/interfaces/constant/2015/08/24/weird-case-with-php-interface-constants.html</guid>
         
         
         <category>php</category>
