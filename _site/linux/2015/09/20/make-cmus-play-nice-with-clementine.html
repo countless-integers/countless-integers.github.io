@@ -10,8 +10,8 @@
   <meta name="description" content="TL;DRI’ve written a tiny script to allow me to bind media keys to the currently used audio player.">
 
   <link rel="stylesheet" href="/css/main.css">
-  <link rel="canonical" href="http://countless-integers.github.io//linux/2015/09/20/make-cmus-play-nice-with-clementine.html">
-  <link rel="alternate" type="application/rss+xml" title="countless-integers blog" href="http://countless-integers.github.io//feed.xml" />
+  <link rel="canonical" href="http://localhost:4000/linux/2015/09/20/make-cmus-play-nice-with-clementine.html">
+  <link rel="alternate" type="application/rss+xml" title="countless-integers blog" href="http://localhost:4000/feed.xml" />
 </head>
 
 
@@ -114,7 +114,7 @@ bidings.</p>
 
 <p>Bash scripting to the rescue:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
 <span class="k">if </span>pgrep <span class="s2">"clementine$"</span>; <span class="k">then 
     if</span> <span class="o">[</span> -f /Applications/clementine.app/Contents/MacOS/clementine <span class="o">]</span>; <span class="k">then</span>
         /Applications/clementine.app/Contents/MacOS/clementine -t
@@ -166,7 +166,7 @@ awesomnes), but it's nice to have a reliable alternative like that.
 <div class="footnotes">
   <ol>
     <li id="fn:1">
-      <p>some reference material for cmus: <a href="#fnref:1" class="reversefootnote">&#8617;</a></p>
+      <p>some reference material for cmus:&nbsp;<a href="#fnref:1" class="reversefootnote">&#8617;</a></p>
     </li>
   </ol>
 </div>
