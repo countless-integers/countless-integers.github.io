@@ -4,11 +4,269 @@
     <title>countless-integers blog</title>
     <description>My random thoughts and weird stories inspired by dailly coding.  This blog runs on the awesome Jekyl.
 </description>
-    <link>http://countless-integers.github.io/</link>
-    <atom:link href="http://countless-integers.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sat, 01 Apr 2017 22:32:57 +0200</pubDate>
-    <lastBuildDate>Sat, 01 Apr 2017 22:32:57 +0200</lastBuildDate>
-    <generator>Jekyll v3.4.3</generator>
+    <link>http://localhost:4000/</link>
+    <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>Sun, 10 Sep 2017 23:09:13 +0200</pubDate>
+    <lastBuildDate>Sun, 10 Sep 2017 23:09:13 +0200</lastBuildDate>
+    <generator>Jekyll v3.5.2</generator>
+    
+      <item>
+        <title>Installing ArchLinux as a VirtualBox guest system</title>
+        <description>&lt;h1 id=&quot;installing-archlinux-on-a-virtualbox-machine&quot;&gt;Installing ArchLinux on a VirtualBox Machine&lt;/h1&gt;
+
+&lt;h2 id=&quot;preparation&quot;&gt;Preparation&lt;/h2&gt;
+&lt;p&gt;First things first – obtain the Arch Linux installation media in form of an ISO volume from https://www.archlinux.org/download/.&lt;/p&gt;
+
+&lt;p&gt;Assuming you have VirtualBox already installed, create a new VM. ArchLinux is one of the recognized machine types in the VM creator form, so use it. Allocate some of your host machine resources to the machine, adjust accordingly to your rig’s capabilities.&lt;/p&gt;
+
+&lt;p&gt;One thing I’m going to do, that might not be strictly necessary is to enable EFI under “System” settings (this is related to bootloader configuration described later in this article):&lt;/p&gt;
+
+&lt;figure class=&quot;image&quot;&gt;
+  &lt;img src=&quot;/img/enable-eif-in-vbox.png&quot; alt=&quot;Enable EFI in VirtualBox settings panel&quot; /&gt;
+  &lt;figcaption&gt;Enable EFI in VirtualBox settings panel&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;One last this to remember – if you enable input capturing inside VirtualBox window, remember you host key. On Windows it’ll be the right “Ctrl” key, on MacOs the right “Cmd”. Another useful thing: “Ctrl+Home” will open Vbox machine pop-up allowing you to do things like reboot and ejecting virtual devices (e.g. ArchLinux installation ISO image).&lt;/p&gt;
+
+&lt;p&gt;Now it’s time to follow &lt;a href=&quot;https://wiki.archlinux.org/index.php/Installation_guide&quot;&gt;ArchLinux installation guide&lt;/a&gt; to the letter.&lt;/p&gt;
+
+&lt;h2 id=&quot;partitioning&quot;&gt;Partitioning&lt;/h2&gt;
+&lt;p&gt;I’ve went with a dynamically allocated 8gb storage volume for my virtual hard drive. I’ve also decided to go with GPT/EFI partitions.&lt;/p&gt;
+
+&lt;p&gt;According to most of the guides I could find, the suggested layout would look as follows:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;/boot&lt;/code&gt; partition, 512 MiB in size at the begging&lt;/li&gt;
+  &lt;li&gt;swap partition, min. 512 MiB in size&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;/&lt;/code&gt; partition using the remainder of the drive&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;To make this happen we can use a multitude of tools: &lt;code class=&quot;highlighter-rouge&quot;&gt;gdisk&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;fdisk&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;cfdisk&lt;/code&gt;. Here is an example using &lt;code class=&quot;highlighter-rouge&quot;&gt;gdisk&lt;/code&gt;.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# gdisk /dev/sda
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;figure class=&quot;image&quot;&gt;
+  &lt;img src=&quot;/img/gdisk-partition-scan.png&quot; alt=&quot;Partition set-up in gdisk&quot; /&gt;
+  &lt;figcaption&gt;Partition set-up in gdisk&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;Running that will start a partition scan to assess the current state of drive’s partitioning.&lt;/p&gt;
+
+&lt;figure class=&quot;image&quot;&gt;
+  &lt;img src=&quot;/img/gpt-partitioning.png&quot; alt=&quot;Partition set-up in gdisk&quot; /&gt;
+  &lt;figcaption&gt;Partition set-up in gdisk&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;If you went through some trial and error when creating partitions, &lt;code class=&quot;highlighter-rouge&quot;&gt;gdisk&lt;/code&gt; will kindly suggest to reboot (something &lt;code class=&quot;highlighter-rouge&quot;&gt;cfdisk&lt;/code&gt; failed to do for me). Do so if necessary. In the end you should end up with:&lt;/p&gt;
+
+&lt;figure class=&quot;image&quot;&gt;
+  &lt;img src=&quot;/img/ls-of-devs.png&quot; alt=&quot;List of storage devices&quot; /&gt;
+  &lt;figcaption&gt;List of storage devices&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;h2 id=&quot;formatting&quot;&gt;Formatting&lt;/h2&gt;
+&lt;p&gt;Assuming the layout created above:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;mkfs.fat -F32 /dev/sda1
+mkswap /dev/sda2
+mkfs.ext4 /dev/sda3
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;h2 id=&quot;mount-the-partitions&quot;&gt;Mount the partitions&lt;/h2&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# mount /dev/sda3 /mnt
+# mkdir /mnt/boot
+# mount /dev/sda1 /mnt/boot
+# swapon /dev/sda2 # this should not be necessary because of genfstab
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;boostrap-root-partition&quot;&gt;Boostrap root partition&lt;/h2&gt;
+&lt;p&gt;Time to install the basics:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# pacstrap /mnt base
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;This will install the basic set of packages required to log in to the system.
+To inform the newly bootstrap system of all the partitions we’re going to use and have them mounted on boot:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# genfstab -U /mnt &amp;gt;&amp;gt; /mnt/etc/fstab
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;This will generate a &lt;code class=&quot;highlighter-rouge&quot;&gt;fstab&lt;/code&gt; file, referencing drives by their UUID (as an alternative to referencing them by their labels).&lt;/p&gt;
+
+&lt;h2 id=&quot;logging-in&quot;&gt;Logging-in&lt;/h2&gt;
+&lt;p&gt;Now we can finally log in to the system with:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# arch-chroot /mnt
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Well, technically changing root is not the same as logging in, more like, well changing root directory to a specified folder…&lt;/p&gt;
+
+&lt;h2 id=&quot;basic-configuration&quot;&gt;Basic configuration&lt;/h2&gt;
+
+&lt;p&gt;Time and localization options:&lt;/p&gt;
+
+&lt;p&gt;Uncomment &lt;code class=&quot;highlighter-rouge&quot;&gt;en_US.UTF-8 UTF-8&lt;/code&gt; and others needed in &lt;code class=&quot;highlighter-rouge&quot;&gt;/etc/locale.gen&lt;/code&gt; and run:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# locale-gen
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Then:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# echo &quot;LANG=en_US.UTF-8&quot; &amp;gt; /etc/locale.conf
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Set hostname:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# echo vbox &amp;gt; /etc/hostname
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;I’ve used vbox, but you can use whatever. But whatever you use, remember it for this:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# echo -e &quot;\n127.0.1.1\tvbox.localdomain\tvbox&quot; &amp;gt;&amp;gt; /etc/hosts
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;-e&lt;/code&gt; flag will make &lt;code class=&quot;highlighter-rouge&quot;&gt;echo&lt;/code&gt; interpret escape character like &lt;code class=&quot;highlighter-rouge&quot;&gt;\t&lt;/code&gt; and help to keep &lt;code class=&quot;highlighter-rouge&quot;&gt;/etc/hostnames&lt;/code&gt; file consistently formatted.&lt;/p&gt;
+
+&lt;p&gt;Networking:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# systemctl enable dhcpcd
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;for a wired connection. It’s possible to set-up wireless, but I’ll not cover this, because for a VBox install it does not seem practical.&lt;/p&gt;
+
+&lt;p&gt;XOrg and ALSA for audio-video capabilities:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# pacman -S xf86-video-intel xf86-video-fbdev xorg-server xorg-xinit xorg-twm xterm alsa-utils pulseaudio pulseaudio-alsa
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;VirtualBox guest additions:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# pacman -S virtualbox-guest-utils virtualbox-guest-modules-arch
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;This will allows us to change screen resolution and a couple of other useful things. &lt;a href=&quot;https://wiki.archlinux.org/index.php/VirtualBox#Installation_steps_for_Arch_Linux_guests&quot;&gt;More about guest additions and what can they do.&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;A window manager (I chose XFCE4 as a compromise between nice to use and light on resources):&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# pacman -S xfce4
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Various stuff you might need:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# pacman -S vim zsh rsync firefox atom terminator python3 nodejs git
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Set up password for the root user (interactive command):&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# passwd
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Add a non-root user:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# useradd -m -g users -G adm,lp,wheel,power,audio,video -s /bin/zsh me
+# passwd me
+# EDITOR=vim visudo  # uncomment %wheel
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;where “me” is you (or whatever login you want to use). &lt;code class=&quot;highlighter-rouge&quot;&gt;wheel&lt;/code&gt; is a sudoers group, why it’s called like that, I do not know.&lt;/p&gt;
+
+&lt;p&gt;That should be enough to get started. So now:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;exit
+umount /mnt -R # -R because of /boot partition mounted in /mnt/boot
+reboot
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;installing-the-bootloader&quot;&gt;Installing the bootloader&lt;/h2&gt;
+&lt;p&gt;Arch guide lists this step near the end, but I decided to make it the first one, since this has been the most troublesome and confusing. Back in the day you would just install to MBR and things would be dandy:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# pacman -S grub
+# grub-install /dev/sda
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;However this new madness of (U)EFI firmware came about and now it’s more like:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# pacman -S grub efibootmgr
+# grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=grub
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Which should output something like this at the end:&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Installation finished. No errors reported.
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Then we can generate GRUB’s config file:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# grub-mkconfig -o /boot/grub/grub.cfg
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;If that goes well, we’re set.&lt;/p&gt;
+
+&lt;h2 id=&quot;first-actual-log-in&quot;&gt;First actual log-in&lt;/h2&gt;
+&lt;p&gt;I’d recommend to login as the non-root users we created to test if that works correctly. If yes I’d also suggest to run:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# sudo pacman -Syu
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;to test that &lt;code class=&quot;highlighter-rouge&quot;&gt;sudo&lt;/code&gt; was configured properly and update the system at the same time.&lt;/p&gt;
+
+&lt;p&gt;Afterwards, we can try the window manager:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# startxfce4
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;prosper&quot;&gt;Prosper&lt;/h2&gt;
+&lt;p&gt;All is now set, ready to use and further customizations. Enjoy!&lt;/p&gt;
+
+&lt;figure class=&quot;image&quot;&gt;
+  &lt;img src=&quot;/img/xfce-4.png&quot; alt=&quot;End result -- XFCE 4 running at ArchLinux guest VirtualBox installation&quot; /&gt;
+  &lt;figcaption&gt;End result -- XFCE 4 running at ArchLinux guest VirtualBox installation&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;h2 id=&quot;extra-references&quot;&gt;Extra references&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;https://unix.stackexchange.com/questions/288865/file-system-boot-is-not-a-fat-efi-system-partition-esp-file-system?answertab=active#tab-top&lt;/li&gt;
+  &lt;li&gt;already a bit outdated, but still useful: https://raw.githubusercontent.com/midfingr/youtube_notes/master/arch_way&lt;/li&gt;
+  &lt;li&gt;https://wiki.archlinux.org/index.php/Installation_guide&lt;/li&gt;
+  &lt;li&gt;https://wiki.archlinux.org/index.php/GRUB/EFI_examples&lt;/li&gt;
+  &lt;li&gt;https://wiki.archlinux.org/index.php/GRUB#Check_if_you_have_GPT_and_an_ESPo&lt;/li&gt;
+  &lt;li&gt;https://wiki.archlinux.org/index.php/VirtualBox#Installation_steps_for_Arch_Linux_guests&lt;/li&gt;
+  &lt;li&gt;https://wiki.archlinux.org/index.php/Xorg#Installation&lt;/li&gt;
+  &lt;li&gt;https://wiki.archlinux.org/index.php/partitioning#GUID_Partition_Table&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        <pubDate>Sun, 10 Sep 2017 00:00:00 +0200</pubDate>
+        <link>http://localhost:4000/linux/2017/09/10/installing-archlinux-as-a-virtualbox-guest-system.html</link>
+        <guid isPermaLink="true">http://localhost:4000/linux/2017/09/10/installing-archlinux-as-a-virtualbox-guest-system.html</guid>
+        
+        
+        <category>linux</category>
+        
+      </item>
     
       <item>
         <title>The Linux terminal experience on Windows 10</title>
@@ -69,8 +327,8 @@ sudo gem2.3 install jekyll
 
 </description>
         <pubDate>Sat, 01 Apr 2017 00:00:00 +0200</pubDate>
-        <link>http://countless-integers.github.io/2017/04/01/the-linux-terminal-experience-on-windows-10.html</link>
-        <guid isPermaLink="true">http://countless-integers.github.io/2017/04/01/the-linux-terminal-experience-on-windows-10.html</guid>
+        <link>http://localhost:4000/2017/04/01/the-linux-terminal-experience-on-windows-10.html</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/04/01/the-linux-terminal-experience-on-windows-10.html</guid>
         
         
       </item>
@@ -201,8 +459,8 @@ There is even some theoretic work done on that &lt;a href=&quot;https://encrypte
 &lt;p&gt;All in all, I was positively surprised by what I have read.&lt;/p&gt;
 </description>
         <pubDate>Mon, 13 Jun 2016 00:00:00 +0200</pubDate>
-        <link>http://countless-integers.github.io/vcs/static-code/analysis/git/2016/06/13/takeaways-from-your-code-as-a-crime-scene-by-adam-tornhill.html</link>
-        <guid isPermaLink="true">http://countless-integers.github.io/vcs/static-code/analysis/git/2016/06/13/takeaways-from-your-code-as-a-crime-scene-by-adam-tornhill.html</guid>
+        <link>http://localhost:4000/vcs/static-code/analysis/git/2016/06/13/takeaways-from-your-code-as-a-crime-scene-by-adam-tornhill.html</link>
+        <guid isPermaLink="true">http://localhost:4000/vcs/static-code/analysis/git/2016/06/13/takeaways-from-your-code-as-a-crime-scene-by-adam-tornhill.html</guid>
         
         
         <category>vcs</category>
@@ -302,8 +560,8 @@ It is just about the standard OOP factories.&lt;/p&gt;
 &lt;p&gt;I have omitted a lot the fragments, some on purpose, some by mistake. I really wish they they would edit those things to some more managable and focused format. Still there is a lot interesting stuff in there, so enjoy.&lt;/p&gt;
 </description>
         <pubDate>Mon, 13 Jun 2016 00:00:00 +0200</pubDate>
-        <link>http://countless-integers.github.io/ddd/php/2016/06/13/php-roundtable-about-ddd.html</link>
-        <guid isPermaLink="true">http://countless-integers.github.io/ddd/php/2016/06/13/php-roundtable-about-ddd.html</guid>
+        <link>http://localhost:4000/ddd/php/2016/06/13/php-roundtable-about-ddd.html</link>
+        <guid isPermaLink="true">http://localhost:4000/ddd/php/2016/06/13/php-roundtable-about-ddd.html</guid>
         
         
         <category>DDD</category>
@@ -365,8 +623,8 @@ It is just about the standard OOP factories.&lt;/p&gt;
 
 </description>
         <pubDate>Sat, 11 Jun 2016 00:00:00 +0200</pubDate>
-        <link>http://countless-integers.github.io/shell/zsh/2016/06/11/chsh-to-zsh.html</link>
-        <guid isPermaLink="true">http://countless-integers.github.io/shell/zsh/2016/06/11/chsh-to-zsh.html</guid>
+        <link>http://localhost:4000/shell/zsh/2016/06/11/chsh-to-zsh.html</link>
+        <guid isPermaLink="true">http://localhost:4000/shell/zsh/2016/06/11/chsh-to-zsh.html</guid>
         
         
         <category>shell</category>
@@ -437,8 +695,8 @@ Content-Type: application/x-www-form-urlencoded
 &lt;p&gt;All that was left was to put that &lt;code class=&quot;highlighter-rouge&quot;&gt;ncat&lt;/code&gt; listener address in place of the target url in the app and done!&lt;/p&gt;
 </description>
         <pubDate>Mon, 18 Jan 2016 00:00:00 +0100</pubDate>
-        <link>http://countless-integers.github.io/debugging/ncat/2016/01/18/debugging-outgoing-requests-with-ncat.html</link>
-        <guid isPermaLink="true">http://countless-integers.github.io/debugging/ncat/2016/01/18/debugging-outgoing-requests-with-ncat.html</guid>
+        <link>http://localhost:4000/debugging/ncat/2016/01/18/debugging-outgoing-requests-with-ncat.html</link>
+        <guid isPermaLink="true">http://localhost:4000/debugging/ncat/2016/01/18/debugging-outgoing-requests-with-ncat.html</guid>
         
         
         <category>debugging</category>
@@ -455,25 +713,25 @@ Content-Type: application/x-www-form-urlencoded
 &lt;h2 id=&quot;backstory&quot;&gt;Backstory&lt;/h2&gt;
 &lt;div class=&quot;collapsable&quot;&gt;
 &lt;p&gt;
-Some people collect stamps, others cook exquisite cuisnes and other like to get drunk and cause trouble in public
-transporatation. I like to fiddle with my Arch Linux machine at home. It's good to have a hobby, right?
+Some people collect stamps, others cook exquisite dishes and other like to get drunk and cause trouble in public
+transportation. I like to fiddle with my Arch Linux machine at home. It's good to have a hobby, right?
 &lt;/p&gt;
 &lt;p&gt;
-My setup likes to quit on me after package updates. Being a rolling release, Arch does that every now and then. Latetly
+My setup likes to quit on me after package updates. Being a rolling release, Arch does that every now and then. Lately
 my KDE apps stopped rendering correctly. It made interacting with most of them impossible. Clementine in particular
-caused me much grief, since you can't do much with it without its gui controlls. A major annoyance, one in a long line,
+caused me much grief, since you can't do much with it without its GUI controls. A major annoyance, one in a long line,
 but I'm not really complaining because apps dying make you learn something new. Finding a cli media player being
 a case in point here.
 &lt;/p&gt;
 &lt;p&gt;
 I have looked at cli players before, but usually dropped them because I couldn't make them work with global media
-control keys -- an important feature for me. This time round I decided to make it work whatever it takes. 
+control keys -- an important feature for me. This time round I decided to make it work whatever it takes.
 &lt;/p&gt;
 &lt;/div&gt;
 
 &lt;h3 id=&quot;the-player&quot;&gt;The player&lt;/h3&gt;
 &lt;p&gt;I chose &lt;a href=&quot;https://github.com/cmus/cmus&quot;&gt;cmus&lt;/a&gt; as my clementine alternative. I used it before and I liked the interface.
-Some of the keybinding resemble those of vim (well homerow &lt;kbd&gt;hjkl&lt;/kbd&gt; at least). It’s pretty quick to setup and
+Some of the keybinding resemble those of vim (well home row &lt;kbd&gt;hjkl&lt;/kbd&gt; at least). It’s pretty quick to setup and
 use. Library scanning is also quite speedy. Advantages all around. There’s plenty of good posts and documentation for
 cmus, so I won’t delve into it’s use and virtues here. I’ll post some links below though&lt;sup id=&quot;fnref:1&quot;&gt;&lt;a href=&quot;#fn:1&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
 
@@ -483,7 +741,7 @@ it’s functions aptly named &lt;code class=&quot;highlighter-rouge&quot;&gt;cmu
 care much for volume control, because I prefer to leave that to the system. So all I have to do is to hook up
 &lt;code class=&quot;highlighter-rouge&quot;&gt;cmus-remote&lt;/code&gt; to global keybinding.&lt;/p&gt;
 
-&lt;p&gt;There are many ways to achieve that, but I used the simple, gui way. KDE has a setting panel for configuring keybindings
+&lt;p&gt;There are many ways to achieve that, but I used the simple, GUI way. KDE has a setting panel for configuring keybindings
 and it looks like this:&lt;/p&gt;
 
 &lt;figure class=&quot;image&quot;&gt;
@@ -496,13 +754,12 @@ and it looks like this:&lt;/p&gt;
   &lt;figcaption&gt;setting custom binding to cmus-remote&lt;/figcaption&gt;
 &lt;/figure&gt;
 
-&lt;p&gt;There is a little hickup after setting those keybindings – now other players (e.g., clementine) aren’t able to use those media key
-bidings.&lt;/p&gt;
+&lt;p&gt;There is a little hiccup after setting those keybindings – now other players (e.g., clementine) aren’t able to use those media key bindings.&lt;/p&gt;
 
 &lt;p&gt;Bash scripting to the rescue:&lt;/p&gt;
 
 &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;#!/bin/bash&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;if &lt;/span&gt;pgrep &lt;span class=&quot;s2&quot;&gt;&quot;clementine$&quot;&lt;/span&gt;; &lt;span class=&quot;k&quot;&gt;then 
+&lt;span class=&quot;k&quot;&gt;if &lt;/span&gt;pgrep &lt;span class=&quot;s2&quot;&gt;&quot;clementine$&quot;&lt;/span&gt;; &lt;span class=&quot;k&quot;&gt;then
     if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt; -f /Applications/clementine.app/Contents/MacOS/clementine &lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;; &lt;span class=&quot;k&quot;&gt;then&lt;/span&gt;
         /Applications/clementine.app/Contents/MacOS/clementine -t
     &lt;span class=&quot;k&quot;&gt;fi
@@ -520,7 +777,7 @@ bidings.&lt;/p&gt;
   &lt;figcaption&gt;setting custom binding to newly written script&lt;/figcaption&gt;
 &lt;/figure&gt;
 
-&lt;p&gt;Now, when clementine would be running &lt;kbd&gt;play&lt;/kbd&gt; would interact with it. But when it would’t run it’ll try to
+&lt;p&gt;Now, when clementine would be running &lt;kbd&gt;play&lt;/kbd&gt; would interact with it. But when it wouldn’t run it’ll try to
 toggle play on cmus instance (it’d have to be running, though). Great.&lt;/p&gt;
 
 &lt;h2 id=&quot;last-words&quot;&gt;Last words&lt;/h2&gt;
@@ -532,7 +789,7 @@ some unexpected glitch in qt app (?) rendering.
 &lt;/p&gt;
 &lt;p&gt;
 I won't be replacing clementine with cmus (because portability, companion app with remote and media import and general
-awesomnes), but it's nice to have a reliable alternative like that. 
+awesomeness), but it's nice to have a reliable alternative like that.
 &lt;/p&gt;
 &lt;/div&gt;
 
@@ -559,8 +816,8 @@ awesomnes), but it's nice to have a reliable alternative like that.
 &lt;/div&gt;
 </description>
         <pubDate>Sun, 20 Sep 2015 00:00:00 +0200</pubDate>
-        <link>http://countless-integers.github.io/linux/2015/09/20/make-cmus-play-nice-with-clementine.html</link>
-        <guid isPermaLink="true">http://countless-integers.github.io/linux/2015/09/20/make-cmus-play-nice-with-clementine.html</guid>
+        <link>http://localhost:4000/linux/2015/09/20/make-cmus-play-nice-with-clementine.html</link>
+        <guid isPermaLink="true">http://localhost:4000/linux/2015/09/20/make-cmus-play-nice-with-clementine.html</guid>
         
         
         <category>linux</category>
@@ -686,8 +943,8 @@ as post and then do this:&lt;/p&gt;
 &lt;/div&gt;
 </description>
         <pubDate>Thu, 17 Sep 2015 00:00:00 +0200</pubDate>
-        <link>http://countless-integers.github.io/php/zf2/rest/put/2015/09/17/put-requests-to-zf2-restful-controller.html</link>
-        <guid isPermaLink="true">http://countless-integers.github.io/php/zf2/rest/put/2015/09/17/put-requests-to-zf2-restful-controller.html</guid>
+        <link>http://localhost:4000/php/zf2/rest/put/2015/09/17/put-requests-to-zf2-restful-controller.html</link>
+        <guid isPermaLink="true">http://localhost:4000/php/zf2/rest/put/2015/09/17/put-requests-to-zf2-restful-controller.html</guid>
         
         
         <category>php</category>
@@ -823,8 +1080,8 @@ obvious, but I still remember the days we didn’t have composer).&lt;/p&gt;
 &lt;/div&gt;
 </description>
         <pubDate>Sun, 06 Sep 2015 00:00:00 +0200</pubDate>
-        <link>http://countless-integers.github.io/php/debugging/2015/09/06/var_dump-alternatives.html</link>
-        <guid isPermaLink="true">http://countless-integers.github.io/php/debugging/2015/09/06/var_dump-alternatives.html</guid>
+        <link>http://localhost:4000/php/debugging/2015/09/06/var_dump-alternatives.html</link>
+        <guid isPermaLink="true">http://localhost:4000/php/debugging/2015/09/06/var_dump-alternatives.html</guid>
         
         
         <category>php</category>
@@ -909,8 +1166,8 @@ obvious, but I still remember the days we didn’t have composer).&lt;/p&gt;
 &lt;p&gt;All interfaces are in &lt;code class=&quot;highlighter-rouge&quot;&gt;Zend\ModuleManager\Feature&lt;/code&gt; namespace.&lt;/p&gt;
 </description>
         <pubDate>Tue, 01 Sep 2015 00:00:00 +0200</pubDate>
-        <link>http://countless-integers.github.io/php/zf2/interfaces/2015/09/01/duck-typed-interfaces-in-zf2-module-class.html</link>
-        <guid isPermaLink="true">http://countless-integers.github.io/php/zf2/interfaces/2015/09/01/duck-typed-interfaces-in-zf2-module-class.html</guid>
+        <link>http://localhost:4000/php/zf2/interfaces/2015/09/01/duck-typed-interfaces-in-zf2-module-class.html</link>
+        <guid isPermaLink="true">http://localhost:4000/php/zf2/interfaces/2015/09/01/duck-typed-interfaces-in-zf2-module-class.html</guid>
         
         
         <category>php</category>
@@ -918,46 +1175,6 @@ obvious, but I still remember the days we didn’t have composer).&lt;/p&gt;
         <category>zf2</category>
         
         <category>interfaces</category>
-        
-      </item>
-    
-      <item>
-        <title>Weird case of PHP interface constants</title>
-        <description>&lt;p&gt;While trying to mock an object using mockery I came across this:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Fatal error: Undefined class constant 'self::LIMIT' in /project.path/vendor/mockery/mockery/library/Mockery/Generator/Parameter.php on line 62
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;So I tried to make the mock with vanilla PHPUnit:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Fatal error: Undefined class constant 'self::LIMIT' in /project.path/vendor/phpunit/phpunit-mock-objects/src/Framework/MockObject/Generator.php on line 1064
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;My first guess was that it had a problem with me using constants as default parameter values in method definitions like so:&lt;/p&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-php&quot; data-lang=&quot;php&quot;&gt;  public function method($param = self::VALUE)&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;p&gt;However this sounded wrong – I used that before and never had a problem with it. So I dug deeper. Then I came across an interface that the mocked class implemented. It looked something like this:&lt;/p&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-php&quot; data-lang=&quot;php&quot;&gt;    interface ITotallyForgotIMadeAnInterfaceForThis
-    {
-        public function method($param = self::VALUE);
-    }&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;p&gt;I had to look twice, but there it was, my undefined constant. How this had worked (because it did) during normal application run? It shouldn’t, but somehow it did? Anyone can elaborate?&lt;/p&gt;
-</description>
-        <pubDate>Mon, 24 Aug 2015 00:00:00 +0200</pubDate>
-        <link>http://countless-integers.github.io/php/interfaces/constant/2015/08/24/weird-case-with-php-interface-constants.html</link>
-        <guid isPermaLink="true">http://countless-integers.github.io/php/interfaces/constant/2015/08/24/weird-case-with-php-interface-constants.html</guid>
-        
-        
-        <category>php</category>
-        
-        <category>interfaces</category>
-        
-        <category>constant</category>
         
       </item>
     

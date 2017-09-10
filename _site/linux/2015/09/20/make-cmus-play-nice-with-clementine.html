@@ -10,8 +10,8 @@
   <meta name="description" content="TL;DRI’ve written a tiny script to allow me to bind media keys to the currently used audio player.">
 
   <link rel="stylesheet" href="/css/main.css">
-  <link rel="canonical" href="http://countless-integers.github.io/linux/2015/09/20/make-cmus-play-nice-with-clementine.html">
-  <link rel="alternate" type="application/rss+xml" title="countless-integers blog" href="http://countless-integers.github.io/feed.xml" />
+  <link rel="canonical" href="http://localhost:4000/linux/2015/09/20/make-cmus-play-nice-with-clementine.html">
+  <link rel="alternate" type="application/rss+xml" title="countless-integers blog" href="http://localhost:4000/feed.xml" />
 </head>
 
 
@@ -68,25 +68,25 @@
 <h2 id="backstory">Backstory</h2>
 <div class="collapsable">
 <p>
-Some people collect stamps, others cook exquisite cuisnes and other like to get drunk and cause trouble in public
-transporatation. I like to fiddle with my Arch Linux machine at home. It's good to have a hobby, right?
+Some people collect stamps, others cook exquisite dishes and other like to get drunk and cause trouble in public
+transportation. I like to fiddle with my Arch Linux machine at home. It's good to have a hobby, right?
 </p>
 <p>
-My setup likes to quit on me after package updates. Being a rolling release, Arch does that every now and then. Latetly
+My setup likes to quit on me after package updates. Being a rolling release, Arch does that every now and then. Lately
 my KDE apps stopped rendering correctly. It made interacting with most of them impossible. Clementine in particular
-caused me much grief, since you can't do much with it without its gui controlls. A major annoyance, one in a long line,
+caused me much grief, since you can't do much with it without its GUI controls. A major annoyance, one in a long line,
 but I'm not really complaining because apps dying make you learn something new. Finding a cli media player being
 a case in point here.
 </p>
 <p>
 I have looked at cli players before, but usually dropped them because I couldn't make them work with global media
-control keys -- an important feature for me. This time round I decided to make it work whatever it takes. 
+control keys -- an important feature for me. This time round I decided to make it work whatever it takes.
 </p>
 </div>
 
 <h3 id="the-player">The player</h3>
 <p>I chose <a href="https://github.com/cmus/cmus">cmus</a> as my clementine alternative. I used it before and I liked the interface.
-Some of the keybinding resemble those of vim (well homerow <kbd>hjkl</kbd> at least). It’s pretty quick to setup and
+Some of the keybinding resemble those of vim (well home row <kbd>hjkl</kbd> at least). It’s pretty quick to setup and
 use. Library scanning is also quite speedy. Advantages all around. There’s plenty of good posts and documentation for
 cmus, so I won’t delve into it’s use and virtues here. I’ll post some links below though<sup id="fnref:1"><a href="#fn:1" class="footnote">1</a></sup></p>
 
@@ -96,7 +96,7 @@ it’s functions aptly named <code class="highlighter-rouge">cmus-remote</code>.
 care much for volume control, because I prefer to leave that to the system. So all I have to do is to hook up
 <code class="highlighter-rouge">cmus-remote</code> to global keybinding.</p>
 
-<p>There are many ways to achieve that, but I used the simple, gui way. KDE has a setting panel for configuring keybindings
+<p>There are many ways to achieve that, but I used the simple, GUI way. KDE has a setting panel for configuring keybindings
 and it looks like this:</p>
 
 <figure class="image">
@@ -109,13 +109,12 @@ and it looks like this:</p>
   <figcaption>setting custom binding to cmus-remote</figcaption>
 </figure>
 
-<p>There is a little hickup after setting those keybindings – now other players (e.g., clementine) aren’t able to use those media key
-bidings.</p>
+<p>There is a little hiccup after setting those keybindings – now other players (e.g., clementine) aren’t able to use those media key bindings.</p>
 
 <p>Bash scripting to the rescue:</p>
 
 <div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
-<span class="k">if </span>pgrep <span class="s2">"clementine$"</span>; <span class="k">then 
+<span class="k">if </span>pgrep <span class="s2">"clementine$"</span>; <span class="k">then
     if</span> <span class="o">[</span> -f /Applications/clementine.app/Contents/MacOS/clementine <span class="o">]</span>; <span class="k">then</span>
         /Applications/clementine.app/Contents/MacOS/clementine -t
     <span class="k">fi
@@ -133,7 +132,7 @@ bidings.</p>
   <figcaption>setting custom binding to newly written script</figcaption>
 </figure>
 
-<p>Now, when clementine would be running <kbd>play</kbd> would interact with it. But when it would’t run it’ll try to
+<p>Now, when clementine would be running <kbd>play</kbd> would interact with it. But when it wouldn’t run it’ll try to
 toggle play on cmus instance (it’d have to be running, though). Great.</p>
 
 <h2 id="last-words">Last words</h2>
@@ -145,7 +144,7 @@ some unexpected glitch in qt app (?) rendering.
 </p>
 <p>
 I won't be replacing clementine with cmus (because portability, companion app with remote and media import and general
-awesomnes), but it's nice to have a reliable alternative like that. 
+awesomeness), but it's nice to have a reliable alternative like that.
 </p>
 </div>
 
