@@ -6,8 +6,8 @@
 </description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sun, 10 Sep 2017 23:09:13 +0200</pubDate>
-    <lastBuildDate>Sun, 10 Sep 2017 23:09:13 +0200</lastBuildDate>
+    <pubDate>Thu, 14 Sep 2017 22:28:52 +0200</pubDate>
+    <lastBuildDate>Thu, 14 Sep 2017 22:28:52 +0200</lastBuildDate>
     <generator>Jekyll v3.5.2</generator>
     
       <item>
@@ -120,6 +120,13 @@ To inform the newly bootstrap system of all the partitions we’re going to use 
 &lt;p&gt;Then:&lt;/p&gt;
 
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# echo &quot;LANG=en_US.UTF-8&quot; &amp;gt; /etc/locale.conf
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Time:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# ln -sf /usr/share/zoneinfo/Europe/&amp;lt;City&amp;gt; /etc/localtime
+# timedatectl set-ntp true
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
@@ -249,14 +256,15 @@ reboot
 &lt;h2 id=&quot;extra-references&quot;&gt;Extra references&lt;/h2&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;https://unix.stackexchange.com/questions/288865/file-system-boot-is-not-a-fat-efi-system-partition-esp-file-system?answertab=active#tab-top&lt;/li&gt;
-  &lt;li&gt;already a bit outdated, but still useful: https://raw.githubusercontent.com/midfingr/youtube_notes/master/arch_way&lt;/li&gt;
-  &lt;li&gt;https://wiki.archlinux.org/index.php/Installation_guide&lt;/li&gt;
-  &lt;li&gt;https://wiki.archlinux.org/index.php/GRUB/EFI_examples&lt;/li&gt;
-  &lt;li&gt;https://wiki.archlinux.org/index.php/GRUB#Check_if_you_have_GPT_and_an_ESPo&lt;/li&gt;
-  &lt;li&gt;https://wiki.archlinux.org/index.php/VirtualBox#Installation_steps_for_Arch_Linux_guests&lt;/li&gt;
-  &lt;li&gt;https://wiki.archlinux.org/index.php/Xorg#Installation&lt;/li&gt;
-  &lt;li&gt;https://wiki.archlinux.org/index.php/partitioning#GUID_Partition_Table&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://unix.stackexchange.com/questions/288865/file-system-boot-is-not-a-fat-efi-system-partition-esp-file-system?answertab=active#tab-top&quot;&gt;StackXxchange :: Preparing /boot partition for EFI&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://raw.githubusercontent.com/midfingr/youtube_notes/master/arch_way&quot;&gt;Github :: A bit outdated, but still useful installation cheatsheet&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://wiki.archlinux.org/index.php/Installation_guide&quot;&gt;Arch Wiki :: Installation Guide&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://wiki.archlinux.org/index.php/GRUB/EFI_examples&quot;&gt;Arch Wiki :: EFI examples for GRUB configuration&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://wiki.archlinux.org/index.php/GRUB#Check_if_you_have_GPT_and_an_ESPo&quot;&gt;Arch Wiki :: Checking if GPT can be used&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://wiki.archlinux.org/index.php/VirtualBox#Installation_steps_for_Arch_Linux_guests&quot;&gt;Arch Wiki :: Installation steps for Arch Linux as VirtualBox guest machine&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://wiki.archlinux.org/index.php/Xorg#Installation&quot;&gt;Arch Wiki :: XOrg installation&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://wiki.archlinux.org/index.php/partitioning#GUID_Partition_Table&quot;&gt;Arch Wiki :: GUID and partition tables&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://wiki.archlinux.org/index.php/Systemd-timesyncd&quot;&gt;Arch Wiki :: Timesync Systemd service&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 </description>
         <pubDate>Sun, 10 Sep 2017 00:00:00 +0200</pubDate>

@@ -173,6 +173,13 @@ To inform the newly bootstrap system of all the partitions we’re going to use 
 </code></pre>
 </div>
 
+<p>Time:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code># ln -sf /usr/share/zoneinfo/Europe/&lt;City&gt; /etc/localtime
+# timedatectl set-ntp true
+</code></pre>
+</div>
+
 <p>Set hostname:</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code># echo vbox &gt; /etc/hostname
@@ -299,14 +306,15 @@ reboot
 <h2 id="extra-references">Extra references</h2>
 
 <ul>
-  <li>https://unix.stackexchange.com/questions/288865/file-system-boot-is-not-a-fat-efi-system-partition-esp-file-system?answertab=active#tab-top</li>
-  <li>already a bit outdated, but still useful: https://raw.githubusercontent.com/midfingr/youtube_notes/master/arch_way</li>
-  <li>https://wiki.archlinux.org/index.php/Installation_guide</li>
-  <li>https://wiki.archlinux.org/index.php/GRUB/EFI_examples</li>
-  <li>https://wiki.archlinux.org/index.php/GRUB#Check_if_you_have_GPT_and_an_ESPo</li>
-  <li>https://wiki.archlinux.org/index.php/VirtualBox#Installation_steps_for_Arch_Linux_guests</li>
-  <li>https://wiki.archlinux.org/index.php/Xorg#Installation</li>
-  <li>https://wiki.archlinux.org/index.php/partitioning#GUID_Partition_Table</li>
+  <li><a href="https://unix.stackexchange.com/questions/288865/file-system-boot-is-not-a-fat-efi-system-partition-esp-file-system?answertab=active#tab-top">StackXxchange :: Preparing /boot partition for EFI</a></li>
+  <li><a href="https://raw.githubusercontent.com/midfingr/youtube_notes/master/arch_way">Github :: A bit outdated, but still useful installation cheatsheet</a></li>
+  <li><a href="https://wiki.archlinux.org/index.php/Installation_guide">Arch Wiki :: Installation Guide</a></li>
+  <li><a href="https://wiki.archlinux.org/index.php/GRUB/EFI_examples">Arch Wiki :: EFI examples for GRUB configuration</a></li>
+  <li><a href="https://wiki.archlinux.org/index.php/GRUB#Check_if_you_have_GPT_and_an_ESPo">Arch Wiki :: Checking if GPT can be used</a></li>
+  <li><a href="https://wiki.archlinux.org/index.php/VirtualBox#Installation_steps_for_Arch_Linux_guests">Arch Wiki :: Installation steps for Arch Linux as VirtualBox guest machine</a></li>
+  <li><a href="https://wiki.archlinux.org/index.php/Xorg#Installation">Arch Wiki :: XOrg installation</a></li>
+  <li><a href="https://wiki.archlinux.org/index.php/partitioning#GUID_Partition_Table">Arch Wiki :: GUID and partition tables</a></li>
+  <li><a href="https://wiki.archlinux.org/index.php/Systemd-timesyncd">Arch Wiki :: Timesync Systemd service</a></li>
 </ul>
 
   </article>

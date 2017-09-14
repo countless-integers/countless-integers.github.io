@@ -91,6 +91,11 @@ Then:
 
     # echo "LANG=en_US.UTF-8" > /etc/locale.conf
 
+Time:
+
+    # ln -sf /usr/share/zoneinfo/Europe/<City> /etc/localtime
+    # timedatectl set-ntp true
+
 Set hostname:
 
     # echo vbox > /etc/hostname
@@ -187,11 +192,12 @@ All is now set, ready to use and further customizations. Enjoy!
 
 ## Extra references
 
-* https://unix.stackexchange.com/questions/288865/file-system-boot-is-not-a-fat-efi-system-partition-esp-file-system?answertab=active#tab-top
-* already a bit outdated, but still useful: https://raw.githubusercontent.com/midfingr/youtube_notes/master/arch_way
-* https://wiki.archlinux.org/index.php/Installation_guide
-* https://wiki.archlinux.org/index.php/GRUB/EFI_examples
-* https://wiki.archlinux.org/index.php/GRUB#Check_if_you_have_GPT_and_an_ESPo
-* https://wiki.archlinux.org/index.php/VirtualBox#Installation_steps_for_Arch_Linux_guests
-* https://wiki.archlinux.org/index.php/Xorg#Installation
-* https://wiki.archlinux.org/index.php/partitioning#GUID_Partition_Table
+* [StackXxchange :: Preparing /boot partition for EFI]( https://unix.stackexchange.com/questions/288865/file-system-boot-is-not-a-fat-efi-system-partition-esp-file-system?answertab=active#tab-top)
+* [Github :: A bit outdated, but still useful installation cheatsheet](https://raw.githubusercontent.com/midfingr/youtube_notes/master/arch_way)
+* [Arch Wiki :: Installation Guide](https://wiki.archlinux.org/index.php/Installation_guide)
+* [Arch Wiki :: EFI examples for GRUB configuration](https://wiki.archlinux.org/index.php/GRUB/EFI_examples)
+* [Arch Wiki :: Checking if GPT can be used](https://wiki.archlinux.org/index.php/GRUB#Check_if_you_have_GPT_and_an_ESPo)
+* [Arch Wiki :: Installation steps for Arch Linux as VirtualBox guest machine](https://wiki.archlinux.org/index.php/VirtualBox#Installation_steps_for_Arch_Linux_guests)
+* [Arch Wiki :: XOrg installation](https://wiki.archlinux.org/index.php/Xorg#Installation)
+* [Arch Wiki :: GUID and partition tables](https://wiki.archlinux.org/index.php/partitioning#GUID_Partition_Table)
+* [Arch Wiki :: Timesync Systemd service](https://wiki.archlinux.org/index.php/Systemd-timesyncd)
