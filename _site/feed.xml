@@ -6,8 +6,8 @@
 </description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Thu, 14 Sep 2017 22:28:52 +0200</pubDate>
-    <lastBuildDate>Thu, 14 Sep 2017 22:28:52 +0200</lastBuildDate>
+    <pubDate>Sun, 12 Nov 2017 23:51:26 +0100</pubDate>
+    <lastBuildDate>Sun, 12 Nov 2017 23:51:26 +0100</lastBuildDate>
     <generator>Jekyll v3.5.2</generator>
     
       <item>
@@ -15,6 +15,8 @@
         <description>&lt;h1 id=&quot;installing-archlinux-on-a-virtualbox-machine&quot;&gt;Installing ArchLinux on a VirtualBox Machine&lt;/h1&gt;
 
 &lt;h2 id=&quot;preparation&quot;&gt;Preparation&lt;/h2&gt;
+&lt;p&gt;You will need about 20-30 minutes of your precious time to follow through will all of this. That assumes everything will go smoothly (why wouldn’t it?).&lt;/p&gt;
+
 &lt;p&gt;First things first – obtain the Arch Linux installation media in form of an ISO volume from https://www.archlinux.org/download/.&lt;/p&gt;
 
 &lt;p&gt;Assuming you have VirtualBox already installed, create a new VM. ArchLinux is one of the recognized machine types in the VM creator form, so use it. Allocate some of your host machine resources to the machine, adjust accordingly to your rig’s capabilities.&lt;/p&gt;
@@ -89,8 +91,9 @@ mkfs.ext4 /dev/sda3
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
-&lt;p&gt;This will install the basic set of packages required to log in to the system.
-To inform the newly bootstrap system of all the partitions we’re going to use and have them mounted on boot:&lt;/p&gt;
+&lt;p&gt;This will install the basic set of packages required to log in to the system.&lt;/p&gt;
+
+&lt;p&gt;To inform the newly bootstrap system of all the partitions we’re going to use and have them mounted on boot:&lt;/p&gt;
 
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# genfstab -U /mnt &amp;gt;&amp;gt; /mnt/etc/fstab
 &lt;/code&gt;&lt;/pre&gt;
@@ -126,7 +129,6 @@ To inform the newly bootstrap system of all the partitions we’re going to use 
 &lt;p&gt;Time:&lt;/p&gt;
 
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# ln -sf /usr/share/zoneinfo/Europe/&amp;lt;City&amp;gt; /etc/localtime
-# timedatectl set-ntp true
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
@@ -168,13 +170,13 @@ To inform the newly bootstrap system of all the partitions we’re going to use 
 
 &lt;p&gt;A window manager (I chose XFCE4 as a compromise between nice to use and light on resources):&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# pacman -S xfce4
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# pacman -S xfce4 xfce4-goodies # the latter is optional
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
 &lt;p&gt;Various stuff you might need:&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# pacman -S vim zsh rsync firefox atom terminator python3 nodejs git
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# pacman -S vim zsh rsync firefox sudo python python-pip nodejs git openssh
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
@@ -237,11 +239,55 @@ reboot
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
+&lt;p&gt;Set-up time synchronisation service:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# timedatectl set-ntp true
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
 &lt;p&gt;to test that &lt;code class=&quot;highlighter-rouge&quot;&gt;sudo&lt;/code&gt; was configured properly and update the system at the same time.&lt;/p&gt;
+
+&lt;p&gt;Pacman is the official package manager and it is great. However there is tons of non-official packages for you to explore. One of the ways to get to them is to install &lt;code class=&quot;highlighter-rouge&quot;&gt;yaourt&lt;/code&gt;. There are others, but I have been using that one for a while and so far it gave me little issues. If you want it start with:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# pacman -S base-devel
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;to install extra base packages necessary to make and install pacman packages from scratch (among other things). Then follow the &lt;a href=&quot;https://archlinux.fr/yaourt-en&quot;&gt;instructions&lt;/a&gt; on the &lt;code class=&quot;highlighter-rouge&quot;&gt;yaourt&lt;/code&gt; homepage (as a non-root user):&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# git clone https://aur.archlinux.org/package-query.git
+# cd package-query
+# makepkg -si
+# cd ..
+# git clone https://aur.archlinux.org/yaourt.git
+# cd yaourt
+# makepkg -si
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;This will install &lt;code class=&quot;highlighter-rouge&quot;&gt;yaourt&lt;/code&gt; and its dependency &lt;code class=&quot;highlighter-rouge&quot;&gt;package-query&lt;/code&gt;.&lt;/p&gt;
 
 &lt;p&gt;Afterwards, we can try the window manager:&lt;/p&gt;
 
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# startxfce4
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;If that fails (I keep forgetting why…), you might need to install a &lt;a href=&quot;https://wiki.archlinux.org/index.php/Display_manager&quot;&gt;display manager&lt;/a&gt;. E.g. to install &lt;a href=&quot;https://wiki.archlinux.org/index.php/LightDM&quot;&gt;LightDM&lt;/a&gt;:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# pacman -S lightdm lightdm-gtk-greeter
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;and then:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# sudo lightdm 
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;you can also make it start on-boot using systemd service:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# systemctl enable lightdm.service
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
@@ -265,6 +311,7 @@ reboot
   &lt;li&gt;&lt;a href=&quot;https://wiki.archlinux.org/index.php/Xorg#Installation&quot;&gt;Arch Wiki :: XOrg installation&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;https://wiki.archlinux.org/index.php/partitioning#GUID_Partition_Table&quot;&gt;Arch Wiki :: GUID and partition tables&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;https://wiki.archlinux.org/index.php/Systemd-timesyncd&quot;&gt;Arch Wiki :: Timesync Systemd service&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://averagelinuxuser.com/xfce-look-modern-and-beautiful/&quot;&gt;AverageLinuxUser :: Making XFCE4 prettier&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 </description>
         <pubDate>Sun, 10 Sep 2017 00:00:00 +0200</pubDate>
