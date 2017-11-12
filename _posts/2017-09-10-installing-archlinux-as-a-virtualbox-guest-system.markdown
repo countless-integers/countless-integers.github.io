@@ -9,6 +9,8 @@ categories: linux
 # Installing ArchLinux on a VirtualBox Machine
 
 ## Preparation
+You will need about 20-30 minutes of your precious time to follow through will all of this. That assumes everything will go smoothly (why wouldn't it?).
+
 First things first -- obtain the Arch Linux installation media in form of an ISO volume from https://www.archlinux.org/download/.
 
 Assuming you have VirtualBox already installed, create a new VM. ArchLinux is one of the recognized machine types in the VM creator form, so use it. Allocate some of your host machine resources to the machine, adjust accordingly to your rig's capabilities.
@@ -66,6 +68,7 @@ Time to install the basics:
     # pacstrap /mnt base
 
 This will install the basic set of packages required to log in to the system.
+
 To inform the newly bootstrap system of all the partitions we're going to use and have them mounted on boot:
 
     # genfstab -U /mnt >> /mnt/etc/fstab
@@ -94,7 +97,6 @@ Then:
 Time:
 
     # ln -sf /usr/share/zoneinfo/Europe/<City> /etc/localtime
-    # timedatectl set-ntp true
 
 Set hostname:
 
@@ -124,11 +126,11 @@ This will allows us to change screen resolution and a couple of other useful thi
 
 A window manager (I chose XFCE4 as a compromise between nice to use and light on resources):
 
-    # pacman -S xfce4
+    # pacman -S xfce4 xfce4-goodies # the latter is optional
 
 Various stuff you might need:
 
-    # pacman -S vim zsh rsync firefox atom terminator python3 nodejs git
+    # pacman -S vim zsh rsync firefox sudo python python-pip nodejs git openssh
 
 Set up password for the root user (interactive command):
 
@@ -179,11 +181,43 @@ I'd recommend to login as the non-root users we created to test if that works co
 
     # sudo pacman -Syu
 
+Set-up time synchronisation service:
+
+    # timedatectl set-ntp true
+
 to test that `sudo` was configured properly and update the system at the same time.
+
+Pacman is the official package manager and it is great. However there is tons of non-official packages for you to explore. One of the ways to get to them is to install `yaourt`. There are others, but I have been using that one for a while and so far it gave me little issues. If you want it start with:
+
+    # pacman -S base-devel
+
+to install extra base packages necessary to make and install pacman packages from scratch (among other things). Then follow the [instructions](https://archlinux.fr/yaourt-en) on the `yaourt` homepage (as a non-root user):
+
+    # git clone https://aur.archlinux.org/package-query.git
+    # cd package-query
+    # makepkg -si
+    # cd ..
+    # git clone https://aur.archlinux.org/yaourt.git
+    # cd yaourt
+    # makepkg -si
+
+This will install `yaourt` and its dependency `package-query`. 
 
 Afterwards, we can try the window manager:
 
     # startxfce4
+
+If that fails (I keep forgetting why...), you might need to install a [display manager](https://wiki.archlinux.org/index.php/Display_manager). E.g. to install [LightDM](https://wiki.archlinux.org/index.php/LightDM):
+
+    # pacman -S lightdm lightdm-gtk-greeter
+
+and then:
+
+    # sudo lightdm 
+
+you can also make it start on-boot using systemd service:
+
+    # systemctl enable lightdm.service
 
 ## Prosper
 All is now set, ready to use and further customizations. Enjoy!
@@ -201,3 +235,4 @@ All is now set, ready to use and further customizations. Enjoy!
 * [Arch Wiki :: XOrg installation](https://wiki.archlinux.org/index.php/Xorg#Installation)
 * [Arch Wiki :: GUID and partition tables](https://wiki.archlinux.org/index.php/partitioning#GUID_Partition_Table)
 * [Arch Wiki :: Timesync Systemd service](https://wiki.archlinux.org/index.php/Systemd-timesyncd)
+* [AverageLinuxUser :: Making XFCE4 prettier](http://averagelinuxuser.com/xfce-look-modern-and-beautiful/)
