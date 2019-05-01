@@ -71,9 +71,8 @@
 
 <p>Having those two in place we can run the bash console from cmder like so:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>bash
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bash
+</code></pre></div></div>
 
 <p>(see “Problems?” section before you do though)</p>
 
@@ -83,13 +82,12 @@
 <p>To put it to test, I have tried to set-up a dev environment for this blog. Simple, yet it appears to require ruby2+ these days, which is not the one included in our Ubuntu version (it ships with 1.9+).</p>
 
 <p>Not to mess around to much, I have found <a href="https://github.com/Microsoft/BashOnWindows/issues/216">an Ubuntu PPA</a> hosting all the packages I had needed. Installation went like this:</p>
-<div class="highlighter-rouge"><pre class="highlight"><code>sudo apt-add-repository ppa:brightbox/ruby-ng
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo apt-add-repository ppa:brightbox/ruby-ng
 sudo apt-get update
 
 sudo apt-get install ruby2.3 ruby2.3-dev
 sudo gem2.3 install jekyll
-</code></pre>
-</div>
+</code></pre></div></div>
 <p>I took some googling, but it worked. <a href="https://github.com/Microsoft/BashOnWindows">Directory watching seems to be failing</a>, which is a major bummer for anyone using web-dev tools, but it is a start. The built-in web-server was also operational.</p>
 
 <p>Another thing that worked, at least in basic example was a simple http node server. Node version also needed <a href="https://www.brightbox.com/docs/ruby/ubuntu/">a little upgrade</a>, but it does seem to work.</p>
@@ -101,9 +99,8 @@ sudo gem2.3 install jekyll
 
 <p>Another one was connected to cmder more than with “linux mode”. There is a <a href="https://github.com/Microsoft/BashOnWindows/issues/1154">known issue</a> with the usage of arrow keys, while in bash. Running:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>%windir%\system32\bash.exe -cur_console:p1
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>%windir%\system32\bash.exe -cur_console:p1
+</code></pre></div></div>
 
 <p>should solve it.</p>
 

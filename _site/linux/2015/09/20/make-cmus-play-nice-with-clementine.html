@@ -113,17 +113,16 @@ and it looks like this:</p>
 
 <p>Bash scripting to the rescue:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
-<span class="k">if </span>pgrep <span class="s2">"clementine$"</span>; <span class="k">then
-    if</span> <span class="o">[</span> -f /Applications/clementine.app/Contents/MacOS/clementine <span class="o">]</span>; <span class="k">then</span>
-        /Applications/clementine.app/Contents/MacOS/clementine -t
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
+<span class="k">if </span>pgrep <span class="s2">"clementine$"</span><span class="p">;</span> <span class="k">then
+    if</span> <span class="o">[</span> <span class="nt">-f</span> /Applications/clementine.app/Contents/MacOS/clementine <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+        /Applications/clementine.app/Contents/MacOS/clementine <span class="nt">-t</span>
     <span class="k">fi
-    </span>clementine -t 2&gt;/dev/null
-<span class="k">elif </span>pgrep <span class="s2">"cmus$"</span>; <span class="k">then
-    </span>cmus-remote -u 2&gt;/dev/null
+    </span>clementine <span class="nt">-t</span> 2&gt;/dev/null
+<span class="k">elif </span>pgrep <span class="s2">"cmus$"</span><span class="p">;</span> <span class="k">then
+    </span>cmus-remote <span class="nt">-u</span> 2&gt;/dev/null
 <span class="k">fi</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Now I made that executable and put it in <code class="highlighter-rouge">~/bin/mediaToggle.sh</code> (which btw. is already in my <code class="highlighter-rouge">$PATH</code> lookup).</p>
 
@@ -165,7 +164,7 @@ awesomeness), but it's nice to have a reliable alternative like that.
 <div class="footnotes">
   <ol>
     <li id="fn:1">
-      <p>some reference material for cmus:&nbsp;<a href="#fnref:1" class="reversefootnote">&#8617;</a></p>
+      <p>some reference material for cmus: <a href="#fnref:1" class="reversefootnote">&#8617;</a></p>
     </li>
   </ol>
 </div>

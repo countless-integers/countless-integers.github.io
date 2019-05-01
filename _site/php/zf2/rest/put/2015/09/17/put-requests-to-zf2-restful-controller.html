@@ -71,7 +71,7 @@ look pretty much alike:</p>
 
 <p>This one with PUT:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>------WebKitFormBoundaryqxNZUgM5f0nFT1Z1
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>------WebKitFormBoundaryqxNZUgM5f0nFT1Z1
 Content-Disposition: form-data; name="creation"
 
 {"id":1,"title":"ccc","dateFrom":"2015-08-19","dateTo":"2015-08-22","position":1,"status":0}
@@ -81,12 +81,11 @@ Content-Type: image/jpeg
 
 
 ------WebKitFormBoundaryqxNZUgM5f0nFT1Z1--
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>And this one with POST:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>------WebKitFormBoundaryaDVU9RBkEiCCgfUT
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>------WebKitFormBoundaryaDVU9RBkEiCCgfUT
 Content-Disposition: form-data; name="creation"
 
 {"title":"sdfsafsa","dateFrom":"2015-09-14","dateTo":"2015-09-30","position":1,"status":0}
@@ -96,8 +95,7 @@ Content-Type: image/jpeg
 
 
 ------WebKitFormBoundaryaDVU9RBkEiCCgfUT--
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>One key difference is the presence of a <code class="highlighter-rouge">id</code> in the PUT request, because it’s modifying an existing request it makes 
 sense that it’s there. Apart from that it looks the same, but it’s handled differently</p>
@@ -148,7 +146,7 @@ set it to <code class="highlighter-rouge">put</code> and send the form as POST r
 a uri that has a id in it. That in itself should be enough to tell creation from update apart. So I just send it 
 as post and then do this:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>public function create($data)
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>public function create($data)
 {
     $id = $this-&gt;params('id', null);
     if ($id) {
@@ -156,24 +154,23 @@ as post and then do this:</p>
     }
     // ...
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Simple and effective. Shame it doesn’t work out of the box, but it’s not a too terribly inconvenient either.</p>
 
 <div class="footnotes">
   <ol>
     <li id="fn:3">
-      <p><a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html">W3 method definitions</a>&nbsp;<a href="#fnref:3" class="reversefootnote">&#8617;</a></p>
+      <p><a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html">W3 method definitions</a> <a href="#fnref:3" class="reversefootnote">&#8617;</a></p>
     </li>
     <li id="fn:4">
-      <p><a href="http://php.net/manual/pl/features.file-upload.put-method.php">PHP put method support</a>&nbsp;<a href="#fnref:4" class="reversefootnote">&#8617;</a></p>
+      <p><a href="http://php.net/manual/pl/features.file-upload.put-method.php">PHP put method support</a> <a href="#fnref:4" class="reversefootnote">&#8617;</a></p>
     </li>
     <li id="fn:1">
-      <p><a href="http://stackoverflow.com/a/26676252/1105871">Stack post</a>&nbsp;<a href="#fnref:1" class="reversefootnote">&#8617;</a></p>
+      <p><a href="http://stackoverflow.com/a/26676252/1105871">Stack post</a> <a href="#fnref:1" class="reversefootnote">&#8617;</a></p>
     </li>
     <li id="fn:2">
-      <p><a href="http://blog.piotr.rybaltowski.pl/rest-w-zf2-metody-put-i-delete-w-formularzach/">blog post about handling put/delete in ZF2 (in polish)</a>&nbsp;<a href="#fnref:2" class="reversefootnote">&#8617;</a></p>
+      <p><a href="http://blog.piotr.rybaltowski.pl/rest-w-zf2-metody-put-i-delete-w-formularzach/">blog post about handling put/delete in ZF2 (in polish)</a> <a href="#fnref:2" class="reversefootnote">&#8617;</a></p>
     </li>
   </ol>
 </div>
