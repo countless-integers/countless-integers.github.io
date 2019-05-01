@@ -4,10 +4,10 @@
     <title>countless-integers blog</title>
     <description>My random thoughts and weird stories inspired by dailly coding.  This blog runs on the awesome Jekyl.
 </description>
-    <link>http://localhost:4000/</link>
-    <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Wed, 01 May 2019 12:11:09 +0200</pubDate>
-    <lastBuildDate>Wed, 01 May 2019 12:11:09 +0200</lastBuildDate>
+    <link>http://countless-integers.github.io/</link>
+    <atom:link href="http://countless-integers.github.io/feed.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>Wed, 01 May 2019 12:44:44 +0200</pubDate>
+    <lastBuildDate>Wed, 01 May 2019 12:44:44 +0200</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
     
       <item>
@@ -18,7 +18,7 @@
 
 &lt;ul&gt;
   &lt;li&gt;dealing with user input in different formats&lt;/li&gt;
-  &lt;li&gt;reformating date time without having to know the exact input format&lt;/li&gt;
+  &lt;li&gt;re-formatting date time without having to know the exact input format&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;h3 id=&quot;php&quot;&gt;PHP&lt;/h3&gt;
@@ -33,7 +33,7 @@
 &lt;p&gt;First one returns a timestamp, second is &lt;a href=&quot;https://www.php.net/manual/en/class.datetimeimmutable.php&quot;&gt;an object&lt;/a&gt; with quite a lot of functionality built-in. The object is not perfect
 (in fact it’s PHP-s second attempt at it, first one being a mutable &lt;a href=&quot;https://www.php.net/manual/en/class.datetime&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;DateTime&lt;/code&gt;&lt;/a&gt;), especially when you start
 using &lt;code class=&quot;highlighter-rouge&quot;&gt;diff&lt;/code&gt; functions i.e. on datetime objects from different time zones. In fact not being explicit about timezones
-was the most common source of head-aches for me in the past (by default server tz will be adopted), so 
+was the most common source of head-aches for me in the past (by default server tz will be adopted), so
 beware.&lt;/p&gt;
 
 &lt;p&gt;One of the interesting features is the ability to parse “natural” language date time strings like “next year”, “+2 hours”. I found that quite useful in the past for making cli interfaces a lot more user-friendly.&lt;a href=&quot;https://www.php.net/manual/en/datetime.formats.php&quot;&gt;Reference for supported datetime formats&lt;/a&gt;.&lt;/p&gt;
@@ -63,7 +63,7 @@ what happens when you do &lt;code class=&quot;highlighter-rouge&quot;&gt;parse('
 &lt;h3 id=&quot;go&quot;&gt;Go&lt;/h3&gt;
 
 &lt;p&gt;Similar to Python, golang comes equipped with structured time parsing functions. However its time format definitions are somewhat confusing, yet
-convinient to use:&lt;/p&gt;
+convenient to use:&lt;/p&gt;
 
 &lt;div class=&quot;language-go highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;package&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
 
@@ -84,10 +84,31 @@ null date of &lt;code class=&quot;highlighter-rouge&quot;&gt;0001-01-01 00:00:00
 the other it can an arrow to your knee. More about time formats
 [here][https://golang.org/pkg/time/#example_Time_Format].&lt;/p&gt;
 
+&lt;p&gt;As for a module that would resemble the behaviour and features of PHP functions – I haven’t found one yet. TBC&lt;/p&gt;
+
+&lt;h2 id=&quot;calculating-time-differences-between-dates-and-time&quot;&gt;Calculating time differences between dates and time&lt;/h2&gt;
+
+&lt;p&gt;Main use cases:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;getting the absolute difference between datetimes i.e.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;php-1&quot;&gt;PHP&lt;/h3&gt;
+
+&lt;p&gt;TBC&lt;/p&gt;
+
+&lt;h3 id=&quot;python-1&quot;&gt;Python&lt;/h3&gt;
+
+&lt;p&gt;TBC&lt;/p&gt;
+
+&lt;h3 id=&quot;go-1&quot;&gt;Go&lt;/h3&gt;
+
+&lt;p&gt;TBC&lt;/p&gt;
 </description>
         <pubDate>Wed, 01 May 2019 00:00:00 +0200</pubDate>
-        <link>http://localhost:4000/php/python/go/comparison/2019/05/01/controlling-date-and-time-in-go-and-python-for-php-devs.html</link>
-        <guid isPermaLink="true">http://localhost:4000/php/python/go/comparison/2019/05/01/controlling-date-and-time-in-go-and-python-for-php-devs.html</guid>
+        <link>http://countless-integers.github.io/php/python/go/comparison/2019/05/01/controlling-date-and-time-in-go-and-python-for-php-devs.html</link>
+        <guid isPermaLink="true">http://countless-integers.github.io/php/python/go/comparison/2019/05/01/controlling-date-and-time-in-go-and-python-for-php-devs.html</guid>
         
         
         <category>php</category>
@@ -374,8 +395,8 @@ reboot
 &lt;/ul&gt;
 </description>
         <pubDate>Sun, 10 Sep 2017 00:00:00 +0200</pubDate>
-        <link>http://localhost:4000/linux/2017/09/10/installing-archlinux-as-a-virtualbox-guest-system.html</link>
-        <guid isPermaLink="true">http://localhost:4000/linux/2017/09/10/installing-archlinux-as-a-virtualbox-guest-system.html</guid>
+        <link>http://countless-integers.github.io/linux/2017/09/10/installing-archlinux-as-a-virtualbox-guest-system.html</link>
+        <guid isPermaLink="true">http://countless-integers.github.io/linux/2017/09/10/installing-archlinux-as-a-virtualbox-guest-system.html</guid>
         
         
         <category>linux</category>
@@ -438,8 +459,8 @@ sudo gem2.3 install jekyll
 
 </description>
         <pubDate>Sat, 01 Apr 2017 00:00:00 +0200</pubDate>
-        <link>http://localhost:4000/2017/04/01/the-linux-terminal-experience-on-windows-10.html</link>
-        <guid isPermaLink="true">http://localhost:4000/2017/04/01/the-linux-terminal-experience-on-windows-10.html</guid>
+        <link>http://countless-integers.github.io/2017/04/01/the-linux-terminal-experience-on-windows-10.html</link>
+        <guid isPermaLink="true">http://countless-integers.github.io/2017/04/01/the-linux-terminal-experience-on-windows-10.html</guid>
         
         
       </item>
@@ -570,8 +591,8 @@ There is even some theoretic work done on that &lt;a href=&quot;https://encrypte
 &lt;p&gt;All in all, I was positively surprised by what I have read.&lt;/p&gt;
 </description>
         <pubDate>Mon, 13 Jun 2016 00:00:00 +0200</pubDate>
-        <link>http://localhost:4000/vcs/static-code/analysis/git/2016/06/13/takeaways-from-your-code-as-a-crime-scene-by-adam-tornhill.html</link>
-        <guid isPermaLink="true">http://localhost:4000/vcs/static-code/analysis/git/2016/06/13/takeaways-from-your-code-as-a-crime-scene-by-adam-tornhill.html</guid>
+        <link>http://countless-integers.github.io/vcs/static-code/analysis/git/2016/06/13/takeaways-from-your-code-as-a-crime-scene-by-adam-tornhill.html</link>
+        <guid isPermaLink="true">http://countless-integers.github.io/vcs/static-code/analysis/git/2016/06/13/takeaways-from-your-code-as-a-crime-scene-by-adam-tornhill.html</guid>
         
         
         <category>vcs</category>
@@ -671,8 +692,8 @@ It is just about the standard OOP factories.&lt;/p&gt;
 &lt;p&gt;I have omitted a lot the fragments, some on purpose, some by mistake. I really wish they they would edit those things to some more managable and focused format. Still there is a lot interesting stuff in there, so enjoy.&lt;/p&gt;
 </description>
         <pubDate>Mon, 13 Jun 2016 00:00:00 +0200</pubDate>
-        <link>http://localhost:4000/ddd/php/2016/06/13/php-roundtable-about-ddd.html</link>
-        <guid isPermaLink="true">http://localhost:4000/ddd/php/2016/06/13/php-roundtable-about-ddd.html</guid>
+        <link>http://countless-integers.github.io/ddd/php/2016/06/13/php-roundtable-about-ddd.html</link>
+        <guid isPermaLink="true">http://countless-integers.github.io/ddd/php/2016/06/13/php-roundtable-about-ddd.html</guid>
         
         
         <category>DDD</category>
@@ -734,8 +755,8 @@ It is just about the standard OOP factories.&lt;/p&gt;
 
 </description>
         <pubDate>Sat, 11 Jun 2016 00:00:00 +0200</pubDate>
-        <link>http://localhost:4000/shell/zsh/2016/06/11/chsh-to-zsh.html</link>
-        <guid isPermaLink="true">http://localhost:4000/shell/zsh/2016/06/11/chsh-to-zsh.html</guid>
+        <link>http://countless-integers.github.io/shell/zsh/2016/06/11/chsh-to-zsh.html</link>
+        <guid isPermaLink="true">http://countless-integers.github.io/shell/zsh/2016/06/11/chsh-to-zsh.html</guid>
         
         
         <category>shell</category>
@@ -802,8 +823,8 @@ Content-Type: application/x-www-form-urlencoded
 &lt;p&gt;All that was left was to put that &lt;code class=&quot;highlighter-rouge&quot;&gt;ncat&lt;/code&gt; listener address in place of the target url in the app and done!&lt;/p&gt;
 </description>
         <pubDate>Mon, 18 Jan 2016 00:00:00 +0100</pubDate>
-        <link>http://localhost:4000/debugging/ncat/2016/01/18/debugging-outgoing-requests-with-ncat.html</link>
-        <guid isPermaLink="true">http://localhost:4000/debugging/ncat/2016/01/18/debugging-outgoing-requests-with-ncat.html</guid>
+        <link>http://countless-integers.github.io/debugging/ncat/2016/01/18/debugging-outgoing-requests-with-ncat.html</link>
+        <guid isPermaLink="true">http://countless-integers.github.io/debugging/ncat/2016/01/18/debugging-outgoing-requests-with-ncat.html</guid>
         
         
         <category>debugging</category>
@@ -922,8 +943,8 @@ awesomeness), but it's nice to have a reliable alternative like that.
 &lt;/div&gt;
 </description>
         <pubDate>Sun, 20 Sep 2015 00:00:00 +0200</pubDate>
-        <link>http://localhost:4000/linux/2015/09/20/make-cmus-play-nice-with-clementine.html</link>
-        <guid isPermaLink="true">http://localhost:4000/linux/2015/09/20/make-cmus-play-nice-with-clementine.html</guid>
+        <link>http://countless-integers.github.io/linux/2015/09/20/make-cmus-play-nice-with-clementine.html</link>
+        <guid isPermaLink="true">http://countless-integers.github.io/linux/2015/09/20/make-cmus-play-nice-with-clementine.html</guid>
         
         
         <category>linux</category>
@@ -1046,8 +1067,8 @@ as post and then do this:&lt;/p&gt;
 &lt;/div&gt;
 </description>
         <pubDate>Thu, 17 Sep 2015 00:00:00 +0200</pubDate>
-        <link>http://localhost:4000/php/zf2/rest/put/2015/09/17/put-requests-to-zf2-restful-controller.html</link>
-        <guid isPermaLink="true">http://localhost:4000/php/zf2/rest/put/2015/09/17/put-requests-to-zf2-restful-controller.html</guid>
+        <link>http://countless-integers.github.io/php/zf2/rest/put/2015/09/17/put-requests-to-zf2-restful-controller.html</link>
+        <guid isPermaLink="true">http://countless-integers.github.io/php/zf2/rest/put/2015/09/17/put-requests-to-zf2-restful-controller.html</guid>
         
         
         <category>php</category>
@@ -1183,8 +1204,8 @@ obvious, but I still remember the days we didn’t have composer).&lt;/p&gt;
 &lt;/div&gt;
 </description>
         <pubDate>Sun, 06 Sep 2015 00:00:00 +0200</pubDate>
-        <link>http://localhost:4000/php/debugging/2015/09/06/var_dump-alternatives.html</link>
-        <guid isPermaLink="true">http://localhost:4000/php/debugging/2015/09/06/var_dump-alternatives.html</guid>
+        <link>http://countless-integers.github.io/php/debugging/2015/09/06/var_dump-alternatives.html</link>
+        <guid isPermaLink="true">http://countless-integers.github.io/php/debugging/2015/09/06/var_dump-alternatives.html</guid>
         
         
         <category>php</category>
