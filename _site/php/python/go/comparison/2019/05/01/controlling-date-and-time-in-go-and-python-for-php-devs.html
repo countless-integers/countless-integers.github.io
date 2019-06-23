@@ -10,8 +10,8 @@
   <meta name="description" content="Changing datetime formats or transforming strings into date objects">
 
   <link rel="stylesheet" href="/css/main.css">
-  <link rel="canonical" href="http://countless-integers.github.io/php/python/go/comparison/2019/05/01/controlling-date-and-time-in-go-and-python-for-php-devs.html">
-  <link rel="alternate" type="application/rss+xml" title="countless-integers blog" href="http://countless-integers.github.io/feed.xml" />
+  <link rel="canonical" href="http://localhost:4000/php/python/go/comparison/2019/05/01/controlling-date-and-time-in-go-and-python-for-php-devs.html">
+  <link rel="alternate" type="application/rss+xml" title="countless-integers blog" href="http://localhost:4000/feed.xml" />
 </head>
 
 
@@ -115,19 +115,19 @@ what happens when you do <code class="highlighter-rouge">parse('2')</code>, beca
 <p>Similar to Python, golang comes equipped with structured time parsing functions. However its time format definitions are somewhat confusing, yet
 convenient to use:</p>
 
-<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">package</span><span class="x"> </span><span class="n">main</span><span class="x">
+<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">package</span> <span class="n">main</span>
 
-</span><span class="k">import</span><span class="x"> </span><span class="p">(</span><span class="x">
-	</span><span class="s">"fmt"</span><span class="x">
-	</span><span class="s">"time"</span><span class="x">
-</span><span class="p">)</span><span class="x">
+<span class="k">import</span> <span class="p">(</span>
+	<span class="s">"fmt"</span>
+	<span class="s">"time"</span>
+<span class="p">)</span>
 
-</span><span class="k">func</span><span class="x"> </span><span class="n">main</span><span class="p">()</span><span class="x"> </span><span class="p">{</span><span class="x">
-    </span><span class="k">const</span><span class="x"> </span><span class="n">formatExample</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="s">"2006-Jan-02"</span><span class="x">
-	</span><span class="n">t</span><span class="p">,</span><span class="x"> </span><span class="n">_</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">time</span><span class="o">.</span><span class="n">Parse</span><span class="p">(</span><span class="n">formatExample</span><span class="p">,</span><span class="x"> </span><span class="s">"2077-Feb-22"</span><span class="p">)</span><span class="x">
-	</span><span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">t</span><span class="p">)</span><span class="x">
-</span><span class="p">}</span><span class="x">
-</span></code></pre></div></div>
+<span class="k">func</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">const</span> <span class="n">formatExample</span> <span class="o">=</span> <span class="s">"2006-Jan-02"</span>
+	<span class="n">t</span><span class="p">,</span> <span class="n">_</span> <span class="o">:=</span> <span class="n">time</span><span class="o">.</span><span class="n">Parse</span><span class="p">(</span><span class="n">formatExample</span><span class="p">,</span> <span class="s">"2077-Feb-22"</span><span class="p">)</span>
+	<span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div></div>
 
 <p>However, that is a bit of a double-edged sword as messing up the format, which is very easy i.e. <code class="highlighter-rouge">2000-Jan-01</code>, will leave you with a
 null date of <code class="highlighter-rouge">0001-01-01 00:00:00 +0000 UTC</code>. So on one hand it makes the format string value more self-documenting, on

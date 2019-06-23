@@ -4,11 +4,51 @@
     <title>countless-integers blog</title>
     <description>My random thoughts and weird stories inspired by dailly coding.  This blog runs on the awesome Jekyl.
 </description>
-    <link>http://countless-integers.github.io/</link>
-    <atom:link href="http://countless-integers.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Wed, 01 May 2019 12:44:44 +0200</pubDate>
-    <lastBuildDate>Wed, 01 May 2019 12:44:44 +0200</lastBuildDate>
+    <link>http://localhost:4000/</link>
+    <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>Sun, 23 Jun 2019 22:48:09 +0200</pubDate>
+    <lastBuildDate>Sun, 23 Jun 2019 22:48:09 +0200</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
+    
+      <item>
+        <title>Weekly article round-up, 3rd week of June</title>
+        <description>&lt;p&gt;Interesting stuff I read/watched on the web this week.&lt;/p&gt;
+
+&lt;h2 id=&quot;on-fitness-and-programming&quot;&gt;On fitness and programming:&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://medium.com/better-programming/how-fitness-transformed-me-into-a-better-web-developer-ac51a2b08cb4&quot;&gt;How Fitness Transformed Me into a Better Web Developer&lt;/a&gt; by &lt;a href=&quot;https://medium.com/@lumrachele&quot;&gt;Rachel Lum&lt;/a&gt;. The conclusion is pretty obvious to me as I’ve went through a similar journey as the author. What makes this article stand-out however are the references to white-papers and other sources used to support the main idea of the piece – regular exercise improves your productivity, physical and &lt;em&gt;mental&lt;/em&gt; health.&lt;/p&gt;
+
+&lt;p&gt;Short, ca. 5 min read.&lt;/p&gt;
+
+&lt;h2 id=&quot;on-benefits-of-using-object-data-structures-over-associative-arrays-in-php&quot;&gt;On benefits of using object data structures over associative arrays in PHP&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://steemit.com/php/@crell/php-use-associative-arrays-basically-never&quot;&gt;PHP: Use associative arrays basically never&lt;/a&gt; by &lt;a href=&quot;https://steemit.com/@crell&quot;&gt;Crell?&lt;/a&gt;. Some strong opinions (starting from the title), some backed by evidence presented in the article. Authors shows some use-cases for using different types of data structures for list/dictionary type data and backs it up with some basic benchmark results. Overall good write-up even if you’ll just go for the conclusion (although I highly recommend going through the comments section as well).&lt;/p&gt;
+
+&lt;p&gt;Medium, ca. 8 min read.&lt;/p&gt;
+
+&lt;h2 id=&quot;talk-about-burn-out&quot;&gt;Talk about burn-out&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://youtu.be/JQ1-SBEdV5s&quot;&gt;Post-burnout Thoughts&lt;/a&gt; by &lt;a href=&quot;https://twitter.com/joel__lord&quot;&gt;Joel Lord&lt;/a&gt;. Joel’s talk recorded at Dutch PHP Conference on 7th of June 2019 about burn-out and his experience with it. It’s a bit awkward and cringy, but it’s important to keep in mind that the speaker went through the stuff his talking about. He covers the symptoms, effects and gives useful tips on how to deal with it.&lt;/p&gt;
+
+&lt;p&gt;Some references from the video:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://mhfa.nl/online-cursus-mentale-gezondheid&quot;&gt;Mental Health First Aid Kit&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://leanpub.com/osmi-mental-wellness-in-the-workplace&quot;&gt;Mental Wellness in the Workplace&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://letstalk.bell.ca/en/toolkit&quot;&gt;The Bell Let’s Talk Toolkit&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://podcasts.google.com/?feed=aHR0cDovL2hleXlvdS5saWJzeW4uY29tL2dwbQ&amp;amp;episode=MTliZDA4ZjJjYmY5NDY2NzkwYjYzZjkyN2Q3YmUwNWE&quot;&gt;Hey You!, Episode 8 - Mental Health Awareness&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Medium, 32 min watch.&lt;/p&gt;
+</description>
+        <pubDate>Sun, 23 Jun 2019 00:00:00 +0200</pubDate>
+        <link>http://localhost:4000/roundup/2019/06/23/weekly-article-round-up-3rd-week-of-june.html</link>
+        <guid isPermaLink="true">http://localhost:4000/roundup/2019/06/23/weekly-article-round-up-3rd-week-of-june.html</guid>
+        
+        
+        <category>roundup</category>
+        
+      </item>
     
       <item>
         <title>Controlling date and time in Go and Python for PHP devs</title>
@@ -65,19 +105,19 @@ what happens when you do &lt;code class=&quot;highlighter-rouge&quot;&gt;parse('
 &lt;p&gt;Similar to Python, golang comes equipped with structured time parsing functions. However its time format definitions are somewhat confusing, yet
 convenient to use:&lt;/p&gt;
 
-&lt;div class=&quot;language-go highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;package&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
+&lt;div class=&quot;language-go highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;package&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;main&lt;/span&gt;
 
-&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;import&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-	&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;fmt&quot;&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-	&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;time&quot;&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
+&lt;span class=&quot;k&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+	&lt;span class=&quot;s&quot;&gt;&quot;fmt&quot;&lt;/span&gt;
+	&lt;span class=&quot;s&quot;&gt;&quot;time&quot;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
-&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;func&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-    &lt;/span&gt;&lt;span class=&quot;k&quot;&gt;const&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;formatExample&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;2006-Jan-02&quot;&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-	&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;t&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;_&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:=&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;time&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Parse&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;formatExample&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;2077-Feb-22&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-	&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fmt&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Println&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;t&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;span class=&quot;k&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;formatExample&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;2006-Jan-02&quot;&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;t&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;:=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;time&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Parse&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;formatExample&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;2077-Feb-22&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;fmt&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Println&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;t&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;However, that is a bit of a double-edged sword as messing up the format, which is very easy i.e. &lt;code class=&quot;highlighter-rouge&quot;&gt;2000-Jan-01&lt;/code&gt;, will leave you with a
 null date of &lt;code class=&quot;highlighter-rouge&quot;&gt;0001-01-01 00:00:00 +0000 UTC&lt;/code&gt;. So on one hand it makes the format string value more self-documenting, on
@@ -107,8 +147,8 @@ the other it can an arrow to your knee. More about time formats
 &lt;p&gt;TBC&lt;/p&gt;
 </description>
         <pubDate>Wed, 01 May 2019 00:00:00 +0200</pubDate>
-        <link>http://countless-integers.github.io/php/python/go/comparison/2019/05/01/controlling-date-and-time-in-go-and-python-for-php-devs.html</link>
-        <guid isPermaLink="true">http://countless-integers.github.io/php/python/go/comparison/2019/05/01/controlling-date-and-time-in-go-and-python-for-php-devs.html</guid>
+        <link>http://localhost:4000/php/python/go/comparison/2019/05/01/controlling-date-and-time-in-go-and-python-for-php-devs.html</link>
+        <guid isPermaLink="true">http://localhost:4000/php/python/go/comparison/2019/05/01/controlling-date-and-time-in-go-and-python-for-php-devs.html</guid>
         
         
         <category>php</category>
@@ -395,8 +435,8 @@ reboot
 &lt;/ul&gt;
 </description>
         <pubDate>Sun, 10 Sep 2017 00:00:00 +0200</pubDate>
-        <link>http://countless-integers.github.io/linux/2017/09/10/installing-archlinux-as-a-virtualbox-guest-system.html</link>
-        <guid isPermaLink="true">http://countless-integers.github.io/linux/2017/09/10/installing-archlinux-as-a-virtualbox-guest-system.html</guid>
+        <link>http://localhost:4000/linux/2017/09/10/installing-archlinux-as-a-virtualbox-guest-system.html</link>
+        <guid isPermaLink="true">http://localhost:4000/linux/2017/09/10/installing-archlinux-as-a-virtualbox-guest-system.html</guid>
         
         
         <category>linux</category>
@@ -459,8 +499,8 @@ sudo gem2.3 install jekyll
 
 </description>
         <pubDate>Sat, 01 Apr 2017 00:00:00 +0200</pubDate>
-        <link>http://countless-integers.github.io/2017/04/01/the-linux-terminal-experience-on-windows-10.html</link>
-        <guid isPermaLink="true">http://countless-integers.github.io/2017/04/01/the-linux-terminal-experience-on-windows-10.html</guid>
+        <link>http://localhost:4000/2017/04/01/the-linux-terminal-experience-on-windows-10.html</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/04/01/the-linux-terminal-experience-on-windows-10.html</guid>
         
         
       </item>
@@ -591,8 +631,8 @@ There is even some theoretic work done on that &lt;a href=&quot;https://encrypte
 &lt;p&gt;All in all, I was positively surprised by what I have read.&lt;/p&gt;
 </description>
         <pubDate>Mon, 13 Jun 2016 00:00:00 +0200</pubDate>
-        <link>http://countless-integers.github.io/vcs/static-code/analysis/git/2016/06/13/takeaways-from-your-code-as-a-crime-scene-by-adam-tornhill.html</link>
-        <guid isPermaLink="true">http://countless-integers.github.io/vcs/static-code/analysis/git/2016/06/13/takeaways-from-your-code-as-a-crime-scene-by-adam-tornhill.html</guid>
+        <link>http://localhost:4000/vcs/static-code/analysis/git/2016/06/13/takeaways-from-your-code-as-a-crime-scene-by-adam-tornhill.html</link>
+        <guid isPermaLink="true">http://localhost:4000/vcs/static-code/analysis/git/2016/06/13/takeaways-from-your-code-as-a-crime-scene-by-adam-tornhill.html</guid>
         
         
         <category>vcs</category>
@@ -692,8 +732,8 @@ It is just about the standard OOP factories.&lt;/p&gt;
 &lt;p&gt;I have omitted a lot the fragments, some on purpose, some by mistake. I really wish they they would edit those things to some more managable and focused format. Still there is a lot interesting stuff in there, so enjoy.&lt;/p&gt;
 </description>
         <pubDate>Mon, 13 Jun 2016 00:00:00 +0200</pubDate>
-        <link>http://countless-integers.github.io/ddd/php/2016/06/13/php-roundtable-about-ddd.html</link>
-        <guid isPermaLink="true">http://countless-integers.github.io/ddd/php/2016/06/13/php-roundtable-about-ddd.html</guid>
+        <link>http://localhost:4000/ddd/php/2016/06/13/php-roundtable-about-ddd.html</link>
+        <guid isPermaLink="true">http://localhost:4000/ddd/php/2016/06/13/php-roundtable-about-ddd.html</guid>
         
         
         <category>DDD</category>
@@ -755,8 +795,8 @@ It is just about the standard OOP factories.&lt;/p&gt;
 
 </description>
         <pubDate>Sat, 11 Jun 2016 00:00:00 +0200</pubDate>
-        <link>http://countless-integers.github.io/shell/zsh/2016/06/11/chsh-to-zsh.html</link>
-        <guid isPermaLink="true">http://countless-integers.github.io/shell/zsh/2016/06/11/chsh-to-zsh.html</guid>
+        <link>http://localhost:4000/shell/zsh/2016/06/11/chsh-to-zsh.html</link>
+        <guid isPermaLink="true">http://localhost:4000/shell/zsh/2016/06/11/chsh-to-zsh.html</guid>
         
         
         <category>shell</category>
@@ -823,8 +863,8 @@ Content-Type: application/x-www-form-urlencoded
 &lt;p&gt;All that was left was to put that &lt;code class=&quot;highlighter-rouge&quot;&gt;ncat&lt;/code&gt; listener address in place of the target url in the app and done!&lt;/p&gt;
 </description>
         <pubDate>Mon, 18 Jan 2016 00:00:00 +0100</pubDate>
-        <link>http://countless-integers.github.io/debugging/ncat/2016/01/18/debugging-outgoing-requests-with-ncat.html</link>
-        <guid isPermaLink="true">http://countless-integers.github.io/debugging/ncat/2016/01/18/debugging-outgoing-requests-with-ncat.html</guid>
+        <link>http://localhost:4000/debugging/ncat/2016/01/18/debugging-outgoing-requests-with-ncat.html</link>
+        <guid isPermaLink="true">http://localhost:4000/debugging/ncat/2016/01/18/debugging-outgoing-requests-with-ncat.html</guid>
         
         
         <category>debugging</category>
@@ -943,8 +983,8 @@ awesomeness), but it's nice to have a reliable alternative like that.
 &lt;/div&gt;
 </description>
         <pubDate>Sun, 20 Sep 2015 00:00:00 +0200</pubDate>
-        <link>http://countless-integers.github.io/linux/2015/09/20/make-cmus-play-nice-with-clementine.html</link>
-        <guid isPermaLink="true">http://countless-integers.github.io/linux/2015/09/20/make-cmus-play-nice-with-clementine.html</guid>
+        <link>http://localhost:4000/linux/2015/09/20/make-cmus-play-nice-with-clementine.html</link>
+        <guid isPermaLink="true">http://localhost:4000/linux/2015/09/20/make-cmus-play-nice-with-clementine.html</guid>
         
         
         <category>linux</category>
@@ -1067,8 +1107,8 @@ as post and then do this:&lt;/p&gt;
 &lt;/div&gt;
 </description>
         <pubDate>Thu, 17 Sep 2015 00:00:00 +0200</pubDate>
-        <link>http://countless-integers.github.io/php/zf2/rest/put/2015/09/17/put-requests-to-zf2-restful-controller.html</link>
-        <guid isPermaLink="true">http://countless-integers.github.io/php/zf2/rest/put/2015/09/17/put-requests-to-zf2-restful-controller.html</guid>
+        <link>http://localhost:4000/php/zf2/rest/put/2015/09/17/put-requests-to-zf2-restful-controller.html</link>
+        <guid isPermaLink="true">http://localhost:4000/php/zf2/rest/put/2015/09/17/put-requests-to-zf2-restful-controller.html</guid>
         
         
         <category>php</category>
@@ -1078,139 +1118,6 @@ as post and then do this:&lt;/p&gt;
         <category>rest</category>
         
         <category>put</category>
-        
-      </item>
-    
-      <item>
-        <title>var_dump alternatives</title>
-        <description>&lt;h2 id=&quot;tldr&quot;&gt;TL;DR&lt;/h2&gt;
-&lt;p&gt;If you want something better to dump variables than &lt;code class=&quot;highlighter-rouge&quot;&gt;var_dump&lt;/code&gt;, get Kint.&lt;/p&gt;
-
-&lt;h2 id=&quot;introduction&quot;&gt;Introduction&lt;/h2&gt;
-&lt;p&gt;When I can’t be bothered to turn on Xdebug just to debug some mysterious variable, then I take a dump (caution: more bad poop puns ahead). It comes out in different shapes and sizes. Sometimes it’s hard to make out anything out of it and instead of saving time I’m loosing it. XDebug is comprehensive and gives an insight into code that dumps won’t ever provide, but PHP can do a lot better than &lt;code class=&quot;highlighter-rouge&quot;&gt;var_dump&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;So one fine day I went for a hunt on the internets for a worthy replacement. By worthy I mean:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;easy to install and invoke&lt;/li&gt;
-  &lt;li&gt;doesn’t brake other things&lt;/li&gt;
-  &lt;li&gt;is context-aware, e.g. it won’t try to output array as a string&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;No big expectations there, right? So let me go over what I found.&lt;/p&gt;
-
-&lt;h2 id=&quot;symfony-vardumper&quot;&gt;Symfony VarDumper&lt;/h2&gt;
-&lt;p&gt;Invocation is a simple &lt;code class=&quot;highlighter-rouge&quot;&gt;dump&lt;/code&gt; global function that takes one argument.&lt;/p&gt;
-
-&lt;p&gt;Pros:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;simple invocation&lt;/li&gt;
-  &lt;li&gt;minimal installation&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://github.com/symfony/var-dumper/blob/master/VarDumper.php#L32&quot;&gt;distinguishes between &lt;code class=&quot;highlighter-rouge&quot;&gt;cli&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;www&lt;/code&gt; environment&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;(a bit far-fetched) part of the Symfony ecosystem, so I’d expect it to receive timely updates and upgrades, perhaps even some SF integration&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Cons:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;dump&lt;/code&gt; is still longer that e.g. &lt;code class=&quot;highlighter-rouge&quot;&gt;d&lt;/code&gt;&lt;/li&gt;
-  &lt;li&gt;no option to stop script execution&lt;/li&gt;
-  &lt;li&gt;no way to pass multiple vars in one invocation, so you have to call &lt;code class=&quot;highlighter-rouge&quot;&gt;dump&lt;/code&gt; with every variable you want to see&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Read more about it:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;http://symfony.com/doc/current/components/var_dumper/introduction.html&quot;&gt;Symfony docs&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://github.com/symfony/var-dumper&quot;&gt;VarDumper on github&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;zend-framework-debug&quot;&gt;Zend Framework Debug&lt;/h2&gt;
-&lt;p&gt;It’s a component of ZF. Invocation is: &lt;code class=&quot;highlighter-rouge&quot;&gt;\Zend\Debug\Debug::dump($var);&lt;/code&gt;… As far as “easy to invoke” is concerned, the
-description might as well end there. But:&lt;/p&gt;
-
-&lt;p&gt;Pros:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;(if your project is based on ZF2) shipped with ZF2&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Cons:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;the invocation is just too damn long&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Read more about it:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;http://framework.zend.com/manual/current/en/modules/zend.debug.html&quot;&gt;ZF docs pages&lt;/a&gt;. If the page is up that is&lt;sup id=&quot;fnref:1&quot;&gt;&lt;a href=&quot;#fn:1&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;kint&quot;&gt;Kint&lt;/h2&gt;
-&lt;p&gt;The basic invocation of Kint is &lt;code class=&quot;highlighter-rouge&quot;&gt;d($var)&lt;/code&gt;. It does not get any simpler than that. It also allows for no-formatting output through &lt;code class=&quot;highlighter-rouge&quot;&gt;s($var)&lt;/code&gt;. But it doesn’t end there. &lt;code class=&quot;highlighter-rouge&quot;&gt;ddd($var)&lt;/code&gt; (used to be &lt;code class=&quot;highlighter-rouge&quot;&gt;dd&lt;/code&gt;, but then it got deprecated for compatibility) will die after dumping (same thing with &lt;code class=&quot;highlighter-rouge&quot;&gt;sd($var)&lt;/code&gt;) and it also does magic tricks with, what they call, real time modifiers. E.g. &lt;code class=&quot;highlighter-rouge&quot;&gt;+d($dump)&lt;/code&gt; would bypass dump depth limits, &lt;code class=&quot;highlighter-rouge&quot;&gt;@s($var)&lt;/code&gt; would return the output to a variable for capture, &lt;code class=&quot;highlighter-rouge&quot;&gt;!d($var)&lt;/code&gt; would expand all output in HTML mode. It also comes with optional keyboard navigation, foldable output (like VarDumper), type/visibility detection and many more.&lt;/p&gt;
-
-&lt;p&gt;Among the features I’ve not seen anywhere else is signing every dump with the exact place it was made (fqcn and line number) and that a lot better for me than labeling the dumps.&lt;/p&gt;
-
-&lt;p&gt;What I like in particular is that it also outputs useful info about objects you dump, like public method/variable names. So no more &lt;code class=&quot;highlighter-rouge&quot;&gt;var_dump(get_class_methods(get_class($object)))&lt;/code&gt; and similar gimmicks.&lt;/p&gt;
-
-&lt;p&gt;I could not find anything as good as Kint. It’s a winner.&lt;/p&gt;
-
-&lt;p&gt;Pros:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;many useful modes&lt;/li&gt;
-  &lt;li&gt;shortest possible invocation&lt;/li&gt;
-  &lt;li&gt;modifiers&lt;/li&gt;
-  &lt;li&gt;comprehensive output&lt;/li&gt;
-  &lt;li&gt;discerns &lt;code class=&quot;highlighter-rouge&quot;&gt;cli&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;www&lt;/code&gt; environments&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Cons:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;it doesn’t make toasts&lt;/li&gt;
-  &lt;li&gt;recently it has been getting really complex, so occasional, unexpected error might occur (e.g. &lt;a href=&quot;https://github.com/raveren/kint/issues/160&quot;&gt;this&lt;/a&gt;)&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Read more about it:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;https://github.com/raveren/kint/&quot;&gt;github page&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;http://raveren.github.io/kint/&quot;&gt;blog page&lt;/a&gt; but it seems slightly out of date.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;notable-omissions&quot;&gt;Notable omissions&lt;/h2&gt;
-&lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;https://github.com/raulfraile/Ladybug&quot;&gt;LadyBug&lt;/a&gt; – I kinda stopped liking it after seeing &lt;code class=&quot;highlighter-rouge&quot;&gt;composer require&lt;/code&gt; output
-that looked like it wouldn’t end. Why so many dependencies LadyBug?&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h2&gt;
-&lt;p&gt;Apart from ZF2 dump, which doesn’t really fit my search criteria, all of the above tools yield some improvements over vanilla &lt;code class=&quot;highlighter-rouge&quot;&gt;var_dump&lt;/code&gt;. However not all ‘dumpers’ were made ‘equal’ – some just can take a dump better than the others (see what I did there?). Kint is my favorite and I use it every time I don’t feel like starting a Xdebug session. Hats off to the creator and the contributors – you made my life easier.&lt;/p&gt;
-
-&lt;p&gt;All of the above-mentioned tools are available through composer, so getting them to work is straightforward (seems
-obvious, but I still remember the days we didn’t have composer).&lt;/p&gt;
-
-&lt;p&gt;If you know anything better than Kint, let me know.&lt;/p&gt;
-
-&lt;div class=&quot;footnotes&quot;&gt;
-  &lt;ol&gt;
-    &lt;li id=&quot;fn:1&quot;&gt;
-      &lt;p&gt;if you’re detecting a little passive-agressive note, then your instincts are working correctly. I’ll post something about my experience with ZF2 later on. &lt;a href=&quot;#fnref:1&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
-    &lt;/li&gt;
-  &lt;/ol&gt;
-&lt;/div&gt;
-</description>
-        <pubDate>Sun, 06 Sep 2015 00:00:00 +0200</pubDate>
-        <link>http://countless-integers.github.io/php/debugging/2015/09/06/var_dump-alternatives.html</link>
-        <guid isPermaLink="true">http://countless-integers.github.io/php/debugging/2015/09/06/var_dump-alternatives.html</guid>
-        
-        
-        <category>php</category>
-        
-        <category>debugging</category>
         
       </item>
     

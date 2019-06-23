@@ -6,11 +6,11 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>Weird case of PHP interface constants</title>
-  <meta name="description" content="While trying to mock an object using mockery I came across this:">
+  <title>Weekly article round-up, 3rd week of June</title>
+  <meta name="description" content="Interesting stuff I read/watched on the web this week.">
 
   <link rel="stylesheet" href="/css/main.css">
-  <link rel="canonical" href="http://localhost:4000/php/interfaces/constant/2015/08/24/weird-case-with-php-interface-constants.html">
+  <link rel="canonical" href="http://localhost:4000/roundup/2019/06/23/weekly-article-round-up-3rd-week-of-june.html">
   <link rel="alternate" type="application/rss+xml" title="countless-integers blog" href="http://localhost:4000/feed.xml" />
 </head>
 
@@ -57,33 +57,39 @@
         <div class="post">
 
   <header class="post-header">
-    <h1 class="post-title">Weird case of PHP interface constants</h1>
-    <p class="post-meta">Aug 24, 2015</p>
+    <h1 class="post-title">Weekly article round-up, 3rd week of June</h1>
+    <p class="post-meta">Jun 23, 2019</p>
   </header>
 
   <article class="post-content">
-    <p>While trying to mock an object using mockery I came across this:</p>
+    <p>Interesting stuff I read/watched on the web this week.</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Fatal error: Undefined class constant 'self::LIMIT' in /project.path/vendor/mockery/mockery/library/Mockery/Generator/Parameter.php on line 62
-</code></pre></div></div>
+<h2 id="on-fitness-and-programming">On fitness and programming:</h2>
 
-<p>So I tried to make the mock with vanilla PHPUnit:</p>
+<p><a href="https://medium.com/better-programming/how-fitness-transformed-me-into-a-better-web-developer-ac51a2b08cb4">How Fitness Transformed Me into a Better Web Developer</a> by <a href="https://medium.com/@lumrachele">Rachel Lum</a>. The conclusion is pretty obvious to me as I’ve went through a similar journey as the author. What makes this article stand-out however are the references to white-papers and other sources used to support the main idea of the piece – regular exercise improves your productivity, physical and <em>mental</em> health.</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Fatal error: Undefined class constant 'self::LIMIT' in /project.path/vendor/phpunit/phpunit-mock-objects/src/Framework/MockObject/Generator.php on line 1064
-</code></pre></div></div>
+<p>Short, ca. 5 min read.</p>
 
-<p>My first guess was that it had a problem with me using constants as default parameter values in method definitions like so:</p>
+<h2 id="on-benefits-of-using-object-data-structures-over-associative-arrays-in-php">On benefits of using object data structures over associative arrays in PHP</h2>
 
-<figure class="highlight"><pre><code class="language-php" data-lang="php">  <span class="k">public</span> <span class="k">function</span> <span class="nf">method</span><span class="p">(</span><span class="nv">$param</span> <span class="o">=</span> <span class="nx">self</span><span class="o">::</span><span class="na">VALUE</span><span class="p">)</span></code></pre></figure>
+<p><a href="https://steemit.com/php/@crell/php-use-associative-arrays-basically-never">PHP: Use associative arrays basically never</a> by <a href="https://steemit.com/@crell">Crell?</a>. Some strong opinions (starting from the title), some backed by evidence presented in the article. Authors shows some use-cases for using different types of data structures for list/dictionary type data and backs it up with some basic benchmark results. Overall good write-up even if you’ll just go for the conclusion (although I highly recommend going through the comments section as well).</p>
 
-<p>However this sounded wrong – I used that before and never had a problem with it. So I dug deeper. Then I came across an interface that the mocked class implemented. It looked something like this:</p>
+<p>Medium, ca. 8 min read.</p>
 
-<figure class="highlight"><pre><code class="language-php" data-lang="php">    <span class="k">interface</span> <span class="nx">ITotallyForgotIMadeAnInterfaceForThis</span>
-    <span class="p">{</span>
-        <span class="k">public</span> <span class="k">function</span> <span class="nf">method</span><span class="p">(</span><span class="nv">$param</span> <span class="o">=</span> <span class="nx">self</span><span class="o">::</span><span class="na">VALUE</span><span class="p">);</span>
-    <span class="p">}</span></code></pre></figure>
+<h2 id="talk-about-burn-out">Talk about burn-out</h2>
 
-<p>I had to look twice, but there it was, my undefined constant. How this had worked (because it did) during normal application run? It shouldn’t, but somehow it did? Anyone can elaborate?</p>
+<p><a href="https://youtu.be/JQ1-SBEdV5s">Post-burnout Thoughts</a> by <a href="https://twitter.com/joel__lord">Joel Lord</a>. Joel’s talk recorded at Dutch PHP Conference on 7th of June 2019 about burn-out and his experience with it. It’s a bit awkward and cringy, but it’s important to keep in mind that the speaker went through the stuff his talking about. He covers the symptoms, effects and gives useful tips on how to deal with it.</p>
+
+<p>Some references from the video:</p>
+
+<ul>
+  <li><a href="https://mhfa.nl/online-cursus-mentale-gezondheid">Mental Health First Aid Kit</a></li>
+  <li><a href="https://leanpub.com/osmi-mental-wellness-in-the-workplace">Mental Wellness in the Workplace</a></li>
+  <li><a href="https://letstalk.bell.ca/en/toolkit">The Bell Let’s Talk Toolkit</a></li>
+  <li><a href="https://podcasts.google.com/?feed=aHR0cDovL2hleXlvdS5saWJzeW4uY29tL2dwbQ&amp;episode=MTliZDA4ZjJjYmY5NDY2NzkwYjYzZjkyN2Q3YmUwNWE">Hey You!, Episode 8 - Mental Health Awareness</a></li>
+</ul>
+
+<p>Medium, 32 min watch.</p>
 
   </article>
 
