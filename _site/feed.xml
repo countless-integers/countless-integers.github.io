@@ -4,11 +4,92 @@
     <title>countless-integers blog</title>
     <description>My random thoughts and weird stories inspired by dailly coding.  This blog runs on the awesome Jekyl.
 </description>
-    <link>http://localhost:4000/</link>
-    <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sun, 23 Jun 2019 22:48:09 +0200</pubDate>
-    <lastBuildDate>Sun, 23 Jun 2019 22:48:09 +0200</lastBuildDate>
-    <generator>Jekyll v3.8.5</generator>
+    <link>http://countless-integers.github.io/</link>
+    <atom:link href="http://countless-integers.github.io/feed.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>Sat, 28 Mar 2020 22:04:04 +0100</pubDate>
+    <lastBuildDate>Sat, 28 Mar 2020 22:04:04 +0100</lastBuildDate>
+    <generator>Jekyll v4.0.0</generator>
+    
+      <item>
+        <title>Substituting AWS S3 with a local service</title>
+        <description>&lt;p&gt;S3 is rather cheap and you might wander why bother, but there are multiple good reasons to use a local substitute during development. Among them:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;working offline, e.g. on a plane&lt;/li&gt;
+  &lt;li&gt;marginally lower latency&lt;/li&gt;
+  &lt;li&gt;no risk of bucket name collisions, especially when you create them like crazy during tests&lt;/li&gt;
+  &lt;li&gt;no fuss with credentials&lt;/li&gt;
+  &lt;li&gt;tear it apart all you want&lt;/li&gt;
+  &lt;li&gt;check those pesky edge cases with connectivity errors&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;For context, I’ll mention upfront that this solution was tested on a PHP project written in Laravel, but should be equally applicable for any other technology.&lt;/p&gt;
+
+&lt;h2 id=&quot;whats-available&quot;&gt;What’s available&lt;/h2&gt;
+
+&lt;p&gt;Some solutions we’ve tried out:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://min.io/&quot;&gt;MinIO&lt;/a&gt; – a storage service in its own right, but maintaining a (mostly) S3-compatible API. Has its own set of tools and a GUI.&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/adobe/S3Mock&quot;&gt;S3Mock from Adobe&lt;/a&gt; – focused on API compatibility, no frills. Written in Java.&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/jubos/fake-s3&quot;&gt;Fake S3&lt;/a&gt; – similar to S3Mock (it’s even referenced in their GH page). Written in Ruby.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;implementation&quot;&gt;Implementation&lt;/h2&gt;
+
+&lt;p&gt;Out of those, we’ve ended up using MinIO. It was mostly because of convenience as we were already using &lt;a href=&quot;https://laravel.com/docs/master/homestead&quot;&gt;Homestead&lt;/a&gt; Vagrant box for development and it came as an installation option with it. It was also important for me to have some tools to inspect all buckets during manual tests and since none of those solutions worked correctly with AWS Cli tool for me, MinIO came through with its GUI and Cli tool (somewhat confusingly called &lt;code class=&quot;highlighter-rouge&quot;&gt;mc&lt;/code&gt; aka &lt;em&gt;Not Midnight Commander&lt;/em&gt;).&lt;/p&gt;
+
+&lt;p&gt;Not to say that, e.g. S3Mock, was difficult to set up. My collegue came up with the painless solution of using the &lt;a href=&quot;https://www.vagrantup.com/docs/provisioning/docker.html&quot;&gt;docker provisioner&lt;/a&gt; in Vagrant. A snippet you can use in your &lt;code class=&quot;highlighter-rouge&quot;&gt;Vagrantfile&lt;/code&gt; (in our case it meant modifying Homestead’s Vagrantfile):&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# ...
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+    config.vm.provision &quot;docker&quot; do |d|
+        d.pull_images &quot;adobe/s3mock&quot;
+        d.run &quot;adobe/s3mock&quot;,
+          args: &quot;-p 9090:9090 -p 9191:9191&quot;
+    end
+    # ...
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;However, to get MinIO in Homestead, all you have to do is enable it in the &lt;code class=&quot;highlighter-rouge&quot;&gt;Homestead.yaml&lt;/code&gt; file:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;features:
+	- minio: true
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;In versions 5.7+ you can also pre-define buckets and their policies that should be provisioned for you in a separate, &lt;code class=&quot;highlighter-rouge&quot;&gt;buckets&lt;/code&gt; section. Beware that you can add that configurations in previous versions without triggering any errors, but it will just be ignored.&lt;/p&gt;
+
+&lt;p&gt;Credentials will also need to be updated. MinIO that bundles with Homestead uses a dummy login and password, but unlike the S3Mock (at least by default), it actually checks them, so update your configuration accordingly.&lt;/p&gt;
+
+&lt;p&gt;Last thing to do is to do is to update local configuration to use thus provisioned service. Depending on whether you use Flysystem, Laravel’s Filesystem or AWS SDK directly, this step might look differently for you. The important part is that with a local service you’ll need to use something called “path style endpoint” for AWS API. Laravel’s documentation gives an &lt;a href=&quot;https://laravel.com/docs/5.7/homestead#configuring-minio&quot;&gt;example for the Filesystem configuration&lt;/a&gt;. The crux of the matter is that because the service is local, buckets url’s will no longer be conveniently generated for you by AWS. The way around that, bar some local DNS configuration, is to use a static domain and put the bucket name in the path of the url.&lt;/p&gt;
+
+&lt;p&gt;Apart from that, it’s business as usual. All the logic written for the actual S3 should work with your local substitute.&lt;/p&gt;
+
+&lt;h2 id=&quot;downsides&quot;&gt;Downsides&lt;/h2&gt;
+
+&lt;p&gt;Not everything is rosy though. All of the services strive to keep their API S3 compatible, but your mileage will vary depending on how many features of S3 you actually rely on.&lt;/p&gt;
+
+&lt;p&gt;Examples I’ve encountered include:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;needing to change from &lt;code class=&quot;highlighter-rouge&quot;&gt;public&lt;/code&gt; policy to &lt;code class=&quot;highlighter-rouge&quot;&gt;download&lt;/code&gt; to achieve a result similar to AWS’s own “public objects”. Somewhat frustratingly, I could not find a clear explanation of policy differences in MinIO docs. I still feel like I was missing some key piece of information to set it up better, but it didn’t help that at the time there was no one centralised information source on available polices. Therefore I’d suggest to check if features like hosted websites, complex ACL setups, CORS policies or object life-cycles will be sufficiently supported for your needs.&lt;/li&gt;
+  &lt;li&gt;some of the aws cli commands just would not work. Most frustratingly &lt;code class=&quot;highlighter-rouge&quot;&gt;s3 ls&lt;/code&gt; with an endpoint url defined would just throw an error. Same story with third party browsers like Dragon Disk (tried that and some others just for due diligence, didn’t like any of them)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h2&gt;
+
+&lt;p&gt;All the solutions performed well enough to warrant a recommendation (see the caveats above though). Using a local replacement for S3 makes development feel a bit safer and makes testing less stressful. If you’re considering it, just give it a try and see if it’s an (almost) drop-in replacement or not.&lt;/p&gt;
+</description>
+        <pubDate>Sat, 28 Mar 2020 00:00:00 +0100</pubDate>
+        <link>http://countless-integers.github.io/aws/laravel/2020/03/28/substituting-aws-s3-with-a-local-service.html</link>
+        <guid isPermaLink="true">http://countless-integers.github.io/aws/laravel/2020/03/28/substituting-aws-s3-with-a-local-service.html</guid>
+        
+        
+        <category>aws</category>
+        
+        <category>laravel</category>
+        
+      </item>
     
       <item>
         <title>Weekly article round-up, 3rd week of June</title>
@@ -42,8 +123,8 @@
 &lt;p&gt;Medium, 32 min watch.&lt;/p&gt;
 </description>
         <pubDate>Sun, 23 Jun 2019 00:00:00 +0200</pubDate>
-        <link>http://localhost:4000/roundup/2019/06/23/weekly-article-round-up-3rd-week-of-june.html</link>
-        <guid isPermaLink="true">http://localhost:4000/roundup/2019/06/23/weekly-article-round-up-3rd-week-of-june.html</guid>
+        <link>http://countless-integers.github.io/roundup/2019/06/23/weekly-article-round-up-3rd-week-of-june.html</link>
+        <guid isPermaLink="true">http://countless-integers.github.io/roundup/2019/06/23/weekly-article-round-up-3rd-week-of-june.html</guid>
         
         
         <category>roundup</category>
@@ -147,8 +228,8 @@ the other it can an arrow to your knee. More about time formats
 &lt;p&gt;TBC&lt;/p&gt;
 </description>
         <pubDate>Wed, 01 May 2019 00:00:00 +0200</pubDate>
-        <link>http://localhost:4000/php/python/go/comparison/2019/05/01/controlling-date-and-time-in-go-and-python-for-php-devs.html</link>
-        <guid isPermaLink="true">http://localhost:4000/php/python/go/comparison/2019/05/01/controlling-date-and-time-in-go-and-python-for-php-devs.html</guid>
+        <link>http://countless-integers.github.io/php/python/go/comparison/2019/05/01/controlling-date-and-time-in-go-and-python-for-php-devs.html</link>
+        <guid isPermaLink="true">http://countless-integers.github.io/php/python/go/comparison/2019/05/01/controlling-date-and-time-in-go-and-python-for-php-devs.html</guid>
         
         
         <category>php</category>
@@ -435,8 +516,8 @@ reboot
 &lt;/ul&gt;
 </description>
         <pubDate>Sun, 10 Sep 2017 00:00:00 +0200</pubDate>
-        <link>http://localhost:4000/linux/2017/09/10/installing-archlinux-as-a-virtualbox-guest-system.html</link>
-        <guid isPermaLink="true">http://localhost:4000/linux/2017/09/10/installing-archlinux-as-a-virtualbox-guest-system.html</guid>
+        <link>http://countless-integers.github.io/linux/2017/09/10/installing-archlinux-as-a-virtualbox-guest-system.html</link>
+        <guid isPermaLink="true">http://countless-integers.github.io/linux/2017/09/10/installing-archlinux-as-a-virtualbox-guest-system.html</guid>
         
         
         <category>linux</category>
@@ -499,8 +580,8 @@ sudo gem2.3 install jekyll
 
 </description>
         <pubDate>Sat, 01 Apr 2017 00:00:00 +0200</pubDate>
-        <link>http://localhost:4000/2017/04/01/the-linux-terminal-experience-on-windows-10.html</link>
-        <guid isPermaLink="true">http://localhost:4000/2017/04/01/the-linux-terminal-experience-on-windows-10.html</guid>
+        <link>http://countless-integers.github.io/2017/04/01/the-linux-terminal-experience-on-windows-10.html</link>
+        <guid isPermaLink="true">http://countless-integers.github.io/2017/04/01/the-linux-terminal-experience-on-windows-10.html</guid>
         
         
       </item>
@@ -631,8 +712,8 @@ There is even some theoretic work done on that &lt;a href=&quot;https://encrypte
 &lt;p&gt;All in all, I was positively surprised by what I have read.&lt;/p&gt;
 </description>
         <pubDate>Mon, 13 Jun 2016 00:00:00 +0200</pubDate>
-        <link>http://localhost:4000/vcs/static-code/analysis/git/2016/06/13/takeaways-from-your-code-as-a-crime-scene-by-adam-tornhill.html</link>
-        <guid isPermaLink="true">http://localhost:4000/vcs/static-code/analysis/git/2016/06/13/takeaways-from-your-code-as-a-crime-scene-by-adam-tornhill.html</guid>
+        <link>http://countless-integers.github.io/vcs/static-code/analysis/git/2016/06/13/takeaways-from-your-code-as-a-crime-scene-by-adam-tornhill.html</link>
+        <guid isPermaLink="true">http://countless-integers.github.io/vcs/static-code/analysis/git/2016/06/13/takeaways-from-your-code-as-a-crime-scene-by-adam-tornhill.html</guid>
         
         
         <category>vcs</category>
@@ -732,8 +813,8 @@ It is just about the standard OOP factories.&lt;/p&gt;
 &lt;p&gt;I have omitted a lot the fragments, some on purpose, some by mistake. I really wish they they would edit those things to some more managable and focused format. Still there is a lot interesting stuff in there, so enjoy.&lt;/p&gt;
 </description>
         <pubDate>Mon, 13 Jun 2016 00:00:00 +0200</pubDate>
-        <link>http://localhost:4000/ddd/php/2016/06/13/php-roundtable-about-ddd.html</link>
-        <guid isPermaLink="true">http://localhost:4000/ddd/php/2016/06/13/php-roundtable-about-ddd.html</guid>
+        <link>http://countless-integers.github.io/ddd/php/2016/06/13/php-roundtable-about-ddd.html</link>
+        <guid isPermaLink="true">http://countless-integers.github.io/ddd/php/2016/06/13/php-roundtable-about-ddd.html</guid>
         
         
         <category>DDD</category>
@@ -795,8 +876,8 @@ It is just about the standard OOP factories.&lt;/p&gt;
 
 </description>
         <pubDate>Sat, 11 Jun 2016 00:00:00 +0200</pubDate>
-        <link>http://localhost:4000/shell/zsh/2016/06/11/chsh-to-zsh.html</link>
-        <guid isPermaLink="true">http://localhost:4000/shell/zsh/2016/06/11/chsh-to-zsh.html</guid>
+        <link>http://countless-integers.github.io/shell/zsh/2016/06/11/chsh-to-zsh.html</link>
+        <guid isPermaLink="true">http://countless-integers.github.io/shell/zsh/2016/06/11/chsh-to-zsh.html</guid>
         
         
         <category>shell</category>
@@ -863,8 +944,8 @@ Content-Type: application/x-www-form-urlencoded
 &lt;p&gt;All that was left was to put that &lt;code class=&quot;highlighter-rouge&quot;&gt;ncat&lt;/code&gt; listener address in place of the target url in the app and done!&lt;/p&gt;
 </description>
         <pubDate>Mon, 18 Jan 2016 00:00:00 +0100</pubDate>
-        <link>http://localhost:4000/debugging/ncat/2016/01/18/debugging-outgoing-requests-with-ncat.html</link>
-        <guid isPermaLink="true">http://localhost:4000/debugging/ncat/2016/01/18/debugging-outgoing-requests-with-ncat.html</guid>
+        <link>http://countless-integers.github.io/debugging/ncat/2016/01/18/debugging-outgoing-requests-with-ncat.html</link>
+        <guid isPermaLink="true">http://countless-integers.github.io/debugging/ncat/2016/01/18/debugging-outgoing-requests-with-ncat.html</guid>
         
         
         <category>debugging</category>
@@ -983,141 +1064,11 @@ awesomeness), but it's nice to have a reliable alternative like that.
 &lt;/div&gt;
 </description>
         <pubDate>Sun, 20 Sep 2015 00:00:00 +0200</pubDate>
-        <link>http://localhost:4000/linux/2015/09/20/make-cmus-play-nice-with-clementine.html</link>
-        <guid isPermaLink="true">http://localhost:4000/linux/2015/09/20/make-cmus-play-nice-with-clementine.html</guid>
+        <link>http://countless-integers.github.io/linux/2015/09/20/make-cmus-play-nice-with-clementine.html</link>
+        <guid isPermaLink="true">http://countless-integers.github.io/linux/2015/09/20/make-cmus-play-nice-with-clementine.html</guid>
         
         
         <category>linux</category>
-        
-      </item>
-    
-      <item>
-        <title>PUT requests to ZF2 RESTful controller</title>
-        <description>&lt;p&gt;I’ve recently came across a problem writing a CRUD panel that made my reconsider what I knew about REST and/or request
-handling by PHP. Use case was 
-for updating an entity that consisted of some flat data and an image. I chose to send form data with PUT method pretty 
-much the same way I’d do with creating a new entity with POST form. Turns out that sending that data from an angular app 
-isn’t a problem, dealing with it server side is. I’ve compared payloads send with POST and PUT and on their way out they 
-look pretty much alike:&lt;/p&gt;
-
-&lt;p&gt;This one with PUT:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;------WebKitFormBoundaryqxNZUgM5f0nFT1Z1
-Content-Disposition: form-data; name=&quot;creation&quot;
-
-{&quot;id&quot;:1,&quot;title&quot;:&quot;ccc&quot;,&quot;dateFrom&quot;:&quot;2015-08-19&quot;,&quot;dateTo&quot;:&quot;2015-08-22&quot;,&quot;position&quot;:1,&quot;status&quot;:0}
-------WebKitFormBoundaryqxNZUgM5f0nFT1Z1
-Content-Disposition: form-data; name=&quot;file&quot;; filename=&quot;file.jpg&quot;
-Content-Type: image/jpeg
-
-
-------WebKitFormBoundaryqxNZUgM5f0nFT1Z1--
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;And this one with POST:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;------WebKitFormBoundaryaDVU9RBkEiCCgfUT
-Content-Disposition: form-data; name=&quot;creation&quot;
-
-{&quot;title&quot;:&quot;sdfsafsa&quot;,&quot;dateFrom&quot;:&quot;2015-09-14&quot;,&quot;dateTo&quot;:&quot;2015-09-30&quot;,&quot;position&quot;:1,&quot;status&quot;:0}
-------WebKitFormBoundaryaDVU9RBkEiCCgfUT
-Content-Disposition: form-data; name=&quot;file&quot;; filename=&quot;file.jpg&quot;
-Content-Type: image/jpeg
-
-
-------WebKitFormBoundaryaDVU9RBkEiCCgfUT--
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;One key difference is the presence of a &lt;code class=&quot;highlighter-rouge&quot;&gt;id&lt;/code&gt; in the PUT request, because it’s modifying an existing request it makes 
-sense that it’s there. Apart from that it looks the same, but it’s handled differently&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;For one thing there’s no &lt;code class=&quot;highlighter-rouge&quot;&gt;$_PUT&lt;/code&gt; like there’s &lt;code class=&quot;highlighter-rouge&quot;&gt;$_POST&lt;/code&gt;, so to even read it you have to resort to things like
-&lt;code class=&quot;highlighter-rouge&quot;&gt;parse_str(file_get_contents(&quot;php://input&quot;), $put)&lt;/code&gt;. Maybe &lt;a href=&quot;http://www.php-fig.org/psr/psr-7/&quot;&gt;PSR-7&lt;/a&gt; will solve that.&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;$_FILES&lt;/code&gt; is not populated if you send a &lt;code class=&quot;highlighter-rouge&quot;&gt;multipart/form-data&lt;/code&gt;, but there’s a reason for that&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Anyway ZF2 has a neat controller to handle requests like that in a restful fashion called 
-&lt;a href=&quot;http://framework.zend.com/manual/current/en/modules/zend.mvc.controllers.html#the-abstractrestfulcontroller&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;AbstractRestfulController&lt;/code&gt;&lt;/a&gt;. It maps incoming requests based on their HTTP method and 
-parameters:&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;POST maps to create(). That method expects a $data argument, usually the $_POST superglobal array. The data should be 
-used to create a new entity, and the response should typically be an HTTP 201 response with the Location header 
-indicating the URI of the newly created entity and the response body providing the representation.&lt;/p&gt;
-
-  &lt;p&gt;PUT maps to update(), and requires that an “id” parameter exists in the route matches; that value is passed as an 
-argument to the method. It should attempt to update the given entity, and, if successful, return either a 200 or 202 
-response status, as well as the representation of the entity.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;It works quite well up to the point when you’d try to send a multipart form with a file. The it’ll only take you to the 
-&lt;code class=&quot;highlighter-rouge&quot;&gt;update&lt;/code&gt; method as expected, but you can’t really get the data. I mean you could parse the input stream and carve that 
-data, but forget about the file.&lt;/p&gt;
-
-&lt;p&gt;I’ve spend some time researching why that’s happening. I’ve checked what PHP docs have to offer on the topic&lt;sup id=&quot;fnref:3&quot;&gt;&lt;a href=&quot;#fn:3&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt; and how
-W3 describes PUT&lt;sup id=&quot;fnref:4&quot;&gt;&lt;a href=&quot;#fn:4&quot; class=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt;. Both were hinting, but not conclusive. I’d especially counted on PHP docs to decsribe the exact
-way how to handle PUT, but it’s just not there – either it’s too obvious to be mentioned or not popular enough. It
-turned out that I’ve overinterpreted what a RESTful PUT request could/should do. I’ve thought that I’ll literally be
-able to update (upsert really) an entity (photos and all) 
-with it. Not the case. Apparently the way put is supposed to work is to replace a content denoted by the request uri with 
-the payload it carries. So if it’s an image it’ll change it to some other file, if it’s an entity with 9 properties and 
-the payload contains an entity with 3 properties it’ll override the original with the smaller one (hence replace rather 
-than update). So I guess (because I can’t find stone-solid reference for this) it won’t work the way I imagined 
-it with multipart forms – because that in itself suggests that it’s at least 2 entities we’re updating. They way my 
-colleague put it is that you’d need to requests to get that data to 2 separate uri’s.&lt;/p&gt;
-
-&lt;p&gt;I could argue with that, because if you’d encode that very same image to a string and make it a property of that entity, 
-it’d be one, inseparable thing. So the representation of the image (binary file, base-encoded string) would be 
-difference between a single entity and two independent entities. Nitpicking, maybe.&lt;/p&gt;
-
-&lt;p&gt;Anyway onto the practical stuff. I’ve found several workaround for handling PUT requests in ZF2. One was about manually 
-setting the request data&lt;sup id=&quot;fnref:1&quot;&gt;&lt;a href=&quot;#fn:1&quot; class=&quot;footnote&quot;&gt;3&lt;/a&gt;&lt;/sup&gt;. It doesn’t help with my multipart form though. Another one was to put a hidden &lt;code class=&quot;highlighter-rouge&quot;&gt;_method&lt;/code&gt;, 
-set it to &lt;code class=&quot;highlighter-rouge&quot;&gt;put&lt;/code&gt; and send the form as POST request&lt;sup id=&quot;fnref:2&quot;&gt;&lt;a href=&quot;#fn:2&quot; class=&quot;footnote&quot;&gt;4&lt;/a&gt;&lt;/sup&gt;. It’s valid, but why bother? It still needs to send it to 
-a uri that has a id in it. That in itself should be enough to tell creation from update apart. So I just send it 
-as post and then do this:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;public function create($data)
-{
-    $id = $this-&amp;gt;params('id', null);
-    if ($id) {
-       return $this-&amp;gt;update($id, $data);
-    }
-    // ...
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Simple and effective. Shame it doesn’t work out of the box, but it’s not a too terribly inconvenient either.&lt;/p&gt;
-
-&lt;div class=&quot;footnotes&quot;&gt;
-  &lt;ol&gt;
-    &lt;li id=&quot;fn:3&quot;&gt;
-      &lt;p&gt;&lt;a href=&quot;http://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html&quot;&gt;W3 method definitions&lt;/a&gt; &lt;a href=&quot;#fnref:3&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
-    &lt;/li&gt;
-    &lt;li id=&quot;fn:4&quot;&gt;
-      &lt;p&gt;&lt;a href=&quot;http://php.net/manual/pl/features.file-upload.put-method.php&quot;&gt;PHP put method support&lt;/a&gt; &lt;a href=&quot;#fnref:4&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
-    &lt;/li&gt;
-    &lt;li id=&quot;fn:1&quot;&gt;
-      &lt;p&gt;&lt;a href=&quot;http://stackoverflow.com/a/26676252/1105871&quot;&gt;Stack post&lt;/a&gt; &lt;a href=&quot;#fnref:1&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
-    &lt;/li&gt;
-    &lt;li id=&quot;fn:2&quot;&gt;
-      &lt;p&gt;&lt;a href=&quot;http://blog.piotr.rybaltowski.pl/rest-w-zf2-metody-put-i-delete-w-formularzach/&quot;&gt;blog post about handling put/delete in ZF2 (in polish)&lt;/a&gt; &lt;a href=&quot;#fnref:2&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
-    &lt;/li&gt;
-  &lt;/ol&gt;
-&lt;/div&gt;
-</description>
-        <pubDate>Thu, 17 Sep 2015 00:00:00 +0200</pubDate>
-        <link>http://localhost:4000/php/zf2/rest/put/2015/09/17/put-requests-to-zf2-restful-controller.html</link>
-        <guid isPermaLink="true">http://localhost:4000/php/zf2/rest/put/2015/09/17/put-requests-to-zf2-restful-controller.html</guid>
-        
-        
-        <category>php</category>
-        
-        <category>zf2</category>
-        
-        <category>rest</category>
-        
-        <category>put</category>
         
       </item>
     

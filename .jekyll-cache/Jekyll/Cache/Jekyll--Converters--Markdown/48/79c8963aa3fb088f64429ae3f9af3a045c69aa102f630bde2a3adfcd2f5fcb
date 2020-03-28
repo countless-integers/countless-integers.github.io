@@ -1,0 +1,113 @@
+I"�<p>I’ve recently came across a problem writing a CRUD panel that made my reconsider what I knew about REST and/or request
+handling by PHP. Use case was 
+for updating an entity that consisted of some flat data and an image. I chose to send form data with PUT method pretty 
+much the same way I’d do with creating a new entity with POST form. Turns out that sending that data from an angular app 
+isn’t a problem, dealing with it server side is. I’ve compared payloads send with POST and PUT and on their way out they 
+look pretty much alike:</p>
+
+<p>This one with PUT:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>------WebKitFormBoundaryqxNZUgM5f0nFT1Z1
+Content-Disposition: form-data; name="creation"
+
+{"id":1,"title":"ccc","dateFrom":"2015-08-19","dateTo":"2015-08-22","position":1,"status":0}
+------WebKitFormBoundaryqxNZUgM5f0nFT1Z1
+Content-Disposition: form-data; name="file"; filename="file.jpg"
+Content-Type: image/jpeg
+
+
+------WebKitFormBoundaryqxNZUgM5f0nFT1Z1--
+</code></pre></div></div>
+
+<p>And this one with POST:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>------WebKitFormBoundaryaDVU9RBkEiCCgfUT
+Content-Disposition: form-data; name="creation"
+
+{"title":"sdfsafsa","dateFrom":"2015-09-14","dateTo":"2015-09-30","position":1,"status":0}
+------WebKitFormBoundaryaDVU9RBkEiCCgfUT
+Content-Disposition: form-data; name="file"; filename="file.jpg"
+Content-Type: image/jpeg
+
+
+------WebKitFormBoundaryaDVU9RBkEiCCgfUT--
+</code></pre></div></div>
+
+<p>One key difference is the presence of a <code class="highlighter-rouge">id</code> in the PUT request, because it’s modifying an existing request it makes 
+sense that it’s there. Apart from that it looks the same, but it’s handled differently</p>
+
+<ul>
+  <li>For one thing there’s no <code class="highlighter-rouge">$_PUT</code> like there’s <code class="highlighter-rouge">$_POST</code>, so to even read it you have to resort to things like
+<code class="highlighter-rouge">parse_str(file_get_contents("php://input"), $put)</code>. Maybe <a href="http://www.php-fig.org/psr/psr-7/">PSR-7</a> will solve that.</li>
+  <li><code class="highlighter-rouge">$_FILES</code> is not populated if you send a <code class="highlighter-rouge">multipart/form-data</code>, but there’s a reason for that</li>
+</ul>
+
+<p>Anyway ZF2 has a neat controller to handle requests like that in a restful fashion called 
+<a href="http://framework.zend.com/manual/current/en/modules/zend.mvc.controllers.html#the-abstractrestfulcontroller"><code class="highlighter-rouge">AbstractRestfulController</code></a>. It maps incoming requests based on their HTTP method and 
+parameters:</p>
+
+<blockquote>
+  <p>POST maps to create(). That method expects a $data argument, usually the $_POST superglobal array. The data should be 
+used to create a new entity, and the response should typically be an HTTP 201 response with the Location header 
+indicating the URI of the newly created entity and the response body providing the representation.</p>
+
+  <p>PUT maps to update(), and requires that an “id” parameter exists in the route matches; that value is passed as an 
+argument to the method. It should attempt to update the given entity, and, if successful, return either a 200 or 202 
+response status, as well as the representation of the entity.</p>
+</blockquote>
+
+<p>It works quite well up to the point when you’d try to send a multipart form with a file. The it’ll only take you to the 
+<code class="highlighter-rouge">update</code> method as expected, but you can’t really get the data. I mean you could parse the input stream and carve that 
+data, but forget about the file.</p>
+
+<p>I’ve spend some time researching why that’s happening. I’ve checked what PHP docs have to offer on the topic<sup id="fnref:3"><a href="#fn:3" class="footnote">1</a></sup> and how
+W3 describes PUT<sup id="fnref:4"><a href="#fn:4" class="footnote">2</a></sup>. Both were hinting, but not conclusive. I’d especially counted on PHP docs to decsribe the exact
+way how to handle PUT, but it’s just not there – either it’s too obvious to be mentioned or not popular enough. It
+turned out that I’ve overinterpreted what a RESTful PUT request could/should do. I’ve thought that I’ll literally be
+able to update (upsert really) an entity (photos and all) 
+with it. Not the case. Apparently the way put is supposed to work is to replace a content denoted by the request uri with 
+the payload it carries. So if it’s an image it’ll change it to some other file, if it’s an entity with 9 properties and 
+the payload contains an entity with 3 properties it’ll override the original with the smaller one (hence replace rather 
+than update). So I guess (because I can’t find stone-solid reference for this) it won’t work the way I imagined 
+it with multipart forms – because that in itself suggests that it’s at least 2 entities we’re updating. They way my 
+colleague put it is that you’d need to requests to get that data to 2 separate uri’s.</p>
+
+<p>I could argue with that, because if you’d encode that very same image to a string and make it a property of that entity, 
+it’d be one, inseparable thing. So the representation of the image (binary file, base-encoded string) would be 
+difference between a single entity and two independent entities. Nitpicking, maybe.</p>
+
+<p>Anyway onto the practical stuff. I’ve found several workaround for handling PUT requests in ZF2. One was about manually 
+setting the request data<sup id="fnref:1"><a href="#fn:1" class="footnote">3</a></sup>. It doesn’t help with my multipart form though. Another one was to put a hidden <code class="highlighter-rouge">_method</code>, 
+set it to <code class="highlighter-rouge">put</code> and send the form as POST request<sup id="fnref:2"><a href="#fn:2" class="footnote">4</a></sup>. It’s valid, but why bother? It still needs to send it to 
+a uri that has a id in it. That in itself should be enough to tell creation from update apart. So I just send it 
+as post and then do this:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>public function create($data)
+{
+    $id = $this-&gt;params('id', null);
+    if ($id) {
+       return $this-&gt;update($id, $data);
+    }
+    // ...
+}
+</code></pre></div></div>
+
+<p>Simple and effective. Shame it doesn’t work out of the box, but it’s not a too terribly inconvenient either.</p>
+
+<div class="footnotes">
+  <ol>
+    <li id="fn:3">
+      <p><a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html">W3 method definitions</a> <a href="#fnref:3" class="reversefootnote">&#8617;</a></p>
+    </li>
+    <li id="fn:4">
+      <p><a href="http://php.net/manual/pl/features.file-upload.put-method.php">PHP put method support</a> <a href="#fnref:4" class="reversefootnote">&#8617;</a></p>
+    </li>
+    <li id="fn:1">
+      <p><a href="http://stackoverflow.com/a/26676252/1105871">Stack post</a> <a href="#fnref:1" class="reversefootnote">&#8617;</a></p>
+    </li>
+    <li id="fn:2">
+      <p><a href="http://blog.piotr.rybaltowski.pl/rest-w-zf2-metody-put-i-delete-w-formularzach/">blog post about handling put/delete in ZF2 (in polish)</a> <a href="#fnref:2" class="reversefootnote">&#8617;</a></p>
+    </li>
+  </ol>
+</div>
+:ET

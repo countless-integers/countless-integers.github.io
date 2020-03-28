@@ -1,0 +1,120 @@
+I"-<h2 id="tldr">TL;DR</h2>
+<p>If you want something better to dump variables than <code class="highlighter-rouge">var_dump</code>, get Kint.</p>
+
+<h2 id="introduction">Introduction</h2>
+<p>When I can’t be bothered to turn on Xdebug just to debug some mysterious variable, then I take a dump (caution: more bad poop puns ahead). It comes out in different shapes and sizes. Sometimes it’s hard to make out anything out of it and instead of saving time I’m loosing it. XDebug is comprehensive and gives an insight into code that dumps won’t ever provide, but PHP can do a lot better than <code class="highlighter-rouge">var_dump</code>.</p>
+
+<p>So one fine day I went for a hunt on the internets for a worthy replacement. By worthy I mean:</p>
+
+<ul>
+  <li>easy to install and invoke</li>
+  <li>doesn’t brake other things</li>
+  <li>is context-aware, e.g. it won’t try to output array as a string</li>
+</ul>
+
+<p>No big expectations there, right? So let me go over what I found.</p>
+
+<h2 id="symfony-vardumper">Symfony VarDumper</h2>
+<p>Invocation is a simple <code class="highlighter-rouge">dump</code> global function that takes one argument.</p>
+
+<p>Pros:</p>
+
+<ul>
+  <li>simple invocation</li>
+  <li>minimal installation</li>
+  <li><a href="https://github.com/symfony/var-dumper/blob/master/VarDumper.php#L32">distinguishes between <code class="highlighter-rouge">cli</code> and <code class="highlighter-rouge">www</code> environment</a></li>
+  <li>(a bit far-fetched) part of the Symfony ecosystem, so I’d expect it to receive timely updates and upgrades, perhaps even some SF integration</li>
+</ul>
+
+<p>Cons:</p>
+
+<ul>
+  <li><code class="highlighter-rouge">dump</code> is still longer that e.g. <code class="highlighter-rouge">d</code></li>
+  <li>no option to stop script execution</li>
+  <li>no way to pass multiple vars in one invocation, so you have to call <code class="highlighter-rouge">dump</code> with every variable you want to see</li>
+</ul>
+
+<p>Read more about it:</p>
+
+<ul>
+  <li><a href="http://symfony.com/doc/current/components/var_dumper/introduction.html">Symfony docs</a></li>
+  <li><a href="https://github.com/symfony/var-dumper">VarDumper on github</a></li>
+</ul>
+
+<h2 id="zend-framework-debug">Zend Framework Debug</h2>
+<p>It’s a component of ZF. Invocation is: <code class="highlighter-rouge">\Zend\Debug\Debug::dump($var);</code>… As far as “easy to invoke” is concerned, the
+description might as well end there. But:</p>
+
+<p>Pros:</p>
+
+<ul>
+  <li>(if your project is based on ZF2) shipped with ZF2</li>
+</ul>
+
+<p>Cons:</p>
+
+<ul>
+  <li>the invocation is just too damn long</li>
+</ul>
+
+<p>Read more about it:</p>
+
+<ul>
+  <li><a href="http://framework.zend.com/manual/current/en/modules/zend.debug.html">ZF docs pages</a>. If the page is up that is<sup id="fnref:1"><a href="#fn:1" class="footnote">1</a></sup>.</li>
+</ul>
+
+<h2 id="kint">Kint</h2>
+<p>The basic invocation of Kint is <code class="highlighter-rouge">d($var)</code>. It does not get any simpler than that. It also allows for no-formatting output through <code class="highlighter-rouge">s($var)</code>. But it doesn’t end there. <code class="highlighter-rouge">ddd($var)</code> (used to be <code class="highlighter-rouge">dd</code>, but then it got deprecated for compatibility) will die after dumping (same thing with <code class="highlighter-rouge">sd($var)</code>) and it also does magic tricks with, what they call, real time modifiers. E.g. <code class="highlighter-rouge">+d($dump)</code> would bypass dump depth limits, <code class="highlighter-rouge">@s($var)</code> would return the output to a variable for capture, <code class="highlighter-rouge">!d($var)</code> would expand all output in HTML mode. It also comes with optional keyboard navigation, foldable output (like VarDumper), type/visibility detection and many more.</p>
+
+<p>Among the features I’ve not seen anywhere else is signing every dump with the exact place it was made (fqcn and line number) and that a lot better for me than labeling the dumps.</p>
+
+<p>What I like in particular is that it also outputs useful info about objects you dump, like public method/variable names. So no more <code class="highlighter-rouge">var_dump(get_class_methods(get_class($object)))</code> and similar gimmicks.</p>
+
+<p>I could not find anything as good as Kint. It’s a winner.</p>
+
+<p>Pros:</p>
+
+<ul>
+  <li>many useful modes</li>
+  <li>shortest possible invocation</li>
+  <li>modifiers</li>
+  <li>comprehensive output</li>
+  <li>discerns <code class="highlighter-rouge">cli</code> and <code class="highlighter-rouge">www</code> environments</li>
+</ul>
+
+<p>Cons:</p>
+
+<ul>
+  <li>it doesn’t make toasts</li>
+  <li>recently it has been getting really complex, so occasional, unexpected error might occur (e.g. <a href="https://github.com/raveren/kint/issues/160">this</a>)</li>
+</ul>
+
+<p>Read more about it:</p>
+
+<ul>
+  <li><a href="https://github.com/raveren/kint/">github page</a></li>
+  <li><a href="http://raveren.github.io/kint/">blog page</a> but it seems slightly out of date.</li>
+</ul>
+
+<h2 id="notable-omissions">Notable omissions</h2>
+<ul>
+  <li><a href="https://github.com/raulfraile/Ladybug">LadyBug</a> – I kinda stopped liking it after seeing <code class="highlighter-rouge">composer require</code> output
+that looked like it wouldn’t end. Why so many dependencies LadyBug?</li>
+</ul>
+
+<h2 id="conclusion">Conclusion</h2>
+<p>Apart from ZF2 dump, which doesn’t really fit my search criteria, all of the above tools yield some improvements over vanilla <code class="highlighter-rouge">var_dump</code>. However not all ‘dumpers’ were made ‘equal’ – some just can take a dump better than the others (see what I did there?). Kint is my favorite and I use it every time I don’t feel like starting a Xdebug session. Hats off to the creator and the contributors – you made my life easier.</p>
+
+<p>All of the above-mentioned tools are available through composer, so getting them to work is straightforward (seems
+obvious, but I still remember the days we didn’t have composer).</p>
+
+<p>If you know anything better than Kint, let me know.</p>
+
+<div class="footnotes">
+  <ol>
+    <li id="fn:1">
+      <p>if you’re detecting a little passive-agressive note, then your instincts are working correctly. I’ll post something about my experience with ZF2 later on. <a href="#fnref:1" class="reversefootnote">&#8617;</a></p>
+    </li>
+  </ol>
+</div>
+:ET

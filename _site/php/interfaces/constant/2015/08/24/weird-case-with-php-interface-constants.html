@@ -10,8 +10,8 @@
   <meta name="description" content="While trying to mock an object using mockery I came across this:">
 
   <link rel="stylesheet" href="/css/main.css">
-  <link rel="canonical" href="http://localhost:4000/php/interfaces/constant/2015/08/24/weird-case-with-php-interface-constants.html">
-  <link rel="alternate" type="application/rss+xml" title="countless-integers blog" href="http://localhost:4000/feed.xml" />
+  <link rel="canonical" href="http://countless-integers.github.io/php/interfaces/constant/2015/08/24/weird-case-with-php-interface-constants.html">
+  <link rel="alternate" type="application/rss+xml" title="countless-integers blog" href="http://countless-integers.github.io/feed.xml" />
 </head>
 
 
@@ -78,7 +78,7 @@
 
 <p>However this sounded wrong – I used that before and never had a problem with it. So I dug deeper. Then I came across an interface that the mocked class implemented. It looked something like this:</p>
 
-<figure class="highlight"><pre><code class="language-php" data-lang="php">    <span class="k">interface</span> <span class="nx">ITotallyForgotIMadeAnInterfaceForThis</span>
+<figure class="highlight"><pre><code class="language-php" data-lang="php">    <span class="kd">interface</span> <span class="nc">ITotallyForgotIMadeAnInterfaceForThis</span>
     <span class="p">{</span>
         <span class="k">public</span> <span class="k">function</span> <span class="nf">method</span><span class="p">(</span><span class="nv">$param</span> <span class="o">=</span> <span class="nx">self</span><span class="o">::</span><span class="na">VALUE</span><span class="p">);</span>
     <span class="p">}</span></code></pre></figure>

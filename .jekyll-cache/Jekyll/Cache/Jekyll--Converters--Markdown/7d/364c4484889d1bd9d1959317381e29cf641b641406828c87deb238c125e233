@@ -1,0 +1,94 @@
+I"y<h2 id="changing-datetime-formats-or-transforming-strings-into-date-objects">Changing datetime formats or transforming strings into date objects</h2>
+
+<p>Main use cases:</p>
+
+<ul>
+  <li>dealing with user input in different formats</li>
+  <li>re-formatting date time without having to know the exact input format</li>
+</ul>
+
+<h3 id="php">PHP</h3>
+
+<p>It’s as easy as:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">strtotime</span><span class="p">(</span><span class="nx">string</span> <span class="nv">$dateTime</span><span class="p">)</span><span class="o">:</span> <span class="nx">int</span>
+<span class="c1">// or, even better:</span>
+<span class="k">new</span> <span class="nx">DateTimeImmutable</span><span class="p">(</span><span class="nx">string</span> <span class="nv">$dateTime</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>First one returns a timestamp, second is <a href="https://www.php.net/manual/en/class.datetimeimmutable.php">an object</a> with quite a lot of functionality built-in. The object is not perfect
+(in fact it’s PHP-s second attempt at it, first one being a mutable <a href="https://www.php.net/manual/en/class.datetime"><code class="highlighter-rouge">DateTime</code></a>), especially when you start
+using <code class="highlighter-rouge">diff</code> functions i.e. on datetime objects from different time zones. In fact not being explicit about timezones
+was the most common source of head-aches for me in the past (by default server tz will be adopted), so
+beware.</p>
+
+<p>One of the interesting features is the ability to parse “natural” language date time strings like “next year”, “+2 hours”. I found that quite useful in the past for making cli interfaces a lot more user-friendly.<a href="https://www.php.net/manual/en/datetime.formats.php">Reference for supported datetime formats</a>.</p>
+
+<h3 id="python">Python</h3>
+
+<p>Date format recognition magic does not come out-of-the-box. There is <a href="https://docs.python.org/3.7/library/datetime.html#datetime.datetime.strptime">a structured date parser</a> though:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">datetime</span>
+
+<span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="s">'2077'</span><span class="p">,</span> <span class="s">'</span><span class="si">%</span><span class="s">Y'</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span>
+</code></pre></div></div>
+
+<p>However it will raise errors if the string cannot be parsed. <a href="https://docs.python.org/3.7/library/datetime.html#strftime-strptime-behavior">Reference of date format options</a>.</p>
+
+<p>Anyway, since batteries were not included this time, to the pip-mobile! <a href="https://dateutil.readthedocs.io/en/stable/index.html"><code class="highlighter-rouge">dateutil</code></a> to the rescue. It does
+have a function lets us get the same behaviour as PHP:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">dateutil.parser</span> <span class="kn">import</span> <span class="n">parse</span>
+<span class="n">parse</span><span class="p">(</span><span class="s">'2011'</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span>
+<span class="n">parse</span><span class="p">(</span><span class="s">'9AM'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>Unfortunately it’s not capable of parsing strings like ‘tomorrow’ as PHP date functions can. Also good luck figuring out
+what happens when you do <code class="highlighter-rouge">parse('2')</code>, because it’s not going to be an error…</p>
+
+<h3 id="go">Go</h3>
+
+<p>Similar to Python, golang comes equipped with structured time parsing functions. However its time format definitions are somewhat confusing, yet
+convenient to use:</p>
+
+<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">package</span> <span class="n">main</span>
+
+<span class="k">import</span> <span class="p">(</span>
+	<span class="s">"fmt"</span>
+	<span class="s">"time"</span>
+<span class="p">)</span>
+
+<span class="k">func</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">const</span> <span class="n">formatExample</span> <span class="o">=</span> <span class="s">"2006-Jan-02"</span>
+	<span class="n">t</span><span class="p">,</span> <span class="n">_</span> <span class="o">:=</span> <span class="n">time</span><span class="o">.</span><span class="n">Parse</span><span class="p">(</span><span class="n">formatExample</span><span class="p">,</span> <span class="s">"2077-Feb-22"</span><span class="p">)</span>
+	<span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>However, that is a bit of a double-edged sword as messing up the format, which is very easy i.e. <code class="highlighter-rouge">2000-Jan-01</code>, will leave you with a
+null date of <code class="highlighter-rouge">0001-01-01 00:00:00 +0000 UTC</code>. So on one hand it makes the format string value more self-documenting, on
+the other it can an arrow to your knee. More about time formats
+[here][https://golang.org/pkg/time/#example_Time_Format].</p>
+
+<p>As for a module that would resemble the behaviour and features of PHP functions – I haven’t found one yet. TBC</p>
+
+<h2 id="calculating-time-differences-between-dates-and-time">Calculating time differences between dates and time</h2>
+
+<p>Main use cases:</p>
+
+<ul>
+  <li>getting the absolute difference between datetimes i.e.</li>
+</ul>
+
+<h3 id="php-1">PHP</h3>
+
+<p>TBC</p>
+
+<h3 id="python-1">Python</h3>
+
+<p>TBC</p>
+
+<h3 id="go-1">Go</h3>
+
+<p>TBC</p>
+:ET

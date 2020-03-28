@@ -1,0 +1,73 @@
+I"z<p>ZF2 <code class="highlighter-rouge">Module</code> class methods conform to <a href="https://en.wikipedia.org/wiki/Duck_typing">DuckTyping</a> but it’s nice to know where all those methods came from. That would be <a href="https://github.com/zendframework/zend-modulemanager/tree/master/src/Feature">feature interfaces</a> from ModuleManager component. So if you’re not sure what feature can you advertise in your <code class="highlighter-rouge">Module</code> class it’s a good place to check. I couldn’t find any mention on this in the official docs, although it was hinted in the <a href="http://framework.zend.com/manual/current/en/tutorials/config.advanced.html#configuration-mapping-table">“Advanced configuration article”</a>.</p>
+
+<p>Although it’s not necessary to declare the implementation of these interfaces I found that doing so it improves readability and helps newcomers to better understand where did those methods came from. Because duck typing is not too common in PHP I got a lot of blank stares and WTF-ucks from my colleagues who tried to figure out how <code class="highlighter-rouge">Module</code> worked.</p>
+
+<p>I suppose that this (duck typing in <code class="highlighter-rouge">Module</code> class) was supposed improve modules portability, but I have yet to see a popular module that benefited from this.</p>
+
+<p>Tiny cheatsheet of interfaces and methods they declare (base on the before-mentioned ZF2 docs page):</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">Iterface class</th>
+      <th style="text-align: center">Method</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left"><code class="highlighter-rouge">ControllerPluginProviderInterface</code></td>
+      <td style="text-align: center"><code class="highlighter-rouge">getControllerPluginConfig()</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="highlighter-rouge">ControllerProviderInterface</code></td>
+      <td style="text-align: center"><code class="highlighter-rouge">getControllerConfig()</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="highlighter-rouge">FilterProviderInterface</code></td>
+      <td style="text-align: center"><code class="highlighter-rouge">getFilterConfig()</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="highlighter-rouge">FormElementProviderInterface</code></td>
+      <td style="text-align: center"><code class="highlighter-rouge">getFormElementConfig()</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="highlighter-rouge">HydratorProviderInterface</code></td>
+      <td style="text-align: center"><code class="highlighter-rouge">getHydratorConfig()</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="highlighter-rouge">InputFilterManagertFilterProviderInterface</code></td>
+      <td style="text-align: center"><code class="highlighter-rouge">getInputFilterConfig()</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="highlighter-rouge">RouteProviderInterface</code></td>
+      <td style="text-align: center"><code class="highlighter-rouge">getRouteConfig()</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="highlighter-rouge">SerializerProviderInterface</code></td>
+      <td style="text-align: center"><code class="highlighter-rouge">getSerializerConfig()</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="highlighter-rouge">ServiceProviderInterface</code></td>
+      <td style="text-align: center"><code class="highlighter-rouge">getServiceConfig()</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="highlighter-rouge">ValidatorProviderInterface</code></td>
+      <td style="text-align: center"><code class="highlighter-rouge">getValidatorConfig()</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="highlighter-rouge">ViewHelperProviderInterface</code></td>
+      <td style="text-align: center"><code class="highlighter-rouge">getViewHelperConfig()</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="highlighter-rouge">LogProcessorProviderInterface</code></td>
+      <td style="text-align: center"><code class="highlighter-rouge">getLogProcessorConfig()</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="highlighter-rouge">LogWriterProviderInterface</code></td>
+      <td style="text-align: center"><code class="highlighter-rouge">getLogWriterConfig()</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>All interfaces are in <code class="highlighter-rouge">Zend\ModuleManager\Feature</code> namespace.</p>
+:ET
