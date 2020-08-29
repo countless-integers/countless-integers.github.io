@@ -3,3 +3,6 @@
 *.swp
 *.orig
 *.vscode
+
+_site
+.jekyll-cache

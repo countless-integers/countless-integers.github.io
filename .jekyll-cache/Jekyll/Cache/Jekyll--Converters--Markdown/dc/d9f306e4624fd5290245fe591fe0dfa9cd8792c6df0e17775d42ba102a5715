@@ -1,7 +1,0 @@
-I")<p>I’ve recently came across a problem writing a CRUD panel that made my reconsider what I knew about REST and/or request
-handling by PHP. Use case was 
-for updating an entity that consisted of some flat data and an image. I chose to send form data with PUT method pretty 
-much the same way I’d do with creating a new entity with POST form. Turns out that sending that data from an angular app 
-isn’t a problem, dealing with it server side is. I’ve compared payloads send with POST and PUT and on their way out they 
-look pretty much alike:</p>
-:ET
