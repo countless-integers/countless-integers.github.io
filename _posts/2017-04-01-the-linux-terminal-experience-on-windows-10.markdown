@@ -3,7 +3,7 @@ layout: post
 title: The Linux terminal experience on Windows 10
 date: 2017-04-01
 published: true
-categories:
+categories: windows
 ---
 
 After the news about Microsoft including some sort of Ubuntu-base Linux console in Windows 10 anniversary update broke out I was a bit skeptical. No about the idea itself, that makes perfect sense and should have been done a long time ago, but about the implementation. After all both systems are vastly different, e.g. in terms of file systems and access to them (even minor stuff, like the path separator, is different). However with some virtualization and throwing enough money at the problem it did seem possible to pull-off.
