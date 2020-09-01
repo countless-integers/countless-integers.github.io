@@ -8,6 +8,7 @@ namespace :post do
     if !title
         abort("No title given. Pass a title for the post as 'title' env param")
     end
+    title = title.strip
     date = "#{Date.today}"
     slug = "#{date}-#{title.downcase.gsub(/[^\w]+/, '-')}"
 
