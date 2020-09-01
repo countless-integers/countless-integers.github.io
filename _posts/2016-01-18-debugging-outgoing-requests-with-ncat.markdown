@@ -3,12 +3,13 @@ layout: post
 title: Debugging outgoing requests with ncat
 date: 2016-01-18
 published: true
-categories: debugging ncat
+categories: development
+tags: debugging ncat
 ---
 
 I had an interesting problem recently:
 
-> An application makes http requests on predfined events to a specified url and we need to verify what exactly is
+> An application makes http requests on predefined events to a specified url and we need to verify what exactly is
 > being sent.
 
 There are many ways to deal with that, from dumping outgoing request objects to listening in on outgoing traffic with

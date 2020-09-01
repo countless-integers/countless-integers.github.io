@@ -3,7 +3,8 @@ layout: post
 title: var_dump alternatives
 date: 2015-09-06
 published: true
-categories: php debugging
+categories: development
+tags: php debugging
 ---
 
 TL;DR

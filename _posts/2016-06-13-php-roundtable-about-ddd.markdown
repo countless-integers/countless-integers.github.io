@@ -3,7 +3,8 @@ layout: post
 title: PHP Roundtable about DDD
 date: 2016-06-13
 published: true
-categories: DDD php
+categories: development
+tags: DDD php
 ---
 Loose notes and bookmarks to fragments of PHP Roundtable panel on DDD with Mathias Verraes, Ross Tuck and Chris Fidao. Whole thing is about 2 hours long, so I decided to make some bookmarks in case I wanted to go back to it or reference it somebody. Unfortunatly I could not find the [shownotes or transcript for this episode](https://github.com/PHPRoundtable/show-notes/tree/master/episodes). 
 

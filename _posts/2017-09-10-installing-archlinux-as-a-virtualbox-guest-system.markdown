@@ -3,7 +3,8 @@ layout: post
 title: Installing ArchLinux as a VirtualBox guest system
 date: 2017-09-10
 published: true
-categories: linux
+categories: infrastructure
+tags: linux
 ---
 
 # Installing ArchLinux on a VirtualBox Machine

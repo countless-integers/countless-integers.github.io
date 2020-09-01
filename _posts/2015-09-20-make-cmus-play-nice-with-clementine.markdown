@@ -3,7 +3,8 @@ layout: post
 title: Make cmus play nice with clementine
 date: 2015-09-20
 published: true
-categories: linux
+categories: other
+tags: linux
 ---
 ## TL;DR
 I've written a tiny script to allow me to bind media keys to the currently used audio player.

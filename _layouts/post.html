@@ -6,6 +6,20 @@ layout: default
   <header class="post-header">
     <h1 class="post-title">{{ page.title }}</h1>
     <p class="post-meta">{{ page.date | date: "%b %-d, %Y" }}{% if page.author %} • {{ page.author }}{% endif %}{% if page.meta %} • {{ page.meta }}{% endif %}</p>
+
+    <div class="post-categories">
+      {% for category in page.categories %}
+      <a title="See all post in {{ category }} category" href="/categories/#{{ category | slugize }}">{{ category }}</a>
+      {% unless forloop.last %}&nbsp;{% endunless %}
+      {% endfor %}
+    </div>
+
+    <div class="post-tags">
+      {% for tag in page.tags %}
+      <a title="See all post with the {{ tag }} tag" href="/tags/#{{ tag | slugize }}">#{{ tag }}</a>
+      {% unless forloop.last %}&nbsp;{% endunless %}
+      {% endfor %}
+    </div>
   </header>
 
   <article class="post-content">

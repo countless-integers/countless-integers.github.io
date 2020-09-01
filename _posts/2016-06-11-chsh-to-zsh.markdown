@@ -3,7 +3,8 @@ layout: post
 title: chsh to zsh
 date: 2016-06-11
 published: true
-categories: shell zsh
+categories: infrastructure
+tags: shell zsh
 ---
 The time has come. I am currently in the process of revisiting every tool I use and looking for better alternatives. After living in denial for years I have come to a decision to switch from trusty Bash to ZSH. 
 

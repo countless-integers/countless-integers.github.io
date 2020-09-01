@@ -3,7 +3,8 @@ layout: post
 title: Substituting AWS S3 with a local service
 date: 2020-03-28
 published: true
-categories: aws laravel
+categories: development
+tags: aws laravel
 ---
 
 S3 is rather cheap and you might wander why bother, but there are multiple good reasons to use a local substitute during development. Among them:

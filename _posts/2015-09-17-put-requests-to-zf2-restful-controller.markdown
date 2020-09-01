@@ -3,7 +3,8 @@ layout: post
 title: PUT requests to ZF2 RESTful controller
 date: 2015-09-17
 published: true
-categories: php zf2 rest put
+categories: development
+tags: php zf2 
 ---
 
 I've recently came across a problem writing a CRUD panel that made my reconsider what I knew about REST and/or request

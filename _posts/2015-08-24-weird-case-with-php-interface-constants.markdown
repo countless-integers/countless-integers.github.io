@@ -3,7 +3,8 @@ layout: post
 title:  "Weird case of PHP interface constants"
 date:   2015-08-24
 published: true
-categories: php interfaces constant
+categories: development
+tags: php interfaces constant
 ---
 While trying to mock an object using mockery I came across this:
 

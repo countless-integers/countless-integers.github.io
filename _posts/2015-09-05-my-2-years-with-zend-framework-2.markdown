@@ -3,7 +3,8 @@ layout: post
 title: My 2 years with Zend Framework 2
 date: 2015-09-05
 published: false
-categories: php zf2 
+categories: development
+tags: php zf2 
 ---
 
 # Introduction

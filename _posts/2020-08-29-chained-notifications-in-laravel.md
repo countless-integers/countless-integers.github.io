@@ -3,7 +3,8 @@ layout: post
 title: Chained notifications in Laravel
 date: 2020-08-29
 published: true
-categories: php laravel
+categories: development
+tags: php laravel
 ---
 
 You have probably heard about notifications in Laravel. If you have a bit more experience with the framework, you are also likely to be familiar with chained jobs. However have you heard about chained notifications? No? Good, because that is not a thing.

@@ -3,7 +3,8 @@ layout: post
 title: Controlling date and time in Go and Python for PHP devs
 date: 2019-05-01
 published: true
-categories: php python go comparison
+categories: development
+tags: php python go 
 ---
 
 ## Changing datetime formats or transforming strings into date objects

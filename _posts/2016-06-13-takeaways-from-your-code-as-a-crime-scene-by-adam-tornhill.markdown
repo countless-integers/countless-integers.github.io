@@ -3,13 +3,16 @@ layout: post
 title: Takeaways from "Your code as a crime scene" by Adam Tornhill
 date: 2016-06-13
 published: true
-categories: vcs static-code analysis git
+categories: development
+tags: vcs static-code analysis git
 ---
+
 ...more than a catchy title.
 
 There is a lot of good ideas in this book, so I decided to write some of them down just to commit them to memory. It is not a review, nor an attempt at creating an abstract. Therefore I will omit a lot of stuff and only concentrate on the things I found novel or unusual.
 
 ## Analyzing VCS logs
+
 When I think of static code analysis, things like CLOC, PHPMD or compiler checks (in languages other than PHP, of course). I have not really been introduced to the concept of analyzing code base history up until I started reading this book. Git repository (or any other VCS) surely is a big pool of information, yet it never even crossed my mind to do so.
 
 The techniques described in this "Your code is a crime scene" are not "strict science". They are heuristic methods that are designed to quickly point out **possible** problems with code. In words of the author:

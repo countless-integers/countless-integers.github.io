@@ -4,7 +4,8 @@ title: Using ansible-vault in Terraform configuration
 
 date: 2020-09-01
 published: true
-categories: ansible terraform
+categories: infrastructure
+tags: ansible terraform
 ---
 
 I've started working with Terraform not so long ago and eventually reached a point where I needed to use a value that I could not simply commit to the repository. My mind immediately went back to my experience with [Ansible Vault](https://docs.ansible.com/ansible/latest/user_guide/vault.html) which I used before for server provisioning. If you're not familiar with it, Vault a tool shipped with [Ansible](https://www.ansible.com/) that can encrypt files and strings to later decrypt them on-the-fly to use them in Ansible playbooks. It also has a stand-alone cli command that can can be used as a [data source](https://registry.terraform.io/providers/hashicorp/external/latest/docs/data-sources/data_source) with Terraform's [*External provider*](https://github.com/hashicorp/terraform-provider-external).

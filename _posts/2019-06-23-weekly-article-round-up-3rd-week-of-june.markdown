@@ -3,7 +3,7 @@ layout: post
 title: Weekly article round-up, 3rd week of June
 date: 2019-06-23
 published: true
-categories: roundup
+categories: roundups
 ---
 
 Interesting stuff I read/watched on the web this week.
